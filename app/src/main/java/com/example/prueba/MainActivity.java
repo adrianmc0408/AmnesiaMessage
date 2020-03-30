@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         viewpager.setAdapter(onboardingAdapter);
         setupOnBoardingIndicator();
         setCurrentOnBoardingIndicator(0);
+        String fianal="";
 
 
         viewpager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {

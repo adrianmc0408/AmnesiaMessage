@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "700999701144",
+    "firebase_url": "https://amnesiamessage.firebaseio.com",
+    "project_id": "amnesiamessage",
+    "storage_bucket": "amnesiamessage.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:700999701144:android:7c37aa08b18ca36f05f6ed",
+        "android_client_info": {
+          "package_name": "com.example.prueba"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "700999701144-aq07otovote61n0knnmskohbqf449mmi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.prueba",
+            "certificate_hash": "f1a6b9602456780eb30672666a9ad485a6fdc7ca"
+          }
+        },
+        {
+          "client_id": "700999701144-ggonthvbdc5ejg313hpg5n2tnrq82gj6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAICw0R3RvlKva1HnpNDV7QPpoQRWcvoF0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "700999701144-ggonthvbdc5ejg313hpg5n2tnrq82gj6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

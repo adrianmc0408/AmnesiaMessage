@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         viewpager.setAdapter(onboardingAdapter);
         setupOnBoardingIndicator();
         setCurrentOnBoardingIndicator(0);
-        String fianal="git";
+
 
 
         viewpager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {

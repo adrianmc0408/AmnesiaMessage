@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -58,10 +59,12 @@ public class registro extends AppCompatActivity implements Button.OnClickListene
                     if (!task.isSuccessful()) {
                         Toast.makeText(registro.this, "Error al registrarse", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(registro.this, "Registro completado", Toast.LENGTH_SHORT).show();
-                        Usuario usuario = new Usuario(nombre_usuario.getText().toString(), email.getText().toString(), telefono.getText().toString());
+
+                        FirebaseUser user=mAuth.getCurrentUser();
+                        Toast.makeText(registro.this,"Registro completado",Toast.LENGTH_SHORT).show();
+                        Usuario usuario=new Usuario(user.getUid(),nombre_usuario.getText().toString(),email.getText().toString(),telefono.getText().toString(),"default");
                         reference.push().setValue(usuario);
-                        Intent intent = new Intent(registro.this, login.class);
+                        Intent intent=new Intent(registro.this,login.class);
                         startActivity(intent);
                     }
                 }

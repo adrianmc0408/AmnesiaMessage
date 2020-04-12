@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.example.prueba.Adaptadores.OnboardingAdapter;
+import com.example.prueba.Items.OnboardingItem;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -18,9 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.security.auth.login.LoginException;
-
-public class MainActivity extends AppCompatActivity {
+public class ScrollDeInicio extends AppCompatActivity {
     private LinearLayout layoutOnboardingIndicator;
     private OnboardingAdapter onboardingAdapter;
     private MaterialButton buttonOnBoardingAction;
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_scrolldeinicio);
         mAuth=FirebaseAuth.getInstance();
         layoutOnboardingIndicator = findViewById(R.id.layoutOnBoardingIndicator);
         buttonOnBoardingAction = findViewById(R.id.buttonOnBoardingAction);
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         viewpager.setAdapter(onboardingAdapter);
         setupOnBoardingIndicator();
         setCurrentOnBoardingIndicator(0);
-        String fianal="git";
+
 
 
         viewpager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                     viewpager.setCurrentItem(viewpager.getCurrentItem() + 1);
                 }
                 else{
-                    startActivity(new Intent(getApplicationContext(), pantallaInicio.class));
+                    startActivity(new Intent(getApplicationContext(), SelectorLoginRegistro.class));
                     finish();
 
                 }
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void pasar(){
 
-        Intent intent =new Intent(MainActivity.this,HomeActivity.class);
+        Intent intent =new Intent(ScrollDeInicio.this, HomePrincipal.class);
         startActivity(intent);
         finish();
     }

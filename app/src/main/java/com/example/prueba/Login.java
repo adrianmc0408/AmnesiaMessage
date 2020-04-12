@@ -16,7 +16,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class login extends AppCompatActivity {
+public class Login extends AppCompatActivity {
 
     private EditText correo;
     private  EditText contraseña;
@@ -45,18 +45,18 @@ public class login extends AppCompatActivity {
                 if(validarCampos(email,password)==true){
                     String mail=correo.getText().toString();
                     String contra=contraseña.getText().toString();
-                    mAuth.signInWithEmailAndPassword(mail,contra).addOnCompleteListener(login.this, new OnCompleteListener<AuthResult>() {
+                    mAuth.signInWithEmailAndPassword(mail,contra).addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
-                                Toast.makeText(login.this,"Login correcto",Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                                Toast.makeText(Login.this,"Login correcto",Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getApplicationContext(), HomePrincipal.class));
                                 finish();
                             }
                             else{
-                                Toast.makeText(login.this,"Login inrrecto",Toast.LENGTH_SHORT).show();
-                                IL_mail.setError("Datos de login incorrectos");
-                                IL_password.setError("Datos de login incorrectos");
+                                Toast.makeText(Login.this,"Login inrrecto",Toast.LENGTH_SHORT).show();
+                                IL_mail.setError("Datos de Login incorrectos");
+                                IL_password.setError("Datos de Login incorrectos");
                             }
 
                         }
@@ -73,7 +73,7 @@ public class login extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(getApplicationContext(), pantallaInicio.class));
+        startActivity(new Intent(getApplicationContext(), SelectorLoginRegistro.class));
         finish();
         return;
     }

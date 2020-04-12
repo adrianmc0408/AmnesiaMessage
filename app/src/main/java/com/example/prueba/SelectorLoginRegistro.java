@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class pantallaInicio extends AppCompatActivity {
+public class SelectorLoginRegistro extends AppCompatActivity {
 
     private Button btn_login;
     private Button btn_regisgtro;
@@ -23,7 +23,7 @@ public class pantallaInicio extends AppCompatActivity {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), login.class));
+                startActivity(new Intent(getApplicationContext(), Login.class));
                 finish();
             }
         });
@@ -32,7 +32,7 @@ public class pantallaInicio extends AppCompatActivity {
         btn_regisgtro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), registro.class));
+                startActivity(new Intent(getApplicationContext(), Registro.class));
                 finish();
             }
         });

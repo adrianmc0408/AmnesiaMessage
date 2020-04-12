@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.prueba.Objetos.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -20,7 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class registro extends AppCompatActivity implements Button.OnClickListener{
+public class Registro extends AppCompatActivity implements Button.OnClickListener{
     private EditText email;
     private EditText telefono;
     private EditText nombre_usuario;
@@ -52,16 +53,16 @@ public class registro extends AppCompatActivity implements Button.OnClickListene
         String nu=nombre_usuario.getText().toString();
         boolean valido=validarCampos(mail,contra,nu,telef);
         if(valido) {
-            mAuth.createUserWithEmailAndPassword(mail, contra).addOnCompleteListener(registro.this, new OnCompleteListener<AuthResult>() {
+            mAuth.createUserWithEmailAndPassword(mail, contra).addOnCompleteListener(Registro.this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (!task.isSuccessful()) {
-                        Toast.makeText(registro.this, "Error al registrarse", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Registro.this, "Error al registrarse", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(registro.this, "Registro completado", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Registro.this, "Registro completado", Toast.LENGTH_SHORT).show();
                         Usuario usuario = new Usuario(nombre_usuario.getText().toString(), email.getText().toString(), telefono.getText().toString());
                         reference.push().setValue(usuario);
-                        Intent intent = new Intent(registro.this, login.class);
+                        Intent intent = new Intent(Registro.this, Login.class);
                         startActivity(intent);
                     }
                 }
@@ -70,7 +71,7 @@ public class registro extends AppCompatActivity implements Button.OnClickListene
     }
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(getApplicationContext(), pantallaInicio.class));
+        startActivity(new Intent(getApplicationContext(), SelectorLoginRegistro.class));
         finish();
         return;
     }

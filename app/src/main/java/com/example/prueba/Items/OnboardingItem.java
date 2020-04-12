@@ -1,4 +1,4 @@
-package com.example.prueba;
+package com.example.prueba.Items;
 
 public class OnboardingItem {
     private int image;

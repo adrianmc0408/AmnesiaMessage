@@ -1,4 +1,4 @@
-package com.example.prueba;
+package com.example.prueba.Objetos;
 
 public class Usuario {
 private String nombre_usuario;

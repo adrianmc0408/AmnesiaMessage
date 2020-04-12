@@ -9,11 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".registro"></activity>
-        <activity android:name=".login" />
-        <activity android:name=".pantallaInicio" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".HomePrincipal"></activity>
+        <activity android:name=".Registro" />
+        <activity android:name=".Login" />
+        <activity android:name=".SelectorLoginRegistro" />
+        <activity android:name=".ScrollDeInicio">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,6 +1,5 @@
-package com.example.prueba;
+package com.example.prueba.Adaptadores;
 
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +8,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.prueba.Items.OnboardingItem;
+import com.example.prueba.R;
 
 import java.util.List;
 

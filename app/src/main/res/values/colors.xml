@@ -12,6 +12,7 @@
     <color name="colorBlack">#000000</color>
     <color name="colorHuevo">#F7F7F7</color>
     <color name="colorDarkGrey">#303030</color>
+    <color name="colorRed">#F44336</color>
     <color name="colorOnboardingIndicatorInactive">#72BCF7</color>
 
     <color name="card_bg_color">#f6f6f6</color>

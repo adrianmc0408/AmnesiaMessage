@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,50 +14,61 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.prueba.Objetos.Usuario;
 import com.example.prueba.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     private Context context;
-    private List<Usuario> usuarios;
+    private ArrayList<Usuario> listaUsuarios;
 
-    public UserAdapter(Context context, List<Usuario> usuarios) {
+    public UserAdapter(Context context, ArrayList<Usuario> usuarios) {
         this.context = context;
-        this.usuarios = usuarios;
+        this.listaUsuarios = usuarios;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.chat_user_item, parent, false);
-
-        return new UserAdapter.ViewHolder(view);
+        ViewHolder viewHolder = new ViewHolder(view);
+        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        Usuario user = usuarios.get(position);
+        Usuario user = listaUsuarios.get(position);
         holder.username.setText(user.getNombre_usuario());
         //Aqui no se que coño poner asique pongo cualquier imagen
         holder.profile_image.setImageResource(R.mipmap.ic_launcher);
+
+        holder.setOnClickListeners();
 
     }
 
     @Override
     public int getItemCount() {
-        return usuarios.size();
+        return listaUsuarios.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-
-        public TextView username;
-        public ImageView profile_image;
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        Context context;
+         TextView username;
+         ImageView profile_image;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            username = itemView.findViewById(R.id.username);
+            context = itemView.getContext();
+            username = itemView.findViewById(R.id.username_friends);
             profile_image = itemView.findViewById(R.id.image_profile);
+        }
+        void setOnClickListeners(){ profile_image.setOnClickListener(this);}
+
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(context, "FUNCIONA", Toast.LENGTH_SHORT).show();
+
         }
     }
 

@@ -9,7 +9,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HomePrincipal"></activity>
+        <activity
+            android:name=".SolicitudAmistad"
+            android:label="@string/title_activity_solicitud_amistad"
+            android:parentActivityName=".HomePrincipal"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".AgregarUsuario"
+            android:label="@string/title_activity_agregar_usuario"
+            android:parentActivityName=".HomePrincipal"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.prueba.HomePrincipal" />
+        </activity>
+        <activity android:name=".HomePrincipal" />
         <activity android:name=".Registro" />
         <activity android:name=".Login" />
         <activity android:name=".SelectorLoginRegistro" />

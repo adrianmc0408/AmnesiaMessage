@@ -6,31 +6,37 @@
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
-
-        app:titleTextColor="@color/colorPrimary"
+        android:background="@color/colorPrimary"
+        android:elevation="10dp"
+        android:textAlignment="center"
+        app:titleTextColor="@color/colorWhite"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        app:layout_constraintTop_toTopOf="parent" >
 
-        app:layout_constraintTop_toTopOf="parent" />
+    </androidx.appcompat.widget.Toolbar>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
-
+       app:tabIndicatorHeight="3dp"
+        android:elevation="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorBackground"
+        android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-
-
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:tabIndicatorColor="@color/colorPrimary"
+        app:tabIndicatorColor="@color/colorWhite"
         app:tabIndicatorGravity="bottom"
+
+
+
+
         app:tabMode="fixed"
-        app:tabSelectedTextColor="@color/colorPrimary"
-        app:tabTextColor="@color/colorPrimary">
+        app:tabSelectedTextColor="@color/colorWhite"
+        app:tabTextColor="@color/colorWhite">
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/firstitem"
@@ -54,7 +60,7 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="414dp"
-        android:layout_height="628dp"
+        android:layout_height="742dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 

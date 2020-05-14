@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout
 
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -8,26 +9,22 @@
     android:layout_width="match_parent">
 
 <androidx.cardview.widget.CardView
-
     android:layout_centerHorizontal="true"
-    android:layout_width="390dp"
+    android:layout_width="370dp"
     android:layout_height="70dp"
     android:layout_marginTop="4dp"
-    android:layout_centerVertical="true"
-    app:cardBackgroundColor="@android:color/transparent"
-    app:cardElevation="0dp"
-
+    app:cardBackgroundColor="@color/colorPrimary"
     app:cardCornerRadius="6dp"
-
-
     >
 
     <RelativeLayout
+        android:id="@+id/searched_user"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/image_profile"
+
+            android:id="@+id/image_profile_busqueda"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="10dp"
@@ -35,14 +32,15 @@
 
         <TextView
             android:textStyle="bold"
-            android:id="@+id/username_friends"
+            android:id="@+id/username_busqueda"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
 
-            android:layout_toEndOf="@id/image_profile"
-            android:layout_toRightOf="@id/image_profile"
+            android:textColor="@color/colorWhite"
+            android:layout_toEndOf="@id/image_profile_busqueda"
+            android:layout_toRightOf="@id/image_profile_busqueda"
             android:text="patitofeo23"
             android:textSize="18sp" />
 
@@ -53,7 +51,7 @@
             android:layout_marginRight="10dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/arrow_dark"/>
+            android:src="@drawable/arrow_white"/>
 
 
     </RelativeLayout>

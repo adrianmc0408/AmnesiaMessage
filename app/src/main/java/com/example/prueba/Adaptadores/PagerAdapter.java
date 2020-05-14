@@ -27,7 +27,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return new FriendsDisplayFragment();
             case 2:
-                return new Third();
+                return new OtrosFragment();
             default:
                 return null;
         }

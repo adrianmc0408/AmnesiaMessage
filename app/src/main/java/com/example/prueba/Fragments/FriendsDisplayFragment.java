@@ -26,7 +26,7 @@ public class FriendsDisplayFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private UserAdapter userAdapter;
-    private List<Usuario> usuarioList;
+    private ArrayList<Usuario> usuarioList;
     public FriendsDisplayFragment() {
         // Required empty public constructor
     }
@@ -37,19 +37,20 @@ public class FriendsDisplayFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_friends, container, false);
 
-        recyclerView = view.findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
+        recyclerView = view.findViewById(R.id.recyclerview_friends);
+        //recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager( new LinearLayoutManager(getContext()));
 
         usuarioList = new ArrayList<>();
         for (int i = 0 ; i<20 ; i++){
-            usuarioList.add(new Usuario("usuario "+i,"",""));
+            usuarioList.add(new Usuario("","Usuario "+i,"","",""));
         }
 
         userAdapter = new UserAdapter(getContext(),usuarioList);
 
 
         recyclerView.setAdapter(userAdapter);
+
 
         return view;
     }

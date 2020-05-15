@@ -92,7 +92,7 @@
 
             <Button
                 android:id="@+id/peticion_amistad_btn_eliminar"
-                android:layout_width="86dp"
+                android:layout_width="125dp"
                 android:layout_height="39dp"
 
                 android:layout_marginBottom="16dp"

@@ -67,6 +67,7 @@ public class Registro extends AppCompatActivity implements Button.OnClickListene
                         reference.push().setValue(usuario);
                         Intent intent=new Intent(Registro.this,Login.class);
                         startActivity(intent);
+                        finish();
                     }
                 }
             });

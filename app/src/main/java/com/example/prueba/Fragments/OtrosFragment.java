@@ -12,8 +12,10 @@ import android.widget.RelativeLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.prueba.AgregarUsuario;
+import com.example.prueba.HomePrincipal;
 import com.example.prueba.Login;
 import com.example.prueba.R;
+import com.example.prueba.SelectorLoginRegistro;
 import com.example.prueba.SolicitudAmistad;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -69,8 +71,8 @@ public class OtrosFragment extends Fragment {
             @Override
             public void onClick(View v) {
             mAuth.signOut();
-            startActivity(new Intent(getContext(), Login.class));
-
+            startActivity(new Intent(getContext(), SelectorLoginRegistro.class));
+                getActivity().finish();
 
             }
         });
@@ -79,5 +81,6 @@ public class OtrosFragment extends Fragment {
         return view;
 
     }
+
 
 }

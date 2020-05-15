@@ -17,8 +17,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.prueba.Objetos.Solicitud;
 import com.example.prueba.Objetos.Usuario;
 import com.example.prueba.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -29,10 +34,14 @@ public class UserAdapterBusqueda extends RecyclerView.Adapter<UserAdapterBusqued
     private ArrayList<Usuario> listaUsuarios;
     private Context mContext;
     private Dialog myDialog;
+    private FirebaseDatabase base;
+    private DatabaseReference referencia;
+    private Usuario usuario;
 
 
+    public UserAdapterBusqueda( ArrayList<Usuario> usuarios,Context mContext,Usuario usuario) {
 
-    public UserAdapterBusqueda( ArrayList<Usuario> usuarios,Context mContext) {
+        this.usuario=usuario;
         this.mContext= mContext;
         this.listaUsuarios = usuarios;
     }
@@ -42,6 +51,9 @@ public class UserAdapterBusqueda extends RecyclerView.Adapter<UserAdapterBusqued
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_agregar_usuario, parent, false);
        final ViewHolder viewHolder = new ViewHolder(view);
+
+       base=FirebaseDatabase.getInstance();
+       referencia=base.getReference("Solicitudes");
 
         myDialog = new Dialog(mContext);
         myDialog.setContentView(R.layout.popup_mandar_solicitud);
@@ -61,7 +73,16 @@ public class UserAdapterBusqueda extends RecyclerView.Adapter<UserAdapterBusqued
                 enviarSolicitud.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(mContext, "SolicitudEnviada", Toast.LENGTH_SHORT).show();
+                        String id_destino=listaUsuarios.get(viewHolder.getAdapterPosition()).getId();
+                        String id=usuario.getId();
+                        String nombre_usuario=usuario.getNombre_usuario();
+                        String email=usuario.getEmail();
+                        String telefono=usuario.getTelefono();
+                        String url_imagen=usuario.getUrl_imagen();
+                        Solicitud solicitud=new Solicitud( id_destino,id,nombre_usuario,email, telefono, url_imagen);
+                        referencia.push().setValue(solicitud);
+                        Toast.makeText(mContext, "Solicitud enviada", Toast.LENGTH_SHORT).show();
+                        myDialog.cancel();
                     }
                 });
                 cancelar.setOnClickListener(new View.OnClickListener() {
@@ -86,9 +107,14 @@ public class UserAdapterBusqueda extends RecyclerView.Adapter<UserAdapterBusqued
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         Usuario user = listaUsuarios.get(position);
-        holder.username.setText(user.getNombre_usuario());
-        //Aqui no se que coño poner asique pongo cualquier imagen
-        holder.profile_image.setImageResource(R.mipmap.ic_launcher);
+
+
+            holder.username.setText(user.getNombre_usuario());
+            //Aqui no se que coño poner asique pongo cualquier imagen
+            holder.profile_image.setImageResource(R.mipmap.ic_launcher);
+
+
+
 
 
 

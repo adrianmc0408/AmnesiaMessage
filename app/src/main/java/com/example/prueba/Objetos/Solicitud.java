@@ -1,16 +1,20 @@
 package com.example.prueba.Objetos;
 
-public class Usuario {
+public class Solicitud {
+
+    private String id_destino;
     private String id;
     private String nombre_usuario;
     private String email;
     private String telefono;
     private String url_imagen;
 
-    public Usuario(){
+    public Solicitud() {
 
     }
-    public Usuario(String id, String nombre_usuario, String email, String telefono, String url_imagen) {
+
+    public Solicitud(String id_destino, String id, String nombre_usuario, String email, String telefono, String url_imagen) {
+        this.id_destino = id_destino;
         this.id = id;
         this.nombre_usuario = nombre_usuario;
         this.email = email;
@@ -41,6 +45,7 @@ public class Usuario {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+
     public String getId() {
         return id;
     }
@@ -55,5 +60,13 @@ public class Usuario {
 
     public void setUrl_imagen(String url_imagen) {
         this.url_imagen = url_imagen;
+    }
+
+    public String getId_destino() {
+        return id_destino;
+    }
+
+    public void setId_destino(String id_destino) {
+        this.id_destino = id_destino;
     }
 }

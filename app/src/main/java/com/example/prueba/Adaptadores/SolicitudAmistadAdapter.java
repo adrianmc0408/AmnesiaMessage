@@ -43,28 +43,50 @@ public class SolicitudAmistadAdapter extends RecyclerView.Adapter<SolicitudAmist
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
 
         Usuario user = listaPeticiones.get(position);
         holder.username.setText(user.getNombre_usuario());
         //Aqui no se que coño poner asique pongo cualquier imagen
         holder.profile_image.setImageResource(R.drawable.profile);
 
+        holder.eliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeAt(position);
+            }
+        });
+
+        holder.aceptar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeAt(position);
+            }
+        });
+
 
 
     }
+
+
 
     @Override
     public int getItemCount() {
         return listaPeticiones.size();
     }
 
+    public void removeAt(int position) {
+        listaPeticiones.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, listaPeticiones.size());
+    }
     public static class ViewHolder extends RecyclerView.ViewHolder {
         Context context;
         TextView username;
         ImageView profile_image;
         Button aceptar;
         Button eliminar;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             context = itemView.getContext();
@@ -75,8 +97,8 @@ public class SolicitudAmistadAdapter extends RecyclerView.Adapter<SolicitudAmist
 
 
         }
-
     }
+
 }
 
 

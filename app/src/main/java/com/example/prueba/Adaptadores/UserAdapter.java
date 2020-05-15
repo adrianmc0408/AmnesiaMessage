@@ -49,9 +49,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
 
-                TextView dialog_user= (TextView) myDialog.findViewById(R.id.dialog_usuario_username);
+                final TextView dialog_user= (TextView) myDialog.findViewById(R.id.dialog_usuario_username);
                 CircleImageView dialog_image_profile = (CircleImageView) myDialog.findViewById(R.id.dialog_usuario_foto_perfil);
                 dialog_user.setText(listaUsuarios.get(viewHolder.getAdapterPosition()).getNombre_usuario());
+                final int position = viewHolder.getAdapterPosition();
                 Button perfil = myDialog.findViewById(R.id.dialog_usuario_btn_perfil);
                 Button eliminar = myDialog.findViewById(R.id.dialog_usuario_btn_eliminar);
                 //dialog_image_profile.setImageResource(R.id.profile);
@@ -65,7 +66,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 eliminar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(mContext, "boton eliminar", Toast.LENGTH_SHORT).show();
+
+                        removeAt(position);
+                        myDialog.cancel();
                     }
                 });
 
@@ -81,7 +84,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         return viewHolder;
     }
-
+    public final void removeAt(int position) {
+        listaUsuarios.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, listaUsuarios.size());
+    }
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 

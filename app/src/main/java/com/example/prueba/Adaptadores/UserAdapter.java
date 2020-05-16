@@ -14,13 +14,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prueba.Objetos.Usuario;
 import com.example.prueba.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -38,7 +38,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.chat_user_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.row_friend, parent, false);
         final ViewHolder viewHolder = new ViewHolder(view);
 
         myDialog = new Dialog(mContext);
@@ -107,17 +107,17 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        Context context;
+         Context context;
          TextView username;
          ImageView profile_image;
-        RelativeLayout item_contact;
+         CardView item_contact;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             context = itemView.getContext();
-            username = itemView.findViewById(R.id.username_friends);
-            profile_image = itemView.findViewById(R.id.image_profile);
-            item_contact = itemView.findViewById(R.id.relative_contact_item);
+            username = itemView.findViewById(R.id.friend_username);
+            profile_image = itemView.findViewById(R.id.friend_image_profile);
+            item_contact = itemView.findViewById(R.id.friend_cardview);
         }
 
     }

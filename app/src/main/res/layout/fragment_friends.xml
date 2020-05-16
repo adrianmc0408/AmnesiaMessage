@@ -6,7 +6,7 @@
     tools:context=".Fragments.FriendsDisplayFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+        android:id="@+id/recycler_view_friends"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

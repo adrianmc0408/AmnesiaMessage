@@ -1,11 +1,13 @@
 package com.example.prueba;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.prueba.Adaptadores.SolicitudAmistadAdapter;
 import com.example.prueba.Adaptadores.UserAdapterBusqueda;
 import com.example.prueba.Objetos.Solicitud;
 import com.example.prueba.Objetos.Usuario;
+import com.example.prueba.Objetos.Usuario2;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -27,7 +29,7 @@ public class SolicitudAmistad extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private SolicitudAmistadAdapter solicitudAmistadAdapter;
-    private ArrayList<Usuario> listaPeticiones;
+    private ArrayList<Usuario2> listaPeticiones;
     private RecyclerView.LayoutManager layoutManager;
     private FirebaseDatabase database;
     private DatabaseReference reference;
@@ -64,13 +66,14 @@ public class SolicitudAmistad extends AppCompatActivity {
                     FirebaseUser user=mAuth.getCurrentUser();
                     if(solicitud!=null ){
                         if(solicitud.getId_destino().equals(user.getUid())) {
-                            Usuario usuario=new Usuario(solicitud.getId(),solicitud.getNombre_usuario(),solicitud.getEmail(),solicitud.getTelefono()
+                            Usuario2 usuario=new Usuario2(data.getKey(),solicitud.getId(),solicitud.getNombre_usuario(),solicitud.getEmail(),solicitud.getTelefono()
                             ,solicitud.getUrl_imagen());
                             listaPeticiones.add(usuario);
                         }
 
                     }
                 }
+
                 layoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerView.setLayoutManager(layoutManager);
                 solicitudAmistadAdapter = new SolicitudAmistadAdapter( listaPeticiones );

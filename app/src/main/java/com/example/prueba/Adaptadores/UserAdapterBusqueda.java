@@ -81,6 +81,7 @@ public class UserAdapterBusqueda extends RecyclerView.Adapter<UserAdapterBusqued
                         String url_imagen=usuario.getUrl_imagen();
                         Solicitud solicitud=new Solicitud( id_destino,id,nombre_usuario,email, telefono, url_imagen);
                         referencia.push().setValue(solicitud);
+                        
                         Toast.makeText(mContext, "Solicitud enviada", Toast.LENGTH_SHORT).show();
                         myDialog.cancel();
                     }

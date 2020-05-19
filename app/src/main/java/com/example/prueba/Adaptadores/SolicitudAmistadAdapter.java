@@ -16,8 +16,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.prueba.Objetos.Amistad;
 import com.example.prueba.Objetos.Usuario;
+import com.example.prueba.Objetos.Usuario2;
 import com.example.prueba.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -25,10 +31,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SolicitudAmistadAdapter extends RecyclerView.Adapter<SolicitudAmistadAdapter.ViewHolder> {
 
-    private ArrayList<Usuario> listaPeticiones;
+    private ArrayList<Usuario2>listaPeticiones;
+    private FirebaseDatabase base;
+    private FirebaseAuth mAuth;
+    private FirebaseUser usuario_app;
+    private DatabaseReference referencia;
+    private DatabaseReference referencia2;
 
 
-    public SolicitudAmistadAdapter(ArrayList<Usuario> usuarios ) {
+
+    public SolicitudAmistadAdapter(ArrayList<Usuario2> usuarios ) {
 
         this.listaPeticiones = usuarios;
     }
@@ -38,6 +50,11 @@ public class SolicitudAmistadAdapter extends RecyclerView.Adapter<SolicitudAmist
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_peticion_amistad, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
+        base=FirebaseDatabase.getInstance();
+        mAuth=FirebaseAuth.getInstance();
+        usuario_app=mAuth.getCurrentUser();
+        referencia=base.getReference("Amigos");
+        referencia2=base.getReference("Solicitudes");
 
         return viewHolder;
     }
@@ -45,7 +62,7 @@ public class SolicitudAmistadAdapter extends RecyclerView.Adapter<SolicitudAmist
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
 
-        Usuario user = listaPeticiones.get(position);
+        Usuario2 user = listaPeticiones.get(position);
         holder.username.setText(user.getNombre_usuario());
         //Aqui no se que coño poner asique pongo cualquier imagen
         holder.profile_image.setImageResource(R.drawable.profile);
@@ -53,6 +70,7 @@ public class SolicitudAmistadAdapter extends RecyclerView.Adapter<SolicitudAmist
         holder.eliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                referencia2.child(listaPeticiones.get(position).getReferencia()).removeValue();
                 removeAt(position);
             }
         });
@@ -60,6 +78,9 @@ public class SolicitudAmistadAdapter extends RecyclerView.Adapter<SolicitudAmist
         holder.aceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Amistad amistad =new Amistad(usuario_app.getUid(),listaPeticiones.get(position).getId());
+                referencia.push().setValue(amistad);
+                referencia2.child(listaPeticiones.get(position).getReferencia()).removeValue();
                 removeAt(position);
             }
         });

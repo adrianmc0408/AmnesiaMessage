@@ -95,12 +95,10 @@ public class FriendsDisplayFragment extends Fragment {
                                 for (int i = 0; i < amigosList.size(); i++) {
                                     if (amigosList.get(i).equals(user.getId())) {
                                         usuarioList.add(user);
-                                        Log.i("usuario", usuarioList.get(i).getId());
 
                                     }
                                 }
                             }
-                            Log.i("usuario2", usuarioList.get(0).getId());
                             layoutManager = new LinearLayoutManager(getContext());
                             recyclerView.setLayoutManager(layoutManager);
                             userAdapter = new UserAdapter(getContext(), usuarioList);

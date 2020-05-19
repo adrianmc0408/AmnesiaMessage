@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.prueba.Adaptadores.SolicitudAmistadAdapter;
 import com.example.prueba.Adaptadores.UserAdapter;
 import com.example.prueba.Objetos.Amistad;
+import com.example.prueba.Objetos.Amistad2;
 import com.example.prueba.Objetos.Solicitud;
 import com.example.prueba.Objetos.Usuario;
 import com.example.prueba.Objetos.Usuario2;
@@ -37,8 +38,8 @@ public class FriendsDisplayFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private UserAdapter userAdapter;
-    private ArrayList<Usuario> usuarioList;
-    private ArrayList<String> amigosList;
+    private ArrayList<Usuario2> usuarioList;
+    private ArrayList<Amistad2> amigosList;
     private RecyclerView.LayoutManager layoutManager;
     private FirebaseDatabase database;
     private DatabaseReference reference;
@@ -77,10 +78,10 @@ public class FriendsDisplayFragment extends Fragment {
                     FirebaseUser user=mAuth.getCurrentUser();
                     if(amigo!=null ){
                         if((amigo.getId1().equals(usuario.getUid()))){
-                            amigosList.add(amigo.getId2());
+                            amigosList.add(new Amistad2(amigo.getId2(),data.getKey()));
                         }
                         else if((amigo.getId2().equals(usuario.getUid()))){
-                            amigosList.add(amigo.getId1());
+                            amigosList.add(new Amistad2(amigo.getId1(),data.getKey()));
                         }
 
                     }
@@ -93,8 +94,9 @@ public class FriendsDisplayFragment extends Fragment {
                             for (DataSnapshot data : dataSnapshot.getChildren()) {
                                 Usuario user = data.getValue(Usuario.class);
                                 for (int i = 0; i < amigosList.size(); i++) {
-                                    if (amigosList.get(i).equals(user.getId())) {
-                                        usuarioList.add(user);
+                                    if (amigosList.get(i).getId().equals(user.getId())) {
+                                        usuarioList.add(new Usuario2(amigosList.get(i).getReferencia(),user.getId(),user.getNombre_usuario(),
+                                                user.getEmail(),user.getTelefono(),user.getUrl_imagen()));
 
                                     }
                                 }

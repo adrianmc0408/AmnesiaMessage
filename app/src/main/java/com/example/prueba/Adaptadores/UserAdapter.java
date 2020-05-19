@@ -18,7 +18,10 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prueba.Objetos.Usuario;
+import com.example.prueba.Objetos.Usuario2;
 import com.example.prueba.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -27,10 +30,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     private Context mContext;
-    private ArrayList<Usuario> listaUsuarios;
+    private ArrayList<Usuario2> listaUsuarios;
     private Dialog myDialog;
+    private FirebaseDatabase base;
+    private DatabaseReference referencia;
 
-    public UserAdapter(Context context, ArrayList<Usuario> usuarios) {
+    public UserAdapter(Context context, ArrayList<Usuario2> usuarios) {
         this.mContext = context;
         this.listaUsuarios = usuarios;
     }
@@ -40,6 +45,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.row_friend, parent, false);
         final ViewHolder viewHolder = new ViewHolder(view);
+        base=FirebaseDatabase.getInstance();
+        referencia=base.getReference("Amigos");
 
         myDialog = new Dialog(mContext);
         myDialog.setContentView(R.layout.popup_opciones_usuario);
@@ -66,7 +73,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 eliminar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                    referencia.child(listaUsuarios.get(position).getReferencia()).removeValue();
                         removeAt(position);
                         myDialog.cancel();
                     }
@@ -92,7 +99,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        Usuario user = listaUsuarios.get(position);
+        Usuario2 user = listaUsuarios.get(position);
         holder.username.setText(user.getNombre_usuario());
         //Aqui no se que coño poner asique pongo cualquier imagen
         holder.profile_image.setImageResource(R.mipmap.ic_launcher);

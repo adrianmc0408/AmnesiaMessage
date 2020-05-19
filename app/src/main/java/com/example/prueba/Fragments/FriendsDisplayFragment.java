@@ -77,7 +77,7 @@ public class FriendsDisplayFragment extends Fragment {
                     FirebaseUser user=mAuth.getCurrentUser();
                     if(amigo!=null ){
                         if((amigo.getId1().equals(usuario.getUid()))){
-                          amigosList.add(amigo.getId2());
+                            amigosList.add(amigo.getId2());
                         }
                         else if((amigo.getId2().equals(usuario.getUid()))){
                             amigosList.add(amigo.getId1());
@@ -85,32 +85,40 @@ public class FriendsDisplayFragment extends Fragment {
 
                     }
                 }
-                reference2.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        usuarioList.clear();
-                        for(DataSnapshot data:dataSnapshot.getChildren()){
-                        Usuario user=data.getValue(Usuario.class);
-                        for(int i=0;i<amigosList.size();i++){
-                            if(amigosList.get(i).equals(user.getId())){
-                                usuarioList.add(user);
-                                Log.i("usuario",usuarioList.get(i).getId());
+                if(!amigosList.isEmpty()) {
+                    reference2.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            usuarioList.clear();
+                            for (DataSnapshot data : dataSnapshot.getChildren()) {
+                                Usuario user = data.getValue(Usuario.class);
+                                for (int i = 0; i < amigosList.size(); i++) {
+                                    if (amigosList.get(i).equals(user.getId())) {
+                                        usuarioList.add(user);
+                                        Log.i("usuario", usuarioList.get(i).getId());
 
+                                    }
+                                }
                             }
+                            Log.i("usuario2", usuarioList.get(0).getId());
+                            layoutManager = new LinearLayoutManager(getContext());
+                            recyclerView.setLayoutManager(layoutManager);
+                            userAdapter = new UserAdapter(getContext(), usuarioList);
+                            recyclerView.setAdapter(userAdapter);
                         }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
                         }
-                        Log.i("usuario2",usuarioList.get(0).getId());
-                        layoutManager = new LinearLayoutManager(getContext());
-                        recyclerView.setLayoutManager(layoutManager);
-                        userAdapter= new UserAdapter(getContext(), usuarioList);
-                        recyclerView.setAdapter(userAdapter);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
+                    });
+                }
+                else{
+                    layoutManager = new LinearLayoutManager(getContext());
+                    recyclerView.setLayoutManager(layoutManager);
+                    userAdapter = new UserAdapter(getContext(), usuarioList);
+                    recyclerView.setAdapter(userAdapter);
+                }
 
             }
 

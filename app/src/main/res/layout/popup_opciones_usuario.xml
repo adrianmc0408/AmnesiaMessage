@@ -38,6 +38,19 @@
             android:text="Perfil"
             android:textAlignment="center"
             android:textColor="@color/colorWhite" />
+        <Button
+
+            android:id="@+id/dialog_usuario_btn_chat"
+            android:layout_width="315dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:padding="10dp"
+
+            android:stateListAnimator="@null"
+            android:text="Chat"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite" />
 
         <Button
             android:id="@+id/dialog_usuario_btn_eliminar"
@@ -46,6 +59,7 @@
 
             android:backgroundTint="#FFFFFF"
             android:stateListAnimator="@null"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:padding="10dp"
             android:text="Eliminar"

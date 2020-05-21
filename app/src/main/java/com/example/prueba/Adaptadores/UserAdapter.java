@@ -2,6 +2,7 @@ package com.example.prueba.Adaptadores;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.prueba.ChatRoom;
 import com.example.prueba.Objetos.Usuario;
 import com.example.prueba.Objetos.Usuario2;
 import com.example.prueba.R;
@@ -61,6 +63,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 dialog_user.setText(listaUsuarios.get(viewHolder.getAdapterPosition()).getNombre_usuario());
                 final int position = viewHolder.getAdapterPosition();
                 Button perfil = myDialog.findViewById(R.id.dialog_usuario_btn_perfil);
+                Button chat = myDialog.findViewById(R.id.dialog_usuario_btn_chat);
                 Button eliminar = myDialog.findViewById(R.id.dialog_usuario_btn_eliminar);
                 //dialog_image_profile.setImageResource(R.id.profile);
 
@@ -76,6 +79,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                     referencia.child(listaUsuarios.get(position).getReferencia()).removeValue();
                         removeAt(position);
                         myDialog.cancel();
+                    }
+                });
+                chat.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(mContext, ChatRoom.class);
+                        intent.putExtra("username",listaUsuarios.get(position).getNombre_usuario());
+                        mContext.startActivity(intent);
                     }
                 });
 

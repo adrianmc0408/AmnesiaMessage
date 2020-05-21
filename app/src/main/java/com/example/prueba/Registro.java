@@ -75,7 +75,7 @@ public class Registro extends AppCompatActivity implements Button.OnClickListene
     }
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(getApplicationContext(), HomePrincipal.class));
+        startActivity(new Intent(getApplicationContext(), SelectorLoginRegistro.class));
         finish();
         return;
     }

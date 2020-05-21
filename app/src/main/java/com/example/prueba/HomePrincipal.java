@@ -4,6 +4,7 @@ package com.example.prueba;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -12,11 +13,13 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
-
+import android.view.Menu;
+import android.view.MenuItem;
 
 
 import com.example.prueba.Adaptadores.PagerAdapter;
 
+import com.example.prueba.Adaptadores.UserChatDisplayAdapter;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
@@ -77,6 +80,7 @@ public class HomePrincipal extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 pager.setCurrentItem(tab.getPosition());
+
             }
 
             @Override
@@ -93,6 +97,10 @@ public class HomePrincipal extends AppCompatActivity {
 
 
     }
+
+
+
+
 
 
 

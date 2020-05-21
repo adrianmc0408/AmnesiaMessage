@@ -1,11 +1,17 @@
 package com.example.prueba.Fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prueba.Adaptadores.UserAdapter;
 import com.example.prueba.Adaptadores.UserChatDisplayAdapter;
+import com.example.prueba.ChatRoom;
 import com.example.prueba.Objetos.Usuario;
 import com.example.prueba.R;
 
@@ -31,6 +38,7 @@ public class ChatsDisplayFragment extends Fragment {
     public ChatsDisplayFragment() {
         // Required empty public constructor
     }
+
 
 
     @Override
@@ -54,9 +62,23 @@ public class ChatsDisplayFragment extends Fragment {
         recyclerView.addItemDecoration(divider);
         recyclerView.setAdapter(userChatDisplayAdapter);
 
+        userChatDisplayAdapter.setOnClickListener(new UserChatDisplayAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClick(int position) {
+                Intent intent = new Intent(getContext(), ChatRoom.class);
+                intent.putExtra("username",usuarioList.get(position).getNombre_usuario());
+                startActivity(intent);
+
+            }
+        });
+
 
         return view;
 
     }
+
+
+
+
 
 }

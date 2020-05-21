@@ -36,9 +36,12 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     private ArrayList<Chat> listaChats;
     private String imageurl;
     private FirebaseUser fuser;
+    private FirebaseAuth auth;
 
 
     public ChatAdapter(Context context, ArrayList<Chat> chats,String imageurl) {
+        auth=FirebaseAuth.getInstance();
+        fuser=auth.getCurrentUser();
         this.mContext = context;
         this.listaChats = chats;
         this.imageurl=imageurl;
@@ -105,7 +108,7 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     @Override
     public int getItemViewType(int position) {
 
-      if (listaChats.get(position).getSender().equals("1")){
+      if (listaChats.get(position).getSender().equals(fuser.getUid())){
           return MSG_TYPE_RIGHT;
       }
       else{

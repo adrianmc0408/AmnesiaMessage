@@ -20,6 +20,9 @@ import com.example.prueba.Adaptadores.ChatAdapter;
 import com.example.prueba.Adaptadores.UserChatDisplayAdapter;
 import com.example.prueba.Fragments.ChatsDisplayFragment;
 import com.example.prueba.Objetos.Chat;
+import com.example.prueba.Objetos.Usuario;
+import com.example.prueba.Objetos.Usuario2;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,6 +30,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -42,6 +46,12 @@ public class ChatRoom extends AppCompatActivity {
     private ChatAdapter chatAdapter;
     private ArrayList<Chat> listaChats;
     private RecyclerView recyclerView;
+    private FirebaseDatabase base;
+    private DatabaseReference referencia;
+    private FirebaseAuth auth;
+    private FirebaseUser usuario;
+    LinearLayoutManager linearLayoutManager;
+    Usuario2 user;
 
 
     @Override
@@ -60,45 +70,62 @@ public class ChatRoom extends AppCompatActivity {
                 finish();
             }
         });
-
+        base=FirebaseDatabase.getInstance();
+        referencia=base.getReference("Chats");
+        auth=FirebaseAuth.getInstance();
+        usuario=auth.getCurrentUser();
         recyclerView = findViewById(R.id.recyclerview_chatroom);
         recyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        user =(Usuario2) getIntent().getExtras().getSerializable("usuario");
 
-
-        recyclerView.setLayoutManager(linearLayoutManager);
-        for(int i = 0 ; i<10 ; i++){
-            listaChats.add(new Chat("2","1","Hola1"));
-            listaChats.add(new Chat("2","1","Que tal"));
-            listaChats.add(new Chat("1","2","Hola2"));
-            listaChats.add(new Chat("1","2","Que tal2"));
-        }
-        chatAdapter = new ChatAdapter(getApplicationContext(),listaChats,"ded");
-        linearLayoutManager.setStackFromEnd(true);
-        recyclerView.setAdapter(chatAdapter);
         image_profile = findViewById(R.id.image_profile_chatroom);
         username = findViewById(R.id.username_chatroom);
         sendButton = findViewById(R.id.btn_send_chatroom);
         message_field = findViewById(R.id.message_field_chatroom);
-
+        username.setText(user.getNombre_usuario());
+        image_profile.setImageResource(R.drawable.profile);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String msg = message_field.getText().toString();
                 if (!msg.equals("")){
-                    listaChats.add(new Chat("1","2",message_field.getText().toString()));
+                    Chat mensaje=new Chat(usuario.getUid(),user.getId(),msg);
+                    referencia.push().setValue(mensaje);
                 }
                 message_field.setText("");
             }
         });
+        leerMensajes();
 
 
 
-        intent=getIntent();
 
-        username.setText(intent.getStringExtra("username"));
-        image_profile.setImageResource(R.drawable.profile);
+    }
+   public void  leerMensajes(){
+        referencia.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                listaChats.clear();
+                for(DataSnapshot data:dataSnapshot.getChildren()){
+                    Chat chat=data.getValue(Chat.class);
+                     if (((chat.getReceiver().equals(usuario.getUid()))&&(chat.getSender().equals(user.getId())))||((chat.getReceiver().equals(user.getId()))&&(chat.getSender().equals(usuario.getUid())))) {
+                         listaChats.add(chat);
+                     }
+                }
+                linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+                recyclerView.setLayoutManager(linearLayoutManager);
+                chatAdapter = new ChatAdapter(getApplicationContext(),listaChats,"ded");
+                linearLayoutManager.setStackFromEnd(true);
+                recyclerView.setAdapter(chatAdapter);
 
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });{
+       }
     }
 
 

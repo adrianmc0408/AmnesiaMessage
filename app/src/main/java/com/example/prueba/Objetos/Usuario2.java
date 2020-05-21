@@ -1,6 +1,8 @@
 package com.example.prueba.Objetos;
 
-public class Usuario2 {
+import java.io.Serializable;
+
+public class Usuario2 implements Serializable {
     private String referencia;
     private String id;
     private String nombre_usuario;

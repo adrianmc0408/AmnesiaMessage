@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 
 import com.example.prueba.Adaptadores.ChatAdapter;
+import com.example.prueba.Adaptadores.UserChatDisplayAdapter;
+import com.example.prueba.Fragments.ChatsDisplayFragment;
 import com.example.prueba.Objetos.Chat;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -62,10 +64,18 @@ public class ChatRoom extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerview_chatroom);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        linearLayoutManager.setStackFromEnd(true);
+
 
         recyclerView.setLayoutManager(linearLayoutManager);
-
+        for(int i = 0 ; i<10 ; i++){
+            listaChats.add(new Chat("2","1","Hola1"));
+            listaChats.add(new Chat("2","1","Que tal"));
+            listaChats.add(new Chat("1","2","Hola2"));
+            listaChats.add(new Chat("1","2","Que tal2"));
+        }
+        chatAdapter = new ChatAdapter(getApplicationContext(),listaChats,"ded");
+        linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setAdapter(chatAdapter);
         image_profile = findViewById(R.id.image_profile_chatroom);
         username = findViewById(R.id.username_chatroom);
         sendButton = findViewById(R.id.btn_send_chatroom);
@@ -76,7 +86,7 @@ public class ChatRoom extends AppCompatActivity {
             public void onClick(View v) {
                 String msg = message_field.getText().toString();
                 if (!msg.equals("")){
-
+                    listaChats.add(new Chat("1","2",message_field.getText().toString()));
                 }
                 message_field.setText("");
             }

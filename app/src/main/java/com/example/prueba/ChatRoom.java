@@ -32,6 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -76,6 +77,12 @@ public class ChatRoom extends AppCompatActivity {
         usuario=auth.getCurrentUser();
         recyclerView = findViewById(R.id.recyclerview_chatroom);
         recyclerView.setHasFixedSize(true);
+        linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        chatAdapter = new ChatAdapter(getApplicationContext(),listaChats,"ded");
+        linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setAdapter(chatAdapter);
+
         user =(Usuario2) getIntent().getExtras().getSerializable("usuario");
 
         image_profile = findViewById(R.id.image_profile_chatroom);
@@ -88,8 +95,9 @@ public class ChatRoom extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String msg = message_field.getText().toString();
+                Date fecha=new Date();
                 if (!msg.equals("")){
-                    Chat mensaje=new Chat(usuario.getUid(),user.getId(),msg);
+                    Chat mensaje=new Chat(usuario.getUid(),user.getId(),msg,fecha);
                     referencia.push().setValue(mensaje);
                 }
                 message_field.setText("");

@@ -24,8 +24,17 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prueba.ChatRoom;
+import com.example.prueba.Objetos.Chat;
 import com.example.prueba.Objetos.Usuario;
+import com.example.prueba.Objetos.Usuario2;
 import com.example.prueba.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,8 +45,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class UserChatDisplayAdapter extends RecyclerView.Adapter<UserChatDisplayAdapter.ViewHolder>  {
 
     private Context mContext;
-    private ArrayList<Usuario> listaUsuarios;
+    private ArrayList<Usuario2> listaUsuarios;
     private OnItemClickListener mListener;
+    private FirebaseAuth auth;
+    private FirebaseUser firabase_user;
+    private FirebaseDatabase base;
+    private DatabaseReference reference;
+    ArrayList<String> datos;
+    ArrayList<Chat> conversacion;
 
 
     public interface OnItemClickListener{
@@ -51,7 +66,13 @@ public class UserChatDisplayAdapter extends RecyclerView.Adapter<UserChatDisplay
     }
 
 
-    public UserChatDisplayAdapter(Context context, ArrayList<Usuario> usuarios) {
+    public UserChatDisplayAdapter(Context context, ArrayList<Usuario2> usuarios) {
+        datos=new ArrayList<>();
+        conversacion=new ArrayList<>();
+        auth=FirebaseAuth.getInstance();
+        firabase_user=auth.getCurrentUser();
+        base=FirebaseDatabase.getInstance();
+        reference=base.getReference("Chats");
         this.mContext = context;
         this.listaUsuarios = usuarios;
     }
@@ -69,16 +90,8 @@ public class UserChatDisplayAdapter extends RecyclerView.Adapter<UserChatDisplay
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
-        Usuario user = listaUsuarios.get(position);
-        holder.username.setText(user.getNombre_usuario());
-        holder.message_counter.setText("9");
-        holder.last_message.setText("Lorem ipsum dolor sit amet, con..");
-        holder.last_message_time.setText("9:45");
-
-        holder.profile_image.setImageResource(R.mipmap.ic_launcher);
-
-
-
+        Usuario2 user = listaUsuarios.get(position);
+        ultimoMensaje(user,holder);
 
     }
     //Implementar mas tarde (busqueda en recyclers)
@@ -158,6 +171,59 @@ public class UserChatDisplayAdapter extends RecyclerView.Adapter<UserChatDisplay
             });
 
         }
+
+    }
+    public void ultimoMensaje(final Usuario2 usuario,final ViewHolder holder){
+
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                datos.clear();
+                conversacion.clear();
+                for(DataSnapshot data:dataSnapshot.getChildren()){
+                    Chat chat=data.getValue(Chat.class);
+                    if(((chat.getSender().equals(firabase_user.getUid()))&&(chat.getReceiver().equals(usuario.getId())))||((chat.getSender().equals(usuario.getId()))&&(chat.getReceiver().equals(firabase_user.getUid())))){
+                        conversacion.add(chat);
+                    }
+                }
+                datos.add(conversacion.get(conversacion.size()-1).getMessage());
+                int hora=conversacion.get(conversacion.size()-1).getFecha().getHours();
+                String hora_t;
+                if(hora<10){
+                   hora_t="0"+hora;
+                }
+                else{
+                   hora_t=hora+"";
+                }
+
+                int minuto=conversacion.get(conversacion.size()-1).getFecha().getMinutes();
+                String minuto_t;
+                if(minuto<10){
+                    minuto_t="0"+minuto;
+                }
+                else{
+                    minuto_t=minuto+"";
+                }
+
+                String hora_total=hora_t+":"+minuto_t;
+                datos.add(hora_total);
+                datos.add(conversacion.size()+"");
+                holder.username.setText(usuario.getNombre_usuario());
+                holder.message_counter.setText(datos.get(2));
+                holder.last_message.setText(datos.get(0));
+                holder.last_message_time.setText(datos.get(1));
+
+                holder.profile_image.setImageResource(R.mipmap.ic_launcher);
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
     }
 

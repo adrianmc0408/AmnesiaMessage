@@ -128,4 +128,6 @@ public class FriendsDisplayFragment extends Fragment {
             }
         });
     }
+
+
 }

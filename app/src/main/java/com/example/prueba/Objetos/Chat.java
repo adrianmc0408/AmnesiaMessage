@@ -8,8 +8,10 @@ public class Chat {
     private String receiver;
     private String message;
     private Date fecha;
+    private boolean leido;
 
     public Chat(String sender, String receiver, String message, Date fecha) {
+        this.leido=false;
         this.sender = sender;
         this.receiver = receiver;
         this.message = message;
@@ -50,5 +52,13 @@ public class Chat {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    public boolean isLeido() {
+        return leido;
+    }
+
+    public void setLeido(boolean leido) {
+        this.leido = leido;
     }
 }

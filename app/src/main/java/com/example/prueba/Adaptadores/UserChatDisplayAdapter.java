@@ -181,11 +181,20 @@ public class UserChatDisplayAdapter extends RecyclerView.Adapter<UserChatDisplay
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 datos.clear();
                 conversacion.clear();
+                int cont_leidos=0;
                 for(DataSnapshot data:dataSnapshot.getChildren()){
                     Chat chat=data.getValue(Chat.class);
                     if(((chat.getSender().equals(firabase_user.getUid()))&&(chat.getReceiver().equals(usuario.getId())))||((chat.getSender().equals(usuario.getId()))&&(chat.getReceiver().equals(firabase_user.getUid())))){
                         conversacion.add(chat);
+                        if((chat.getReceiver().equals(firabase_user.getUid()))&&(chat.isLeido()==false)){
+                            cont_leidos++;
+                        }
                     }
+                }
+                String ultimo_mensaje="";
+                if(conversacion.get(conversacion.size()-1).getSender().equals(firabase_user.getUid())){
+                    String mensaje="Tú: "+conversacion.get(conversacion.size()-1).getMessage();
+                    conversacion.get(conversacion.size()-1).setMessage(mensaje);
                 }
                 datos.add(conversacion.get(conversacion.size()-1).getMessage());
                 int hora=conversacion.get(conversacion.size()-1).getFecha().getHours();
@@ -208,7 +217,7 @@ public class UserChatDisplayAdapter extends RecyclerView.Adapter<UserChatDisplay
 
                 String hora_total=hora_t+":"+minuto_t;
                 datos.add(hora_total);
-                datos.add(conversacion.size()+"");
+                datos.add(cont_leidos+"");
                 holder.username.setText(usuario.getNombre_usuario());
                 holder.message_counter.setText(datos.get(2));
                 holder.last_message.setText(datos.get(0));

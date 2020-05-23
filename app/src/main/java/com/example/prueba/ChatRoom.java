@@ -34,6 +34,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -117,6 +118,10 @@ public class ChatRoom extends AppCompatActivity {
                 for(DataSnapshot data:dataSnapshot.getChildren()){
                     Chat chat=data.getValue(Chat.class);
                      if (((chat.getReceiver().equals(usuario.getUid()))&&(chat.getSender().equals(user.getId())))||((chat.getReceiver().equals(user.getId()))&&(chat.getSender().equals(usuario.getUid())))) {
+                         if((chat.getReceiver().equals(usuario.getUid()))&&(chat.isLeido()==false)){
+                             chat.setLeido(true);
+                             referencia.child(data.getKey()).setValue(chat);
+                         }
                          listaChats.add(chat);
                      }
                 }

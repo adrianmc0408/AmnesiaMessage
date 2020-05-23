@@ -35,6 +35,8 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     private Context mContext;
     private ArrayList<Chat> listaChats;
     private String imageurl;
+    private String txt_visto;
+
     private FirebaseUser fuser;
     private FirebaseAuth auth;
 
@@ -79,6 +81,20 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             holder.profile_image.setImageResource(R.mipmap.ic_launcher);
         }
 
+/*
+        //Esto es para que solo ponga el visto o el enviado solo en el ultimo mensaje segun he visto
+        if(position == listaChats.size()-1){
+            if(chat==visto){
+                holder.txt_visto.setText("Visto");
+            }
+            else{
+                holder.txt_visto.setText("Enviado");
+            }
+        }
+        else {
+            holder.txt_visto.setVisibility(View.GONE);
+        }
+*/
 
 
 
@@ -93,13 +109,15 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         Context context;
         TextView show_message;
         ImageView profile_image;
-
+        TextView txt_visto;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             context = itemView.getContext();
             show_message = itemView.findViewById(R.id.show_message);
             profile_image = itemView.findViewById(R.id.msg_profile_image);
+            txt_visto = itemView.findViewById(R.id.txt_seen);
+
 
         }
 

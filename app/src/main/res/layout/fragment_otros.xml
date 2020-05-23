@@ -10,6 +10,7 @@
     tools:context=".Fragments.OtrosFragment">
 
     <RelativeLayout
+        android:id="@+id/opcion_mi_perfil"
         android:layout_width="match_parent"
         android:layout_height="67dp"
         android:background="@drawable/bg">

@@ -54,6 +54,7 @@
         android:layout_alignParentBottom="true">
         
         <EditText
+            android:inputType="textCapSentences"
             android:id="@+id/message_field_chatroom"
             android:background="@android:color/transparent"
             android:hint="Escribe un mensaje"

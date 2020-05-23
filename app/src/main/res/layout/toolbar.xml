@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/toolbar_personalizada"
+        android:layout_width="match_parent"
+        android:backgroundTint="@color/colorPrimary"
+        android:layout_height="45dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+
+                android:id="@+id/titulo_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Titulo"
+                android:textSize="18sp"
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/colorWhite"
+                android:textStyle="bold"
+
+                />
+
+
+
+            <ImageView
+                android:id="@+id/close_activity"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/close_icon"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"/>
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

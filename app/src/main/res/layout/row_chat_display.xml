@@ -57,12 +57,12 @@
                 android:id="@+id/chat_display_last_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:maxLength="35"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@id/chat_display_profile_image"
                 android:layout_toRightOf="@id/chat_display_profile_image"
-                android:text="Lorem ipsum dolor sit amet, con.."
+                android:text="Lorem ipsum dolor sit amet, conbrfrbfbrbf"
 
                 android:textColor="@color/colorDarkGrey"
                 android:textSize="15sp"
@@ -90,8 +90,9 @@
             <TextView
 
                 android:id="@+id/chat_display_counter"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+
+                android:layout_width="23dp"
+                android:layout_height="23dp"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="16dp"
                 android:layout_toEndOf="@id/chat_display_profile_image"

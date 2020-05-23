@@ -49,6 +49,8 @@ public class ChatRoom extends AppCompatActivity {
     private ArrayList<Chat> listaChats;
     private RecyclerView recyclerView;
     private FirebaseDatabase base;
+
+
     private DatabaseReference referencia;
     private FirebaseAuth auth;
     private FirebaseUser usuario;

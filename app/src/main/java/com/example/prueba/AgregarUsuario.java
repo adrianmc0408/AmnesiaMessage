@@ -47,11 +47,6 @@ public class AgregarUsuario extends AppCompatActivity {
         setContentView(R.layout.activity_agregar_usuario);
 
 
-        Toolbar toolbar = findViewById(R.id.toolbar_agregarUsuario);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        getSupportActionBar().setTitle("Usuarios");
 
          usuarioList = new ArrayList<>();
         mAuth= FirebaseAuth.getInstance();

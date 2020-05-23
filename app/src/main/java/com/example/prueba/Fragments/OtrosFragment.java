@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.example.prueba.AgregarUsuario;
 import com.example.prueba.HomePrincipal;
 import com.example.prueba.Login;
+import com.example.prueba.MiPerfil;
 import com.example.prueba.R;
 import com.example.prueba.SelectorLoginRegistro;
 import com.example.prueba.SolicitudAmistad;
@@ -28,6 +29,7 @@ public class OtrosFragment extends Fragment {
 
     private RelativeLayout agregar_usuario;
     private RelativeLayout solicitud_amistad;
+    private RelativeLayout miperfil;
     private Button cerrar_sesion;
     private FirebaseAuth mAuth;
 
@@ -45,6 +47,7 @@ public class OtrosFragment extends Fragment {
         agregar_usuario = view.findViewById(R.id.opcion_agregar_usuario);
         solicitud_amistad = view.findViewById(R.id.opcion_solicitudes_amistad);
         cerrar_sesion=view.findViewById(R.id.cerrar_sesion);
+        miperfil=view.findViewById(R.id.opcion_mi_perfil);
         mAuth=FirebaseAuth.getInstance();
 
         agregar_usuario.setOnClickListener(new View.OnClickListener(){
@@ -73,6 +76,16 @@ public class OtrosFragment extends Fragment {
             mAuth.signOut();
             startActivity(new Intent(getContext(), SelectorLoginRegistro.class));
                 getActivity().finish();
+
+            }
+        });
+
+        miperfil.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+
+                startActivity(new Intent(getContext(), MiPerfil.class));
 
             }
         });

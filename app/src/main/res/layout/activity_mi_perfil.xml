@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MiPerfil">
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <include layout="@layout/toolbar"></include>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:padding="20dp"
+        android:background="@color/colorPrimary"
+
+
+        >
+
+
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+    android:background="@drawable/bg_image_circle"
+            android:id="@+id/miperfil_profile_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/profile"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:id="@+id/fullname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="username"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:textSize="20sp"
+           android:layout_below="@id/miperfil_profile_image"
+            android:layout_centerVertical="true"
+            android:includeFontPadding="false"
+            android:layout_marginLeft="10dp"
+            />
+
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        >
+       
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            app:cardBackgroundColor="@color/colorPrimary"
+            android:elevation="10dp"
+            android:layout_margin="10dp"
+            >
+            
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp"
+                >
+                
+                <ImageView
+                    android:id="@+id/ic_qr"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/icon_qr"
+                    android:layout_centerInParent="true"/>
+                
+
+
+                
+            </RelativeLayout>
+            
+            
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            app:cardBackgroundColor="@color/colorPrimary"
+            android:elevation="10dp"
+            android:layout_margin="10dp"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp"
+                >
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_search_white"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerInParent="true"/>
+
+
+
+            </RelativeLayout>
+
+
+        </com.google.android.material.card.MaterialCardView>
+        
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            android:layout_width="373dp"
+            android:layout_height="64dp"
+            android:layout_marginBottom="10dp"
+            android:hint="Fullname"
+            android:importantForAutofill="no"
+            app:boxBackgroundColor="#fff"
+
+            app:boxStrokeColor="@color/colorPrimary"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:drawableLeft="@drawable/ic_search_white"
+                android:drawablePadding="10dp"
+                android:text="username" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            android:layout_width="373dp"
+            android:layout_height="64dp"
+            android:layout_marginBottom="10dp"
+            android:hint="Fullname"
+            android:importantForAutofill="no"
+            app:boxBackgroundColor="#fff"
+
+            app:boxStrokeColor="@color/colorPrimary"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:drawableLeft="@drawable/ic_search_white"
+                android:drawablePadding="10dp"
+                android:text="username" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            android:layout_width="373dp"
+            android:layout_height="64dp"
+            android:layout_marginBottom="10dp"
+            android:hint="Fullname"
+            android:importantForAutofill="no"
+            app:boxBackgroundColor="#fff"
+
+            app:boxStrokeColor="@color/colorPrimary"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:drawableLeft="@drawable/ic_search_white"
+                android:drawablePadding="10dp"
+                android:text="username" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            android:layout_width="373dp"
+            android:layout_height="64dp"
+            android:layout_marginBottom="10dp"
+            android:hint="Fullname"
+            android:importantForAutofill="no"
+            app:boxBackgroundColor="#fff"
+
+            app:boxStrokeColor="@color/colorPrimary"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:drawableLeft="@drawable/ic_search_white"
+                android:drawablePadding="10dp"
+                android:text="username" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Modificar">
+
+        </Button>
+
+
+    </LinearLayout>
+
+
+    </LinearLayout>
+</ScrollView>

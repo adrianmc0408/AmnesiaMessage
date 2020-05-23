@@ -81,20 +81,19 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             holder.profile_image.setImageResource(R.mipmap.ic_launcher);
         }
 
-/*
+
         //Esto es para que solo ponga el visto o el enviado solo en el ultimo mensaje segun he visto
         if(position == listaChats.size()-1){
-            if(chat==visto){
+            if(chat.isLeido()==true){
                 holder.txt_visto.setText("Visto");
             }
-            else{
-                holder.txt_visto.setText("Enviado");
+            else {
+                holder.txt_visto.setVisibility(View.GONE);
             }
         }
         else {
             holder.txt_visto.setVisibility(View.GONE);
         }
-*/
 
 
 

@@ -219,7 +219,12 @@ public class UserChatDisplayAdapter extends RecyclerView.Adapter<UserChatDisplay
                 datos.add(hora_total);
                 datos.add(cont_leidos+"");
                 holder.username.setText(usuario.getNombre_usuario());
-                holder.message_counter.setText(datos.get(2));
+                if(cont_leidos!=0) {
+                    holder.message_counter.setText(datos.get(2));
+                }
+                else{
+                    holder.message_counter.setVisibility(View.INVISIBLE);
+                }
                 holder.last_message.setText(datos.get(0));
                 holder.last_message_time.setText(datos.get(1));
 

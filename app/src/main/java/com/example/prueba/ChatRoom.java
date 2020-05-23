@@ -54,6 +54,7 @@ public class ChatRoom extends AppCompatActivity {
     private FirebaseUser usuario;
     LinearLayoutManager linearLayoutManager;
     Usuario2 user;
+    ValueEventListener valueEventListener;
 
 
     @Override
@@ -111,19 +112,20 @@ public class ChatRoom extends AppCompatActivity {
 
     }
    public void  leerMensajes(){
-        referencia.addValueEventListener(new ValueEventListener() {
+
+        referencia.addValueEventListener(valueEventListener=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listaChats.clear();
                 for(DataSnapshot data:dataSnapshot.getChildren()){
                     Chat chat=data.getValue(Chat.class);
-                     if (((chat.getReceiver().equals(usuario.getUid()))&&(chat.getSender().equals(user.getId())))||((chat.getReceiver().equals(user.getId()))&&(chat.getSender().equals(usuario.getUid())))) {
-                         if((chat.getReceiver().equals(usuario.getUid()))&&(chat.isLeido()==false)){
-                             chat.setLeido(true);
-                             referencia.child(data.getKey()).setValue(chat);
-                         }
-                         listaChats.add(chat);
-                     }
+                    if (((chat.getReceiver().equals(usuario.getUid()))&&(chat.getSender().equals(user.getId())))||((chat.getReceiver().equals(user.getId()))&&(chat.getSender().equals(usuario.getUid())))) {
+                        if((chat.getReceiver().equals(usuario.getUid()))&&(chat.isLeido()==false)){
+                            chat.setLeido(true);
+                            referencia.child(data.getKey()).setValue(chat);
+                        }
+                        listaChats.add(chat);
+                    }
                 }
                 linearLayoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerView.setLayoutManager(linearLayoutManager);
@@ -138,10 +140,20 @@ public class ChatRoom extends AppCompatActivity {
 
             }
         });{
-       }
+        }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        referencia.removeEventListener(valueEventListener);
+        this.finish();
+    }
 
-
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        referencia.removeEventListener(valueEventListener);
+        this.finish();
+    }
 }

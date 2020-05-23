@@ -29,7 +29,7 @@
 
 
         <de.hdodenhof.circleimageview.CircleImageView
-    android:background="@drawable/bg_image_circle"
+           android:background="@drawable/bg_image_circle"
             android:id="@+id/miperfil_profile_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -39,7 +39,7 @@
         <TextView
             android:textStyle="bold"
             android:textColor="@android:color/white"
-            android:id="@+id/fullname"
+            android:id="@+id/miperfil_usuario"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="username"
@@ -59,7 +59,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp"
+        android:padding="5dp"
         >
        
         <com.google.android.material.card.MaterialCardView
@@ -78,7 +78,7 @@
                 >
                 
                 <ImageView
-                    android:id="@+id/ic_qr"
+                    android:id="@+id/miperfil_btn_qr"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/icon_qr"
@@ -108,9 +108,11 @@
                 >
 
                 <ImageView
+                    android:tag="1"
+                    android:id="@+id/miperfil_btn_ubi"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/ic_search_white"
+                    android:src="@drawable/ic_location_on"
                     android:layout_centerHorizontal="true"
                     android:layout_centerInParent="true"/>
 
@@ -135,7 +137,7 @@
             android:layout_width="373dp"
             android:layout_height="64dp"
             android:layout_marginBottom="10dp"
-            android:hint="Fullname"
+            android:hint="Nombre de Usuario"
             android:importantForAutofill="no"
             app:boxBackgroundColor="#fff"
 
@@ -145,8 +147,9 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
-                android:drawableLeft="@drawable/ic_search_white"
+                android:enabled="false"
+                android:id="@+id/miperfil_edit_nombreusuario"
+                android:drawableLeft="@drawable/ic_user"
                 android:drawablePadding="10dp"
                 android:text="username" />
 
@@ -156,7 +159,7 @@
             android:layout_width="373dp"
             android:layout_height="64dp"
             android:layout_marginBottom="10dp"
-            android:hint="Fullname"
+            android:hint="Teléfono"
             android:importantForAutofill="no"
             app:boxBackgroundColor="#fff"
 
@@ -166,10 +169,12 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
-                android:drawableLeft="@drawable/ic_search_white"
+                android:enabled="false"
+                android:id="@+id/miperfil_edit_telefono"
+                android:drawableLeft="@drawable/ic_phone"
                 android:drawablePadding="10dp"
-                android:text="username" />
+                android:inputType="phone"
+                android:text="numtelf" />
 
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
@@ -177,7 +182,7 @@
             android:layout_width="373dp"
             android:layout_height="64dp"
             android:layout_marginBottom="10dp"
-            android:hint="Fullname"
+            android:hint="Correo electrónico"
             android:importantForAutofill="no"
             app:boxBackgroundColor="#fff"
 
@@ -187,10 +192,13 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
-                android:drawableLeft="@drawable/ic_search_white"
+                android:id="@+id/miperfil_edit_correo"
+                android:enabled="false"
+                android:drawableLeft="@drawable/ic_email"
                 android:drawablePadding="10dp"
-                android:text="username" />
+                android:focusable="false"
+                android:clickable="false"
+                android:text="correo" />
 
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
@@ -198,7 +206,7 @@
             android:layout_width="373dp"
             android:layout_height="64dp"
             android:layout_marginBottom="10dp"
-            android:hint="Fullname"
+            android:hint="Contraseña"
             android:importantForAutofill="no"
             app:boxBackgroundColor="#fff"
 
@@ -208,19 +216,44 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
-                android:drawableLeft="@drawable/ic_search_white"
+                android:id="@+id/miperfil_edit_contraseña"
+                android:enabled="false"
+                android:drawableLeft="@drawable/ic_lock"
                 android:drawablePadding="10dp"
-                android:text="username" />
+                android:focusable="false"
+                android:inputType="textPassword"
+                android:clickable="false"
+                android:text="correo" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
+
 
         <Button
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Modificar">
+            android:text="Modificar mis datos"
+            android:id="@+id/miperfil_btn_modificar"
+            />
 
-        </Button>
+
+        <Button
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cambiar contraseña"
+            android:id="@+id/miperfil_btn_password"
+            />
+        <Button
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cerrar sesión"
+            android:id="@+id/miperfil_btn_cerrar_sesion"
+            android:backgroundTint="@color/colorRed"
+            />
+
 
 
     </LinearLayout>

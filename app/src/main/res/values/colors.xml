@@ -11,6 +11,8 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
     <color name="colorHuevo">#F7F7F7</color>
+    <color name="colorVerde">#0AD48B</color>
+
     <color name="colorDarkGrey">#303030</color>
     <color name="colorRed">#F44336</color>
     <color name="colorOnboardingIndicatorInactive">#72BCF7</color>

@@ -22,13 +22,15 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class AgregarUsuario extends AppCompatActivity {
+public class AgregarUsuario extends AppCompatActivity implements View.OnKeyListener {
 
     private RecyclerView recyclerView;
     private UserAdapterBusqueda userAdapterBusqueda;
@@ -39,13 +41,15 @@ public class AgregarUsuario extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private ArrayList<Usuario> usuarioList;
     private Usuario usuario_actual;
-
+    private String cadena;
+    private EditText busqueda;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_usuario);
-
+        busqueda=findViewById(R.id.search_input);
+        busqueda.setOnKeyListener(this);
 
 
          usuarioList = new ArrayList<>();
@@ -54,6 +58,7 @@ public class AgregarUsuario extends AppCompatActivity {
         reference=database.getReference("Usuarios");
         recyclerView = findViewById(R.id.recyclerview_agregar_usuarios);
         recyclerView.setHasFixedSize(true);
+        cadena="";
         leerUsuarios();
 
 
@@ -76,7 +81,14 @@ public class AgregarUsuario extends AppCompatActivity {
                     FirebaseUser user=mAuth.getCurrentUser();
                    if(usuario!=null ){
                        if(!usuario.getId().equals(user.getUid())) {
-                           usuarioList.add(usuario);
+                           if(!cadena.equals("")){
+                               if(usuario.getNombre_usuario().contains(cadena)){
+                                   usuarioList.add(usuario);
+                               }
+                           }
+                           else{
+                               usuarioList.add(usuario);
+                           }
                        }
                        else{
                            usuario_actual=usuario;
@@ -95,6 +107,14 @@ public class AgregarUsuario extends AppCompatActivity {
 
             }
         });
+    }
+
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        cadena=busqueda.getText().toString();
+        leerUsuarios();
+        return false;
     }
 
 }

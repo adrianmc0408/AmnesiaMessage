@@ -150,13 +150,13 @@ public class ChatsDisplayFragment extends Fragment {
                         }
 
                     }
+                    Collections.reverse(id_list);
                 }
                 referencia2.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         usuarioList.clear();
                         ArrayList<Usuario> usuarios=new ArrayList<>();
-                        Collections.reverse(id_list);
                         Usuario usuario=new Usuario();
                         for(DataSnapshot data:dataSnapshot.getChildren()){
                            usuarios.add(usuario=data.getValue(Usuario.class));

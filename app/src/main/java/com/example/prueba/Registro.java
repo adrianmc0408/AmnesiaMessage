@@ -16,9 +16,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -48,29 +52,61 @@ public class Registro extends AppCompatActivity implements Button.OnClickListene
 
     @Override
     public void onClick(View v) {
-        String mail=email.getText().toString();
-        String contra=contraseña.getText().toString();
-        String telef=telefono.getText().toString();
-        String nu=nombre_usuario.getText().toString();
+        final String mail=email.getText().toString();
+        final String contra=contraseña.getText().toString();
+        final String telef=telefono.getText().toString();
+        final String nu=nombre_usuario.getText().toString();
         boolean valido=validarCampos(mail,contra,nu,telef);
         if(valido) {
-            mAuth.createUserWithEmailAndPassword(mail, contra).addOnCompleteListener(Registro.this, new OnCompleteListener<AuthResult>() {
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (!task.isSuccessful()) {
-                        Toast.makeText(Registro.this, "Error al registrarse", Toast.LENGTH_SHORT).show();
-                    } else {
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    ArrayList<Usuario> usuarios=new ArrayList<>();
+                    for(DataSnapshot data:dataSnapshot.getChildren()){
+                        usuarios.add(data.getValue(Usuario.class));
+                    }
+                    Boolean valido=true;
+                    for(Usuario user:usuarios){
+                        if(nu.equals(user.getNombre_usuario())){
+                            nombre_usuario.setError("Ya presente en la base de datos");
+                            valido=false;
+                        }
+                        if(mail.equals(user.getEmail())){
+                            email.setError("Ya presente en la base de datos");
+                            valido=false;
+                        }
+                        if(telef.equals(user.getTelefono())){
+                            telefono.setError("Ya presente en la base de datos");
+                            valido=false;
+                        }
+                    }
+                    if(valido) {
+                        mAuth.createUserWithEmailAndPassword(mail, contra).addOnCompleteListener(Registro.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (!task.isSuccessful()) {
+                                    Toast.makeText(Registro.this, "Error al registrarse", Toast.LENGTH_SHORT).show();
+                                } else {
 
-                        FirebaseUser user=mAuth.getCurrentUser();
-                        Toast.makeText(Registro.this,"Registro completado",Toast.LENGTH_SHORT).show();
-                        Usuario usuario=new Usuario(user.getUid(),nombre_usuario.getText().toString(),email.getText().toString(),telefono.getText().toString(),"default");
-                        reference.push().setValue(usuario);
-                        Intent intent=new Intent(Registro.this,Login.class);
-                        startActivity(intent);
-                        finish();
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    Toast.makeText(Registro.this, "Registro completado", Toast.LENGTH_SHORT).show();
+                                    Usuario usuario = new Usuario(user.getUid(), nombre_usuario.getText().toString(), email.getText().toString(), telefono.getText().toString(), "default");
+                                    reference.push().setValue(usuario);
+                                    Intent intent = new Intent(Registro.this, Login.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            }
+                        });
                     }
                 }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
             });
+
         }
     }
     @Override

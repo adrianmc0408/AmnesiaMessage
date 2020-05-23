@@ -193,8 +193,23 @@ public class UserChatDisplayAdapter extends RecyclerView.Adapter<UserChatDisplay
                 }
                 String ultimo_mensaje="";
                 if(conversacion.get(conversacion.size()-1).getSender().equals(firabase_user.getUid())){
-                    String mensaje="Tú: "+conversacion.get(conversacion.size()-1).getMessage();
-                    conversacion.get(conversacion.size()-1).setMessage(mensaje);
+                    if(conversacion.get(conversacion.size()-1).getMessage().length()<=31) {
+                        String mensaje = "Tú: " + conversacion.get(conversacion.size() - 1).getMessage();
+                        conversacion.get(conversacion.size() - 1).setMessage(mensaje);
+                    }
+                    else{
+                        String mensaje =conversacion.get(conversacion.size() - 1).getMessage().substring(0,27);
+                        mensaje="Tú: "+mensaje+"...";
+                        conversacion.get(conversacion.size() - 1).setMessage(mensaje);
+                    }
+                }
+                else
+                {
+                    if(conversacion.get(conversacion.size()-1).getMessage().length()>=35) {
+                        String mensaje =conversacion.get(conversacion.size() - 1).getMessage().substring(0,31);
+                        mensaje=mensaje+"...";
+                        conversacion.get(conversacion.size() - 1).setMessage(mensaje);
+                    }
                 }
                 datos.add(conversacion.get(conversacion.size()-1).getMessage());
                 int hora=conversacion.get(conversacion.size()-1).getFecha().getHours();

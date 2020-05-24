@@ -39,6 +39,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 //implements Filterable
@@ -212,25 +213,33 @@ public class UserChatDisplayAdapter extends RecyclerView.Adapter<UserChatDisplay
                     }
                 }
                 datos.add(conversacion.get(conversacion.size()-1).getMessage());
-                int hora=conversacion.get(conversacion.size()-1).getFecha().getHours();
-                String hora_t;
-                if(hora<10){
-                   hora_t="0"+hora;
+                int dia=conversacion.get(conversacion.size()-1).getFecha().getDate();
+                int mes=conversacion.get(conversacion.size()-1).getFecha().getMonth();
+                String hora_total="";
+                Date fecha_hoy=new Date();
+                if((fecha_hoy.getDate()==dia)&&(fecha_hoy.getMonth()==mes)) {
+                    int hora = conversacion.get(conversacion.size() - 1).getFecha().getHours();
+                    String hora_t;
+                    if (hora < 10) {
+                        hora_t = "0" + hora;
+                    } else {
+                        hora_t = hora + "";
+                    }
+
+                    int minuto = conversacion.get(conversacion.size() - 1).getFecha().getMinutes();
+                    String minuto_t;
+                    if (minuto < 10) {
+                        minuto_t = "0" + minuto;
+                    } else {
+                        minuto_t = minuto + "";
+                    }
+
+                    hora_total = hora_t + ":" + minuto_t;
                 }
-                else{
-                   hora_t=hora+"";
+                else if((fecha_hoy.getDate()-1==dia)&&(fecha_hoy.getMonth()==mes)){
+                    hora_total="Ayer";
                 }
 
-                int minuto=conversacion.get(conversacion.size()-1).getFecha().getMinutes();
-                String minuto_t;
-                if(minuto<10){
-                    minuto_t="0"+minuto;
-                }
-                else{
-                    minuto_t=minuto+"";
-                }
-
-                String hora_total=hora_t+":"+minuto_t;
                 datos.add(hora_total);
                 datos.add(cont_leidos+"");
                 holder.username.setText(usuario.getNombre_usuario());

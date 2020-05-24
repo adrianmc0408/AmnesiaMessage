@@ -22,6 +22,7 @@ import com.example.prueba.Adaptadores.UserAdapter;
 import com.example.prueba.Adaptadores.UserChatDisplayAdapter;
 import com.example.prueba.ChatRoom;
 import com.example.prueba.Objetos.Chat;
+import com.example.prueba.Objetos.TareaBorrarMensaje;
 import com.example.prueba.Objetos.Usuario;
 import com.example.prueba.Objetos.Usuario2;
 import com.example.prueba.R;
@@ -35,6 +36,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -65,9 +68,9 @@ public class ChatsDisplayFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_chatdisplay, container, false);
 
-
-
-
+        Timer timer=new Timer();
+        TareaBorrarMensaje tarea=new TareaBorrarMensaje();
+        timer.scheduleAtFixedRate(tarea,0,300000);
         base=FirebaseDatabase.getInstance();
         referencia=base.getReference("Chats");
         referencia2=base.getReference("Usuarios");
@@ -100,61 +103,46 @@ public class ChatsDisplayFragment extends Fragment {
                 id_list.clear();
 
                 for(DataSnapshot data:dataSnapshot.getChildren()){
-                   Chat chat= data.getValue(Chat.class);
-                    if(id_list.size()!=0){
-                        Boolean existe_ya=false;
-                        String id;
-                        int posicion=0;
-                        if(chat.getReceiver().equals(user.getUid())){
-                            id=chat.getSender();
-                            for(int i=0;i<id_list.size();i++){
-                                if(id_list.get(i).equals(id)){
-                                    existe_ya=true;
-                                    posicion=i;
-                                }
-                            }
-                            if(existe_ya==false){
-                                id_list.add(id);
-                            }
-                            else{
-                                id_list.remove(posicion);
-                                id_list.add(id);
+                    Chat chat= data.getValue(Chat.class);
+                    Boolean existe_ya=false;
+                    String id;
+                    int posicion=0;
+                    if(chat.getReceiver().equals(user.getUid())){
+                        id=chat.getSender();
+                        for(int i=0;i<id_list.size();i++){
+                            if(id_list.get(i).equals(id)){
+                                existe_ya=true;
+                                posicion=i;
                             }
                         }
-                        else if(chat.getSender().equals(user.getUid())){
-                            id=chat.getReceiver();
-                            for(int i=0;i<id_list.size();i++){
-                                if(id_list.get(i).equals(id)){
-                                    existe_ya=true;
-                                    posicion=i;
-                                }
-                            }
-                            if(existe_ya==false){
-                                id_list.add(id);
-                            }else{
-                                id_list.remove(posicion);
-                                id_list.add(id);
-                            }
-                        }
-
-                    }
-                    else {
-                        String id;
-                        if(chat.getReceiver().equals(user.getUid())){
-                            id=chat.getSender();
+                        if(existe_ya==false){
                             id_list.add(id);
                         }
-                        else if(chat.getSender().equals(user.getUid())){
-                            id=chat.getReceiver();
+                        else{
+                            id_list.remove(posicion);
                             id_list.add(id);
                         }
-
                     }
-                    Collections.reverse(id_list);
+                    else if(chat.getSender().equals(user.getUid())){
+                        id=chat.getReceiver();
+                        for(int i=0;i<id_list.size();i++){
+                            if(id_list.get(i).equals(id)){
+                                existe_ya=true;
+                                posicion=i;
+                            }
+                        }
+                        if(existe_ya==false){
+                            id_list.add(id);
+                        }else{
+                            id_list.remove(posicion);
+                            id_list.add(id);
+                        }
+                    }
                 }
                 referencia2.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Collections.reverse(id_list);
                         usuarioList.clear();
                         ArrayList<Usuario> usuarios=new ArrayList<>();
                         Usuario usuario=new Usuario();

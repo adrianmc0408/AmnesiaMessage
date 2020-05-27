@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.prueba.AgregarUsuario;
+import com.example.prueba.AgregarUsuarioQR;
 import com.example.prueba.HomePrincipal;
 import com.example.prueba.Login;
 import com.example.prueba.MiPerfil;
@@ -28,6 +29,7 @@ public class OtrosFragment extends Fragment {
 
 
     private RelativeLayout agregar_usuario;
+    private RelativeLayout agregar_usuario_qr;
     private RelativeLayout solicitud_amistad;
     private RelativeLayout miperfil;
     private Button cerrar_sesion;
@@ -45,6 +47,7 @@ public class OtrosFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_otros, container, false);
 
         agregar_usuario = view.findViewById(R.id.opcion_agregar_usuario);
+        agregar_usuario_qr = view.findViewById(R.id.opcion_agregar_por_qr);
         solicitud_amistad = view.findViewById(R.id.opcion_solicitudes_amistad);
         cerrar_sesion=view.findViewById(R.id.cerrar_sesion);
         miperfil=view.findViewById(R.id.opcion_mi_perfil);
@@ -56,6 +59,15 @@ public class OtrosFragment extends Fragment {
 
 
                 startActivity(new Intent(getContext(), AgregarUsuario.class));
+
+            }
+        });
+        agregar_usuario_qr.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+
+                startActivity(new Intent(getContext(), AgregarUsuarioQR.class));
 
             }
         });

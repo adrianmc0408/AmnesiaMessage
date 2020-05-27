@@ -27,19 +27,6 @@
 
         <Button
 
-            android:id="@+id/dialog_usuario_btn_perfil"
-            android:layout_width="315dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@color/colorPrimary"
-            android:padding="10dp"
-
-            android:stateListAnimator="@null"
-            android:text="Perfil"
-            android:textAlignment="center"
-            android:textColor="@color/colorWhite" />
-        <Button
-
             android:id="@+id/dialog_usuario_btn_chat"
             android:layout_width="315dp"
             android:layout_height="wrap_content"
@@ -48,7 +35,7 @@
             android:padding="10dp"
 
             android:stateListAnimator="@null"
-            android:text="Chat"
+            android:text="Iniciar chat"
             android:textAlignment="center"
             android:textColor="@color/colorWhite" />
 

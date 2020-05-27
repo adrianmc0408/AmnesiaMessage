@@ -201,36 +201,13 @@
                 android:text="correo" />
 
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-            android:layout_width="373dp"
-            android:layout_height="64dp"
-            android:layout_marginBottom="10dp"
-            android:hint="Contraseña"
-            android:importantForAutofill="no"
-            app:boxBackgroundColor="#fff"
 
-            app:boxStrokeColor="@color/colorPrimary"
-            app:errorEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/miperfil_edit_contraseña"
-                android:enabled="false"
-                android:drawableLeft="@drawable/ic_lock"
-                android:drawablePadding="10dp"
-                android:focusable="false"
-                android:inputType="textPassword"
-                android:clickable="false"
-                android:text="correo" />
-
-        </com.google.android.material.textfield.TextInputLayout>
 
 
 
         <Button
-            android:layout_marginTop="20dp"
+
+            android:layout_marginTop="50dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Modificar mis datos"
@@ -245,14 +222,7 @@
             android:text="Cambiar contraseña"
             android:id="@+id/miperfil_btn_password"
             />
-        <Button
 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Cerrar sesión"
-            android:id="@+id/miperfil_btn_cerrar_sesion"
-            android:backgroundTint="@color/colorRed"
-            />
 
 
 

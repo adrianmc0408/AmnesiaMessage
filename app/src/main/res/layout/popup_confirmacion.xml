@@ -6,7 +6,7 @@
     android:layout_height="100dp"
     android:background="@drawable/bg_white"
     android:gravity="center_horizontal"
-    android:layout_marginTop="50dp"
+
     android:padding="10dp"
     android:orientation="vertical">
 
@@ -30,7 +30,7 @@
         android:id="@+id/dialog_conf_si"
         android:text="Si"
         android:layout_alignParentBottom="true"
-        android:layout_width="80dp"
+        android:layout_width="100dp"
         android:layout_height="50dp"
      android:layout_alignParentRight="true" />
     <Button
@@ -39,7 +39,7 @@
         android:stateListAnimator="@null"
         android:text="No"
 
-        android:layout_width="80dp"
+        android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_toLeftOf="@id/dialog_conf_si"
         android:layout_alignParentBottom="true"

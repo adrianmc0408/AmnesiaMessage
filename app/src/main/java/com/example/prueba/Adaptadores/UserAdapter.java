@@ -23,6 +23,7 @@ import com.example.prueba.ChatRoom;
 import com.example.prueba.Objetos.Usuario;
 import com.example.prueba.Objetos.Usuario2;
 import com.example.prueba.R;
+import com.example.prueba.SelectorLoginRegistro;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -63,23 +64,40 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 CircleImageView dialog_image_profile = (CircleImageView) myDialog.findViewById(R.id.dialog_usuario_foto_perfil);
                 dialog_user.setText(listaUsuarios.get(viewHolder.getAdapterPosition()).getNombre_usuario());
                 final int position = viewHolder.getAdapterPosition();
-                Button perfil = myDialog.findViewById(R.id.dialog_usuario_btn_perfil);
+
                 Button chat = myDialog.findViewById(R.id.dialog_usuario_btn_chat);
                 Button eliminar = myDialog.findViewById(R.id.dialog_usuario_btn_eliminar);
                 //dialog_image_profile.setImageResource(R.id.profile);
 
-                perfil.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(mContext, "boton perfil", Toast.LENGTH_SHORT).show();
-                    }
-                });
+
                 eliminar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                    referencia.child(listaUsuarios.get(position).getReferencia()).removeValue();
-                        removeAt(position);
-                        myDialog.cancel();
+                        final Dialog dialog_conf = new Dialog(mContext);
+                        dialog_conf.setContentView(R.layout.popup_confirmacion);
+
+                        TextView titulo = (TextView) dialog_conf.findViewById(R.id.dialog_conf_titulo);
+                        Button btn_si = (Button) dialog_conf.findViewById(R.id.dialog_conf_si);
+                        Button btn_no =(Button) dialog_conf.findViewById(R.id.dialog_conf_no);
+                        titulo.setText("¿Desea eliminar a este usuario de su lista de amigos?");
+                        btn_si.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                referencia.child(listaUsuarios.get(position).getReferencia()).removeValue();
+                                removeAt(position);
+                                myDialog.cancel();
+                                dialog_conf.cancel();
+                            }
+                        });
+                        btn_no.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog_conf.cancel();
+                            }
+                        });
+
+                        dialog_conf.show();
+
                     }
                 });
                 chat.setOnClickListener(new View.OnClickListener() {

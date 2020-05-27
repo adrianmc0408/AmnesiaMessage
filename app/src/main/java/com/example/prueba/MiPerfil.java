@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.Dialog;
-import android.graphics.Bitmap;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -27,8 +27,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import net.glxn.qrgen.android.QRCode;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MiPerfil extends AppCompatActivity {
@@ -44,8 +42,8 @@ public class MiPerfil extends AppCompatActivity {
 
     private Button btn_modificar;
     private String funcion_mod="mod";
-    private Button btn_contraseña;
-    private Button btn_cerrar_sesion;
+    private Button btn_contrasena;
+
 
     private TextView username_superior;
     private CircleImageView foto_perfil;
@@ -75,8 +73,8 @@ public class MiPerfil extends AppCompatActivity {
         btn_ubi=findViewById(R.id.miperfil_btn_ubi);
 
         btn_modificar=findViewById(R.id.miperfil_btn_modificar);
-        btn_contraseña=findViewById(R.id.miperfil_btn_password);
-        btn_cerrar_sesion=findViewById(R.id.miperfil_btn_cerrar_sesion);
+        btn_contrasena=findViewById(R.id.miperfil_btn_password);
+
 
         username_superior=findViewById(R.id.miperfil_usuario);
         foto_perfil=findViewById(R.id.miperfil_profile_image);
@@ -84,7 +82,7 @@ public class MiPerfil extends AppCompatActivity {
         username=findViewById(R.id.miperfil_edit_nombreusuario);
         telefono=findViewById(R.id.miperfil_edit_telefono);
         correo=findViewById(R.id.miperfil_edit_correo);
-        password=findViewById(R.id.miperfil_edit_contraseña);
+
 
 
 
@@ -112,14 +110,17 @@ public class MiPerfil extends AppCompatActivity {
 
 
             ImageView image= (ImageView) qr_dialog.findViewById(R.id.qr_image);
-            //image.setImageResource(R.drawable.qr_example);
-            Bitmap bitmap = QRCode.from(usuario2.getId()).withSize(400, 400).bitmap();
-            image.setImageBitmap(bitmap);
+            image.setImageResource(R.drawable.qr_example);
             qr_dialog.show();
         }
     });
 
-
+        btn_contrasena.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(v.getContext(),CambioContrasena.class));
+            }
+        });
         btn_ubi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,8 +142,8 @@ public class MiPerfil extends AppCompatActivity {
                     telefono_mod=telefono.getText().toString();
 
 
-                    btn_contraseña.setVisibility(View.INVISIBLE);
-                    btn_cerrar_sesion.setVisibility(View.INVISIBLE);
+                    btn_contrasena.setVisibility(View.INVISIBLE);
+
                     btn_modificar.setBackgroundColor(Color.rgb(10,210,149));
 
 
@@ -178,8 +179,8 @@ public class MiPerfil extends AppCompatActivity {
                     if(salida==true){
                         usuario2.setTelefono(telefono.getText().toString());
                         referencia.child(usuario2.getReferencia()).setValue(usuario2);
-                        btn_contraseña.setVisibility(View.VISIBLE);
-                        btn_cerrar_sesion.setVisibility(View.VISIBLE);
+                        btn_contrasena.setVisibility(View.VISIBLE);
+
                         btn_modificar.setBackgroundColor(Color.rgb(33,150,244));
 
                         btn_modificar.setText("MODIFICAR MIS DATOS");

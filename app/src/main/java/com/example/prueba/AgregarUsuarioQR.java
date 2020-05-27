@@ -75,17 +75,11 @@ public class AgregarUsuarioQR extends AppCompatActivity {
                 Button confirmar = (Button) dialog_confirm.findViewById(R.id.dialog_qr_btn_confirmar);
                 image.setImageResource(R.drawable.profile);
                 username.setText("usuario");
-
                 confirmar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                     }
                 });
-
-
-
-
                 dialog_confirm.show();
             }
         });
@@ -115,7 +109,7 @@ public class AgregarUsuarioQR extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for(DataSnapshot datos:dataSnapshot.getChildren()){
-                       Usuario usuario2=datos.getValue(Usuario.class);
+                        Usuario usuario2=datos.getValue(Usuario.class);
                         if(usuario2.getId().equals(resultado2)){
                             usuario=datos.getValue(Usuario.class);
                         }

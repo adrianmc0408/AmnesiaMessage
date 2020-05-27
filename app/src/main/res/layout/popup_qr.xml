@@ -7,20 +7,15 @@
     android:layout_height="350dp">
 
 
-
-
-
-
         <ImageView
 
-            android:src="@drawable/qr_example"
             android:id="@+id/qr_image"
-            android:layout_width="280dp"
-            android:layout_height="280dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
             android:padding="10dp"
-    android:layout_marginTop="10dp"
-            ></ImageView>
+            android:src="@drawable/qr_example"></ImageView>
 
 
 

@@ -38,6 +38,7 @@ dependencies {
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'com.github.kenglxn.QRGen:android:2.6.0'
 
 
 }

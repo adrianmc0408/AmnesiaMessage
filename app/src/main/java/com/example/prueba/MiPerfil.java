@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.app.Dialog;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -25,6 +26,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import net.glxn.qrgen.android.QRCode;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -109,7 +112,9 @@ public class MiPerfil extends AppCompatActivity {
 
 
             ImageView image= (ImageView) qr_dialog.findViewById(R.id.qr_image);
-            image.setImageResource(R.drawable.qr_example);
+            //image.setImageResource(R.drawable.qr_example);
+            Bitmap bitmap = QRCode.from(usuario2.getReferencia()).withSize(400, 400).bitmap();
+            image.setImageBitmap(bitmap);
             qr_dialog.show();
         }
     });

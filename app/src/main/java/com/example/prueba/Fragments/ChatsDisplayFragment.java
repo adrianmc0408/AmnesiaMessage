@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
@@ -46,6 +47,7 @@ import java.util.concurrent.TimeUnit;
 public class ChatsDisplayFragment extends Fragment {
 
     private RecyclerView recyclerView;
+    private TextView sinChats;
     private UserChatDisplayAdapter userChatDisplayAdapter;
     private ArrayList<Usuario2> usuarioList;
     private ArrayList<String> id_list;
@@ -71,6 +73,7 @@ public class ChatsDisplayFragment extends Fragment {
         Timer timer=new Timer();
         TareaBorrarMensaje tarea=new TareaBorrarMensaje();
         timer.scheduleAtFixedRate(tarea,0,300000);
+        sinChats = view.findViewById(R.id.chat_display_sinchats);
         base=FirebaseDatabase.getInstance();
         referencia=base.getReference("Chats");
         referencia2=base.getReference("Usuarios");
@@ -101,7 +104,7 @@ public class ChatsDisplayFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 id_list.clear();
-
+                sinChats.setVisibility(View.VISIBLE);
                 for(DataSnapshot data:dataSnapshot.getChildren()){
                     Chat chat= data.getValue(Chat.class);
                     Boolean existe_ya=false;

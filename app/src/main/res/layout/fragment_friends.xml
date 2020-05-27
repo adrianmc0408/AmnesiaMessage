@@ -11,7 +11,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/chat_display_sinamigos"
+        android:id="@+id/friends_display_sinamigos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"

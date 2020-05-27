@@ -113,7 +113,7 @@ public class MiPerfil extends AppCompatActivity {
 
             ImageView image= (ImageView) qr_dialog.findViewById(R.id.qr_image);
             //image.setImageResource(R.drawable.qr_example);
-            Bitmap bitmap = QRCode.from(usuario2.getReferencia()).withSize(400, 400).bitmap();
+            Bitmap bitmap = QRCode.from(usuario2.getId()).withSize(400, 400).bitmap();
             image.setImageBitmap(bitmap);
             qr_dialog.show();
         }

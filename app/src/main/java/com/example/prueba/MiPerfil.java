@@ -1,17 +1,22 @@
 package com.example.prueba;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.TextClock;
 import android.widget.TextView;
@@ -26,6 +31,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -48,6 +54,7 @@ public class MiPerfil extends AppCompatActivity {
     private TextView username_superior;
     private CircleImageView foto_perfil;
 
+    private static final int GaleriaPick = 1;
     private EditText username;
     private EditText telefono;
     private EditText correo;
@@ -75,16 +82,12 @@ public class MiPerfil extends AppCompatActivity {
         btn_modificar=findViewById(R.id.miperfil_btn_modificar);
         btn_contrasena=findViewById(R.id.miperfil_btn_password);
 
-
         username_superior=findViewById(R.id.miperfil_usuario);
         foto_perfil=findViewById(R.id.miperfil_profile_image);
 
         username=findViewById(R.id.miperfil_edit_nombreusuario);
         telefono=findViewById(R.id.miperfil_edit_telefono);
         correo=findViewById(R.id.miperfil_edit_correo);
-
-
-
 
         tituloActivity=findViewById(R.id.titulo_activity);
         tituloActivity.setText("Mi Perfil");
@@ -220,4 +223,8 @@ public class MiPerfil extends AppCompatActivity {
             }
         });
     }
+
+
+
+
 }

@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,8 @@ public class AgregarUsuario extends AppCompatActivity implements View.OnKeyListe
     private Usuario usuario_actual;
     private String cadena;
     private EditText busqueda;
+    private TextView tituloActivity;
+    private ImageView closeActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,17 @@ public class AgregarUsuario extends AppCompatActivity implements View.OnKeyListe
         setContentView(R.layout.activity_agregar_usuario);
         busqueda=findViewById(R.id.search_input);
         busqueda.setOnKeyListener(this);
+
+        tituloActivity=findViewById(R.id.titulo_activity);
+        tituloActivity.setText("Agregar usuario");
+
+        closeActivity=findViewById(R.id.close_activity);
+        closeActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
 
          usuarioList = new ArrayList<>();

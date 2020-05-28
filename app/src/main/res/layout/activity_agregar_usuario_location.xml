@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AgregarUsuario">
+
+    <include layout="@layout/toolbar"
+        tools:ignore="InvalidId" />
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginBottom="90dp"
+        android:visibility="invisible"
+        android:id="@+id/recyclerview_agregar_usuarios_por_localizacion"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="45dp"/>
+
+    <TextView
+        android:id="@+id/info_location"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textAlignment="center"
+        android:text="Selecciona a qué distancia máxima quieres buscar usuarios (km)" />
+    <com.xw.repo.BubbleSeekBar
+        android:layout_centerHorizontal="true"
+        app:bsb_auto_adjust_section_mark="true"
+        android:id="@+id/seekbar"
+        android:layout_width="363dp"
+        android:layout_height="wrap_content"
+        app:bsb_second_track_color="@color/colorPrimary"
+        app:bsb_track_color="@color/colorDarkGrey"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="18dp"
+        app:bsb_max="50"
+        app:bsb_section_count="5"
+        app:bsb_always_show_bubble="true"
+        app:bsb_min="0"
+        app:bsb_section_text_position="below_section_mark"
+        app:bsb_touch_to_seek="true" />
+
+
+
+
+
+
+</RelativeLayout>

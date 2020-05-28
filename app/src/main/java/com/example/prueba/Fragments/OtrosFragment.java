@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.example.prueba.AgregarUsuario;
+import com.example.prueba.AgregarUsuarioLocation;
 import com.example.prueba.AgregarUsuarioQR;
 import com.example.prueba.HomePrincipal;
 import com.example.prueba.Login;
@@ -34,6 +35,7 @@ public class OtrosFragment extends Fragment {
 
     private RelativeLayout agregar_usuario;
     private RelativeLayout agregar_usuario_qr;
+    private RelativeLayout agregar_usuario_location;
     private RelativeLayout solicitud_amistad;
     private RelativeLayout miperfil;
     private Button cerrar_sesion;
@@ -54,6 +56,7 @@ public class OtrosFragment extends Fragment {
 
         agregar_usuario = view.findViewById(R.id.opcion_agregar_usuario);
         agregar_usuario_qr = view.findViewById(R.id.opcion_agregar_por_qr);
+        agregar_usuario_location = view.findViewById(R.id.opcion_agregar_por_localizacion);
         solicitud_amistad = view.findViewById(R.id.opcion_solicitudes_amistad);
         cerrar_sesion=view.findViewById(R.id.cerrar_sesion);
         miperfil=view.findViewById(R.id.opcion_mi_perfil);
@@ -77,6 +80,16 @@ public class OtrosFragment extends Fragment {
 
             }
         });
+        agregar_usuario_location.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+
+                startActivity(new Intent(getContext(), AgregarUsuarioLocation.class));
+
+            }
+        });
+
 
         solicitud_amistad.setOnClickListener(new View.OnClickListener(){
             @Override

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prueba.Objetos.Solicitud;
 import com.example.prueba.Objetos.Usuario;
+import com.example.prueba.Objetos.Usuario3;
 import com.example.prueba.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -28,12 +29,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserAdapterBusquedaLocation extends RecyclerView.Adapter<UserAdapterBusquedaLocation.ViewHolder> {
 
-    private ArrayList<Usuario> listaUsuarios;
+    private ArrayList<Usuario3> listaUsuarios;
     private Context mContext;
 
 
 
-    public UserAdapterBusquedaLocation(ArrayList<Usuario> usuarios, Context mContext) {
+    public UserAdapterBusquedaLocation(ArrayList<Usuario3> usuarios, Context mContext) {
 
 
         this.mContext= mContext;
@@ -54,7 +55,7 @@ public class UserAdapterBusquedaLocation extends RecyclerView.Adapter<UserAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-            Usuario user = listaUsuarios.get(position);
+            Usuario3 user = listaUsuarios.get(position);
 
 
             holder.username.setText(user.getNombre_usuario());

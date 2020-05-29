@@ -4,12 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +30,7 @@ import android.widget.Toast;
 
 import com.example.prueba.Objetos.Usuario;
 import com.example.prueba.Objetos.Usuario2;
+import com.example.prueba.Objetos.Usuario3;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +39,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+
+import net.glxn.qrgen.android.QRCode;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -65,7 +74,9 @@ public class MiPerfil extends AppCompatActivity {
     private DatabaseReference referencia;
     private FirebaseAuth auth;
     private FirebaseUser user;
-    private Usuario2 usuario2;
+    private Usuario3 usuario3;
+    private Location location;
+    private String ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +124,8 @@ public class MiPerfil extends AppCompatActivity {
 
 
             ImageView image= (ImageView) qr_dialog.findViewById(R.id.qr_image);
-            image.setImageResource(R.drawable.qr_example);
+            Bitmap bitmap = QRCode.from(usuario3.getId()).withSize(400, 400).bitmap();
+            image.setImageBitmap(bitmap);
             qr_dialog.show();
         }
     });
@@ -128,12 +140,15 @@ public class MiPerfil extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(btn_ubi.getTag().equals("1")){
-                    btn_ubi.setTag("2");
-                    btn_ubi.setImageResource(R.drawable.ic_location_off);
+                    usuario3.setLocalizable(false);
+                    referencia.child(ref).setValue(usuario3);
                 }
                 else{
-                    btn_ubi.setTag("1");
-                    btn_ubi.setImageResource(R.drawable.ic_location_on);
+                    localizar();
+                    usuario3.setLocalizable(true);
+                    usuario3.setLatitud(location.getLatitude());
+                    usuario3.setLongitud(location.getLongitude());
+                    referencia.child(ref).setValue(usuario3);
                 }
             }
         });
@@ -180,8 +195,8 @@ public class MiPerfil extends AppCompatActivity {
                       }
                     }
                     if(salida==true){
-                        usuario2.setTelefono(telefono.getText().toString());
-                        referencia.child(usuario2.getReferencia()).setValue(usuario2);
+                        usuario3.setTelefono(telefono.getText().toString());
+                        referencia.child(ref).setValue(usuario3);
                         btn_contrasena.setVisibility(View.VISIBLE);
 
                         btn_modificar.setBackgroundColor(Color.rgb(33,150,244));
@@ -206,15 +221,25 @@ public class MiPerfil extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    Usuario usuario = data.getValue(Usuario.class);
-                    if (usuario.getId().equals(user.getUid())) {
-                        usuario2 = new Usuario2(data.getKey(), usuario.getId(), usuario.getNombre_usuario(), usuario.getEmail(), usuario.getTelefono(), usuario.getUrl_imagen());
+                    Usuario3 usuarioo = data.getValue(Usuario3.class);
+                    if (usuarioo.getId().equals(user.getUid())) {
+                        usuario3=usuarioo;
+                        ref=data.getKey();
+                        if(usuario3.isLocalizable()!=true){
+                            btn_ubi.setTag("2");
+                            btn_ubi.setImageResource(R.drawable.ic_location_off);
+                        }
+                        else{
+                            btn_ubi.setTag("1");
+                            btn_ubi.setImageResource(R.drawable.ic_location_on);
+                        }
+                        username_superior.setText(usuario3.getNombre_usuario());
+                        username.setText(usuario3.getNombre_usuario());
+                        correo.setText(usuario3.getEmail());
+                        telefono.setText(usuario3.getTelefono());
                     }
                 }
-                username_superior.setText(usuario2.getNombre_usuario());
-                username.setText(usuario2.getNombre_usuario());
-                telefono.setText(usuario2.getTelefono());
-                correo.setText(usuario2.getEmail());
+
 
             }
             @Override
@@ -223,7 +248,42 @@ public class MiPerfil extends AppCompatActivity {
             }
         });
     }
+    public void localizar() {
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION
+            }, 1000);
+        } else {
+          LocationManager  ubicacion_usuario = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            location = ubicacion_usuario.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        }
+
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 1000: {
+                if (grantResults.length > 0) {
+
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                    }
+                    else {
+                        LocationManager ubicacion_usuario = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                        location = ubicacion_usuario.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+                    }
+                }
+                else{
+
+                }
+            }
+
+        }
+    }
 
 
 

@@ -87,7 +87,7 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
 
             @Override
             public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
-
+                if(location!=null){
                 String progresssToString = String.valueOf(progress);
                 int value = Integer.parseInt(progresssToString);
                 if (value == 0) {
@@ -182,6 +182,10 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
 
 
             }
+            else{
+                Toast.makeText(getApplicationContext(),"Ubicación no disponible",Toast.LENGTH_SHORT).show();
+            }
+        }
         });
         base = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -216,10 +220,15 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
                     if (usuarioo.getId().equals(user.getUid())) {
 
                         usuario = usuarioo;
-                        usuario.setLongitud(location.getLongitude());
-                        usuario.setLatitud(location.getLatitude());
-                        usuarioo.setLocalizable(true);
-                        referencia.child(datos.getKey()).setValue(usuario);
+                        if(location!=null) {
+                            usuario.setLongitud(location.getLongitude());
+                            usuario.setLatitud(location.getLatitude());
+                            usuarioo.setLocalizable(true);
+                            referencia.child(datos.getKey()).setValue(usuario);
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(),"Ubicación no disponible",Toast.LENGTH_SHORT).show();
+                        }
 
 
                     } else if (usuarioo.isLocalizable()) {

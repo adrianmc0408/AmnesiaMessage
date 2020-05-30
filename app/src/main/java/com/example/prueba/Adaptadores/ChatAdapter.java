@@ -52,14 +52,14 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     @NonNull
     @Override
     public ChatAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-     if(viewType == MSG_TYPE_RIGHT){
-         View view = LayoutInflater.from(mContext).inflate(R.layout.chat_item_right,parent,false);
-         return new ChatAdapter.ViewHolder(view);
-     }
-     else{
-         View view = LayoutInflater.from(mContext).inflate(R.layout.chat_item_left,parent,false);
-         return new ChatAdapter.ViewHolder(view);
-     }
+        if(viewType == MSG_TYPE_RIGHT){
+            View view = LayoutInflater.from(mContext).inflate(R.layout.chat_item_right,parent,false);
+            return new ChatAdapter.ViewHolder(view);
+        }
+        else{
+            View view = LayoutInflater.from(mContext).inflate(R.layout.chat_item_left,parent,false);
+            return new ChatAdapter.ViewHolder(view);
+        }
 
 
 
@@ -82,7 +82,7 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         }
 
 
-        //Esto es para que solo ponga el visto o el enviado solo en el ultimo mensaje segun he visto
+
         if(position == listaChats.size()-1){
             if(chat.isLeido()==true){
                 holder.txt_visto.setText("Visto");
@@ -125,11 +125,11 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     @Override
     public int getItemViewType(int position) {
 
-      if (listaChats.get(position).getSender().equals(fuser.getUid())){
-          return MSG_TYPE_RIGHT;
-      }
-      else{
-          return MSG_TYPE_LEFT;
+        if (listaChats.get(position).getSender().equals(fuser.getUid())){
+            return MSG_TYPE_RIGHT;
+        }
+        else{
+            return MSG_TYPE_LEFT;
         }
     }
 }

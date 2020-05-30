@@ -7,20 +7,26 @@ public class Chat {
     private String sender;
     private String receiver;
     private String message;
+    private String type;
     private Date fecha;
     private boolean leido;
 
-    public Chat(String sender, String receiver, String message, Date fecha) {
+    public Chat(String sender, String receiver, String message, Date fecha,String type) {
         this.leido=false;
         this.sender = sender;
         this.receiver = receiver;
         this.message = message;
         this.fecha = fecha;
+        this.type = type;
     }
 
     public Chat() {
 
     }
+
+    public String getType() { return type; }
+
+    public void setType(String type) { this.type = type; }
 
     public String getSender() {
         return sender;

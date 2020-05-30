@@ -3,8 +3,23 @@
     android:layout_width="match_parent"
     android:padding="8dp"
     android:layout_height="wrap_content">
+<RelativeLayout
 
+    android:layout_alignParentEnd="true"
+    android:layout_width="300dp"
+    android:layout_alignParentRight="true"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt_seen"
+        android:text="visto"
+        android:layout_below="@id/mensaje_global"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
     <RelativeLayout
+        android:id="@+id/mensaje_global"
         android:layout_alignParentEnd="true"
         android:layout_width="300dp"
         android:layout_alignParentRight="true"
@@ -15,7 +30,15 @@
             android:layout_height="wrap_content"
             android:id="@+id/msg_profile_image"
             android:visibility="gone"/>
-
+        <ImageView
+            android:id="@+id/show_image"
+            android:visibility="gone"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/bg_message_right"
+            android:padding="80dp"
+            android:src="@drawable/ic_cargador" />
         <TextView
             android:id="@+id/show_message"
             android:layout_width="wrap_content"
@@ -26,15 +49,13 @@
             android:textColor="@color/colorWhite"
             android:padding="8dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/txt_seen"
-            android:text="visto"
-            android:layout_below="@id/show_message"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"/>
+        <!-- Recordar cmmabiar padding al recibir foto 8dp-->
+
+
 
     </RelativeLayout>
 
+
+
+</RelativeLayout>
 </RelativeLayout>

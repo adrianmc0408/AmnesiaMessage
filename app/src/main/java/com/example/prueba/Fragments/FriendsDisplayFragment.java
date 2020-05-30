@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -109,6 +110,9 @@ public class FriendsDisplayFragment extends Fragment {
                             layoutManager = new LinearLayoutManager(getContext());
                             recyclerView.setLayoutManager(layoutManager);
                             userAdapter = new UserAdapter(getContext(), usuarioList);
+                            DividerItemDecoration divider = new DividerItemDecoration(recyclerView.getContext(),DividerItemDecoration.VERTICAL);
+                            divider.setDrawable(recyclerView.getContext().getResources().getDrawable(R.drawable.reycler_divider));
+                            recyclerView.addItemDecoration(divider);
                             recyclerView.setAdapter(userAdapter);
                         }
 

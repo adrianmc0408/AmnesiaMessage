@@ -31,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
+import java.net.Inet4Address;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -49,7 +50,7 @@ public class ChatRoom extends AppCompatActivity {
     private ArrayList<Chat> listaChats;
     private RecyclerView recyclerView;
     private FirebaseDatabase base;
-
+    private ImageButton btn_adjuntar;
 
     private DatabaseReference referencia;
     private FirebaseAuth auth;
@@ -89,6 +90,7 @@ public class ChatRoom extends AppCompatActivity {
 
         user =(Usuario2) getIntent().getExtras().getSerializable("usuario");
 
+        btn_adjuntar = findViewById(R.id.ic_adjuntar);
         image_profile = findViewById(R.id.image_profile_chatroom);
         username = findViewById(R.id.username_chatroom);
         sendButton = findViewById(R.id.btn_send_chatroom);
@@ -101,13 +103,20 @@ public class ChatRoom extends AppCompatActivity {
                 String msg = message_field.getText().toString();
                 Date fecha=new Date();
                 if (!msg.equals("")){
-                    Chat mensaje=new Chat(usuario.getUid(),user.getId(),msg,fecha);
+                    Chat mensaje=new Chat(usuario.getUid(),user.getId(),msg,fecha,"txt");
                     referencia.push().setValue(mensaje);
                 }
                 message_field.setText("");
             }
         });
         leerMensajes();
+
+        btn_adjuntar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
 
 

@@ -52,8 +52,17 @@
         android:padding="5dp"
         android:background="@color/colorWhite"
         android:layout_alignParentBottom="true">
-        
+        <ImageButton
+
+            android:id="@+id/ic_adjuntar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@null"
+            android:src="@drawable/ic_adjuntar"
+
+            />
         <EditText
+            android:layout_toRightOf="@id/ic_adjuntar"
             android:inputType="textCapSentences"
             android:id="@+id/message_field_chatroom"
             android:background="@android:color/transparent"

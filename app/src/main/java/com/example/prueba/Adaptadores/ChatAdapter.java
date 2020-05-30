@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     private ArrayList<Chat> listaChats;
     private String imageurl;
     private String txt_visto;
+    private String txt_hora;
 
     private FirebaseUser fuser;
     private FirebaseAuth auth;
@@ -72,7 +74,7 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ChatAdapter.ViewHolder holder, int position) {
         Chat chat = listaChats.get(position);
         holder.show_message.setText(chat.getMessage());
-
+        holder.txt_hora.setText("00:00");
         if(imageurl.equals("default")){
             holder.profile_image.setImageResource(R.mipmap.ic_launcher);
 
@@ -86,6 +88,13 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         if(position == listaChats.size()-1){
             if(chat.isLeido()==true){
                 holder.txt_visto.setText("Visto");
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)holder.txt_hora.getLayoutParams();
+                params.addRule(RelativeLayout.ALIGN_PARENT_END,0);
+                params.addRule(RelativeLayout.LEFT_OF, R.id.txt_seen);
+
+
+                holder.txt_hora.setLayoutParams(params);
+                holder.txt_hora.setText(holder.txt_hora.getText()+" - ");
             }
             else {
                 holder.txt_visto.setVisibility(View.GONE);
@@ -109,6 +118,7 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         TextView show_message;
         ImageView profile_image;
         TextView txt_visto;
+        TextView txt_hora;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -116,7 +126,7 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             show_message = itemView.findViewById(R.id.show_message);
             profile_image = itemView.findViewById(R.id.msg_profile_image);
             txt_visto = itemView.findViewById(R.id.txt_seen);
-
+            txt_hora = itemView.findViewById(R.id.txt_hour);
 
         }
 

@@ -43,8 +43,18 @@
         android:layout_height="wrap_content"
         android:id="@+id/txt_seen"
         android:text="visto"
-        android:layout_below="@id/show_image"
+        android:layout_below="@id/show_message"
         android:visibility="gone"
         />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt_hour"
+        android:text="12:09"
+        android:layout_marginRight="5dp"
+        android:layout_below="@id/show_message"
+        android:layout_marginLeft="50dp"
+        android:layout_toRightOf="@+id/txt_seen"/>
 
 </RelativeLayout>

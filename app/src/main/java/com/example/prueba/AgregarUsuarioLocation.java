@@ -274,5 +274,3 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
         this.finish();
     }
 }
-
-

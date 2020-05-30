@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -20,6 +21,8 @@ import com.example.prueba.Objetos.Solicitud;
 import com.example.prueba.Objetos.Usuario;
 import com.example.prueba.Objetos.Usuario3;
 import com.example.prueba.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -31,12 +34,15 @@ public class UserAdapterBusquedaLocation extends RecyclerView.Adapter<UserAdapte
 
     private ArrayList<Usuario3> listaUsuarios;
     private Context mContext;
+    private Dialog myDialog;
+    private FirebaseDatabase base;
+    private DatabaseReference referencia;
+    private Usuario3 usuario;
 
 
+    public UserAdapterBusquedaLocation( ArrayList<Usuario3> usuarios,Context mContext,Usuario3 usuario) {
 
-    public UserAdapterBusquedaLocation(ArrayList<Usuario3> usuarios, Context mContext) {
-
-
+        this.usuario=usuario;
         this.mContext= mContext;
         this.listaUsuarios = usuarios;
     }
@@ -45,22 +51,69 @@ public class UserAdapterBusquedaLocation extends RecyclerView.Adapter<UserAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_agregar_usuario, parent, false);
+        final ViewHolder viewHolder = new ViewHolder(view);
 
-        ViewHolder viewHolder1 = new ViewHolder(view);
+        base=FirebaseDatabase.getInstance();
+        referencia=base.getReference("Solicitudes");
+
+        myDialog = new Dialog(mContext);
+        myDialog.setContentView(R.layout.popup_mandar_solicitud);
+        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        viewHolder.item_contact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                TextView dialog_user= (TextView) myDialog.findViewById(R.id.dialog_user);
+                CircleImageView dialog_image_profile = (CircleImageView) myDialog.findViewById(R.id.dialog_img_profile);
+                dialog_user.setText(listaUsuarios.get(viewHolder.getAdapterPosition()).getNombre_usuario());
+                Button enviarSolicitud = myDialog.findViewById(R.id.dialog_btn_enviarSolicitud);
+                Button cancelar = myDialog.findViewById(R.id.dialog_btn_cancelar);
+                //dialog_image_profile.setImageResource(R.id.profile);
+
+                enviarSolicitud.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String id_destino=listaUsuarios.get(viewHolder.getAdapterPosition()).getId();
+                        String id=usuario.getId();
+                        String nombre_usuario=usuario.getNombre_usuario();
+                        String email=usuario.getEmail();
+                        String telefono=usuario.getTelefono();
+                        String url_imagen=usuario.getUrl_imagen();
+                        Solicitud solicitud=new Solicitud( id_destino,id,nombre_usuario,email, telefono, url_imagen);
+                        referencia.push().setValue(solicitud);
+
+                        Toast.makeText(mContext, "Solicitud enviada", Toast.LENGTH_SHORT).show();
+                        myDialog.cancel();
+                    }
+                });
+                cancelar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        myDialog.cancel();
+                    }
+                });
+
+                myDialog.show();
+
+                //EVENTO DE ENVIAR SOLICITUD AQUI
 
 
-        return viewHolder1;
+
+            }
+        });
+        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-            Usuario3 user = listaUsuarios.get(position);
+        Usuario3 user = listaUsuarios.get(position);
 
 
-            holder.username.setText(user.getNombre_usuario());
-            //Aqui no se que coño poner asique pongo cualquier imagen
-            holder.profile_image.setImageResource(R.mipmap.ic_launcher);
+        holder.username.setText(user.getNombre_usuario());
+        //Aqui no se que coño poner asique pongo cualquier imagen
+        holder.profile_image.setImageResource(R.mipmap.ic_launcher);
 
 
 
@@ -91,5 +144,4 @@ public class UserAdapterBusquedaLocation extends RecyclerView.Adapter<UserAdapte
 
     }
 }
-
 

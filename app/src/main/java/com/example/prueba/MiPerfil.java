@@ -133,7 +133,9 @@ public class MiPerfil extends AppCompatActivity {
         btn_contrasena.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(v.getContext(),CambioContrasena.class));
+                Intent intent=new Intent(v.getContext(),CambioContrasena.class);
+                intent.putExtra("email",usuario3.getEmail());
+                startActivity(intent);
             }
         });
         btn_ubi.setOnClickListener(new View.OnClickListener() {

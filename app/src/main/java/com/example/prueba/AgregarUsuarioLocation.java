@@ -25,6 +25,9 @@ import com.example.prueba.Adaptadores.UserAdapterBusqueda;
 import com.example.prueba.Adaptadores.UserAdapterBusquedaLocation;
 import com.example.prueba.Objetos.Usuario;
 import com.example.prueba.Objetos.Usuario3;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -56,6 +59,7 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
     private FirebaseUser user;
     private DatabaseReference referencia;
     private Location location;
+    private FusedLocationProviderClient cliente_loc;
     ValueEventListener listener;
 
     @Override
@@ -108,7 +112,7 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
                     info_location.setVisibility(View.INVISIBLE);
                     layoutManager = new LinearLayoutManager(getApplicationContext());
                     recyclerView.setLayoutManager(layoutManager);
-                    userAdapterBusquedaLocation = new UserAdapterBusquedaLocation(lista, AgregarUsuarioLocation.this);
+                    userAdapterBusquedaLocation = new UserAdapterBusquedaLocation(lista, AgregarUsuarioLocation.this,usuario);
                     recyclerView.setAdapter(userAdapterBusquedaLocation);
                 } else if (value == 20) {
                     ArrayList<Usuario3> lista = new ArrayList<>();
@@ -125,7 +129,7 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
                     info_location.setVisibility(View.INVISIBLE);
                     layoutManager = new LinearLayoutManager(getApplicationContext());
                     recyclerView.setLayoutManager(layoutManager);
-                    userAdapterBusquedaLocation = new UserAdapterBusquedaLocation(lista, AgregarUsuarioLocation.this);
+                    userAdapterBusquedaLocation = new UserAdapterBusquedaLocation(lista, AgregarUsuarioLocation.this,usuario);
                     recyclerView.setAdapter(userAdapterBusquedaLocation);
                 } else if (value == 30) {
                     ArrayList<Usuario3> lista = new ArrayList<>();
@@ -142,7 +146,7 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
                     info_location.setVisibility(View.INVISIBLE);
                     layoutManager = new LinearLayoutManager(getApplicationContext());
                     recyclerView.setLayoutManager(layoutManager);
-                    userAdapterBusquedaLocation = new UserAdapterBusquedaLocation(lista, AgregarUsuarioLocation.this);
+                    userAdapterBusquedaLocation = new UserAdapterBusquedaLocation(lista, AgregarUsuarioLocation.this,usuario);
                     recyclerView.setAdapter(userAdapterBusquedaLocation);
                 } else if (value == 40) {
                     ArrayList<Usuario3> lista = new ArrayList<>();
@@ -159,7 +163,7 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
                     info_location.setVisibility(View.INVISIBLE);
                     layoutManager = new LinearLayoutManager(getApplicationContext());
                     recyclerView.setLayoutManager(layoutManager);
-                    userAdapterBusquedaLocation = new UserAdapterBusquedaLocation(lista, AgregarUsuarioLocation.this);
+                    userAdapterBusquedaLocation = new UserAdapterBusquedaLocation(lista, AgregarUsuarioLocation.this,usuario);
                     recyclerView.setAdapter(userAdapterBusquedaLocation);
                 } else if (value == 50) {
                     ArrayList<Usuario3> lista = new ArrayList<>();
@@ -176,7 +180,7 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
                     info_location.setVisibility(View.INVISIBLE);
                     layoutManager = new LinearLayoutManager(getApplicationContext());
                     recyclerView.setLayoutManager(layoutManager);
-                    userAdapterBusquedaLocation = new UserAdapterBusquedaLocation(lista, AgregarUsuarioLocation.this);
+                    userAdapterBusquedaLocation = new UserAdapterBusquedaLocation(lista, AgregarUsuarioLocation.this,usuario);
                     recyclerView.setAdapter(userAdapterBusquedaLocation);
                 }
 
@@ -202,8 +206,15 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
                     Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION
             }, 1000);
         } else {
-            ubicacion_usuario = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            location = ubicacion_usuario.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+           cliente_loc= LocationServices.getFusedLocationProviderClient(this);
+           cliente_loc.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location localizacion) {
+                            location=localizacion;
+                        }
+                    });
+
             buscarUsuarios();
         }
 
@@ -255,8 +266,14 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
                     if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
                     } else {
-                        ubicacion_usuario = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                        location = ubicacion_usuario.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                        cliente_loc= LocationServices.getFusedLocationProviderClient(this);
+                        cliente_loc.getLastLocation()
+                                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                                    @Override
+                                    public void onSuccess(Location localizacion) {
+                                        location=localizacion;
+                                    }
+                                });
                         buscarUsuarios();
                     }
                 } else {
@@ -270,6 +287,13 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        referencia.removeEventListener(listener);
+        this.finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
         referencia.removeEventListener(listener);
         this.finish();
     }

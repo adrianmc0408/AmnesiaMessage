@@ -96,7 +96,7 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
                 } else if (value == 10) {
                     ArrayList<Usuario3> lista = new ArrayList<>();
                     for (int i = 0; i < usuarioList.size(); i++) {
-                        Location loc=new Location("A");
+                        Location loc = new Location("A");
                         loc.setLatitude(usuarioList.get(i).getLatitud());
                         loc.setLongitude(usuarioList.get(i).getLongitud());
 
@@ -113,7 +113,7 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
                 } else if (value == 20) {
                     ArrayList<Usuario3> lista = new ArrayList<>();
                     for (int i = 0; i < usuarioList.size(); i++) {
-                        Location loc=new Location("A");
+                        Location loc = new Location("A");
                         loc.setLatitude(usuarioList.get(i).getLatitud());
                         loc.setLongitude(usuarioList.get(i).getLongitud());
 
@@ -130,7 +130,7 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
                 } else if (value == 30) {
                     ArrayList<Usuario3> lista = new ArrayList<>();
                     for (int i = 0; i < usuarioList.size(); i++) {
-                        Location loc=new Location("A");
+                        Location loc = new Location("A");
                         loc.setLatitude(usuarioList.get(i).getLatitud());
                         loc.setLongitude(usuarioList.get(i).getLongitud());
 
@@ -147,7 +147,7 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
                 } else if (value == 40) {
                     ArrayList<Usuario3> lista = new ArrayList<>();
                     for (int i = 0; i < usuarioList.size(); i++) {
-                        Location loc=new Location("A");
+                        Location loc = new Location("A");
                         loc.setLatitude(usuarioList.get(i).getLatitud());
                         loc.setLongitude(usuarioList.get(i).getLongitud());
 
@@ -164,7 +164,7 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
                 } else if (value == 50) {
                     ArrayList<Usuario3> lista = new ArrayList<>();
                     for (int i = 0; i < usuarioList.size(); i++) {
-                        Location loc=new Location("A");
+                        Location loc = new Location("A");
                         loc.setLatitude(usuarioList.get(i).getLatitud());
                         loc.setLongitude(usuarioList.get(i).getLongitud());
 
@@ -206,13 +206,13 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
     }
 
     public void buscarUsuarios() {
-        referencia.addValueEventListener(listener=new ValueEventListener() {
+        referencia.addValueEventListener(listener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 usuarioList.clear();
                 for (DataSnapshot datos : dataSnapshot.getChildren()) {
                     Usuario3 usuarioo = datos.getValue(Usuario3.class);
-                    Log.i("usuario",usuarioo.getId());
+                    Log.i("usuario", usuarioo.getId());
                     if (usuarioo.getId().equals(user.getUid())) {
 
                         usuario = usuarioo;
@@ -245,14 +245,12 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
 
                     if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-                    }
-                    else {
+                    } else {
                         ubicacion_usuario = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                         location = ubicacion_usuario.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                         buscarUsuarios();
                     }
-                }
-                else{
+                } else {
 
                 }
             }
@@ -266,11 +264,6 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
         referencia.removeEventListener(listener);
         this.finish();
     }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        referencia.removeEventListener(listener);
-        this.finish();
-    }
 }
+
+

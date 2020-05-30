@@ -66,18 +66,18 @@ public class ScrollDeInicio extends AppCompatActivity {
     private void setOnboardingItems(){
         List<OnboardingItem> onboardingItemList = new ArrayList<>();
         OnboardingItem itemPayOnline = new OnboardingItem();
-        itemPayOnline.setTitle("Lorem  ipsum");
-        itemPayOnline.setDescription("Lorem  ipsum  dolor sit  amet,  consectetur adipisicing  elit, sed  do eiusmod tempor incididunt  ut labore  et dolore magna aliqua. ");
+        itemPayOnline.setTitle("Bienvenido a Amnesia Message");
+        itemPayOnline.setDescription("Tu aplicacion de chat segura donde prevalece el anonimato de los usuarios y la seguridad de los chats ");
         itemPayOnline.setImage(R.drawable.imagen1);
 
         OnboardingItem itemOnTheWay = new OnboardingItem();
-        itemOnTheWay.setTitle("Lorem  ipsum");
-        itemOnTheWay.setDescription("Lorem  ipsum  dolor sit  amet,  consectetur adipisicing  elit, sed  do eiusmod tempor incididunt  ut labore  et dolore magna aliqua. ");
+        itemOnTheWay.setTitle("Chats seguros");
+        itemOnTheWay.setDescription("Podrás chatear de forma segura y totalmente anónima, ya que los mensajes se eliminan cada 24h y no se puede capturar la pantalla ni reenviar mensajes ");
         itemOnTheWay.setImage(R.drawable.imagen2);
 
         OnboardingItem itemOn = new OnboardingItem();
-        itemOn.setTitle("Lorem  ipsum");
-        itemOn.setDescription("Lorem  ipsum  dolor sit  amet,  consectetur adipisicing  elit, sed  do eiusmod tempor incididunt  ut labore  et dolore magna aliqua. ");
+        itemOn.setTitle("Localización");
+        itemOn.setDescription("Podrás agregar usuarios según la proximidad a tu ubicación, descubre gente nueva de una forma totalmente segura");
         itemOn.setImage(R.drawable.imagen3);
 
         onboardingItemList.add(itemPayOnline);

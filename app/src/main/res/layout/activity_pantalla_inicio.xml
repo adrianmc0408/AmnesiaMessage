@@ -40,19 +40,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/BTN_LOGIN" />
 
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="101dp"
+        android:layout_height="107dp"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/logo_final"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="176dp"
-        android:layout_marginTop="180dp"
+        android:layout_marginTop="216dp"
         android:layout_marginEnd="176dp"
-        android:text="LOGO"
-        android:textColor="@android:color/black"
+        android:text="AMNESIA MESSAGE"
+        android:textColor="@color/colorDarkGrey"
         android:textSize="24sp"
-        android:textStyle="bold"
+        android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -46,6 +46,7 @@ public class ChatRoom extends AppCompatActivity {
     private Intent intent;
     private ImageButton sendButton;
     private EditText message_field;
+    private TextView message_hour;
     private ChatAdapter chatAdapter;
     private ArrayList<Chat> listaChats;
     private RecyclerView recyclerView;
@@ -92,6 +93,7 @@ public class ChatRoom extends AppCompatActivity {
 
         btn_adjuntar = findViewById(R.id.ic_adjuntar);
         image_profile = findViewById(R.id.image_profile_chatroom);
+        message_hour = findViewById(R.id.txt_hour);
         username = findViewById(R.id.username_chatroom);
         sendButton = findViewById(R.id.btn_send_chatroom);
         message_field = findViewById(R.id.message_field_chatroom);

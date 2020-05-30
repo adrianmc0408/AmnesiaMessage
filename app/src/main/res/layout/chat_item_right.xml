@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/txt_hour"
-        android:text="12:09"
+        android:text="12:08"
         android:layout_marginRight="5dp"
         android:layout_below="@id/mensaje_global"
         android:layout_toLeftOf="@+id/txt_seen"/>

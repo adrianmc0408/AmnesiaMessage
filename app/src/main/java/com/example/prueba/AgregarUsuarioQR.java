@@ -34,31 +34,36 @@ import com.google.zxing.integration.android.IntentResult;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AgregarUsuarioQR extends AppCompatActivity {
-
+    //Declaramos los atributos
     private TextView tituloActivity;
     private ImageView closeActivity;
 
     private Button escaner;
     private Dialog dialog_confirm;
+
     private FirebaseDatabase base;
     private DatabaseReference referencia;
     private FirebaseAuth auth;
     private FirebaseUser user;
+
     private Usuario usuario;
     private String resultado2=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Enlazamos las vistas con los atributos
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lector_q_r);
 
         dialog_confirm = new Dialog(this);
         dialog_confirm.setContentView(R.layout.popup_confirmacion_qr);
         dialog_confirm.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        //Intanciamos los objetos de Firebase necesarios para trabajar
         base=FirebaseDatabase.getInstance();
         referencia=base.getReference("Usuarios");
         auth=FirebaseAuth.getInstance();
         user=auth.getCurrentUser();
         escaner = findViewById(R.id.btn_prueba);
+        //Iniciamos el scaner al presionar el botón
         escaner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,24 +71,6 @@ public class AgregarUsuarioQR extends AppCompatActivity {
             }
         });
 
-
-       /* mostrar_pop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CircleImageView image= (CircleImageView) dialog_confirm.findViewById(R.id.dialog_qr_img_profile);
-                TextView username = (TextView) dialog_confirm.findViewById(R.id.dialog_qr_username);
-                Button confirmar = (Button) dialog_confirm.findViewById(R.id.dialog_qr_btn_confirmar);
-                image.setImageResource(R.drawable.profile);
-                username.setText("usuario");
-                confirmar.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                    }
-                });
-                dialog_confirm.show();
-            }
-        });
-        */
 
 
         tituloActivity=findViewById(R.id.titulo_activity);
@@ -98,13 +85,16 @@ public class AgregarUsuarioQR extends AppCompatActivity {
         });
 
     }
-
+//Esperamos la respuesta del escaner de QR
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //Almacenamos la respuesta en un objeto IntentResult
         final IntentResult resultado=IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
         if(resultado.getContents()!=null){
+            //Obtenemos la cadena leida
             resultado2=resultado.getContents();
+            //Buscamos el usuario que hemos leido
             referencia.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -114,13 +104,16 @@ public class AgregarUsuarioQR extends AppCompatActivity {
                             usuario=datos.getValue(Usuario.class);
                         }
                     }
+                    //Si el código QR contiene a un usuario de nuestra BD
                     if(usuario!=null) {
+                        //Enlazamos los atributos de dialog con sus vistas
                         CircleImageView image = (CircleImageView) dialog_confirm.findViewById(R.id.dialog_qr_img_profile);
                         TextView username = (TextView) dialog_confirm.findViewById(R.id.dialog_qr_username);
                         Button confirmar = (Button) dialog_confirm.findViewById(R.id.dialog_qr_btn_confirmar);
                         image.setImageResource(R.drawable.profile);
                         username.setText(usuario.getNombre_usuario());
-
+                        //Dotamos de funcionalidad al botón confirmar del dialog , el cual agregará al usuarios leido mediante,
+                        //el código QR directamente a nuestros amigos
                         confirmar.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -131,8 +124,10 @@ public class AgregarUsuarioQR extends AppCompatActivity {
 
                             }
                         });
+                        //Mostramos el dialog
                         dialog_confirm.show();
                     }
+                    //Sino mostramos mensaje de QR no válido
                     else{
                         Toast.makeText(AgregarUsuarioQR.this,"QR incorrecto",Toast.LENGTH_SHORT).show();
                     }

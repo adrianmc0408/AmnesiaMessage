@@ -41,7 +41,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class AgregarUsuarioLocation extends AppCompatActivity {
-
+    //Declaramos los atributos
     private TextView tituloActivity;
     private ImageView closeActivity;
     private BubbleSeekBar seekBarDistancia;
@@ -76,7 +76,7 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerview_agregar_usuarios_por_localizacion);
         recyclerView.setHasFixedSize(true);
 
-
+        //Enlazamos las vistas con los atributos
         info_location = findViewById(R.id.info_location);
         closeActivity = findViewById(R.id.close_activity);
         closeActivity.setOnClickListener(new View.OnClickListener() {
@@ -86,19 +86,25 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
             }
         });
         seekBarDistancia = findViewById(R.id.seekbar);
+        //Listener que dota de funcionalidad  al objeto BubbleSeekBar , el cual tiene varias posiciones comprendidas
+        //entre 10 y 50
         seekBarDistancia.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListenerAdapter() {
 
 
             @Override
             public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
+               //Solo funciona si la localización del usuario esta disponible
                 if(location!=null){
                 String progresssToString = String.valueOf(progress);
                 int value = Integer.parseInt(progresssToString);
                 if (value == 0) {
                     recyclerView.setVisibility(View.INVISIBLE);
                     info_location.setVisibility(View.VISIBLE);
+                    //Según el valor mostraremos unos usuarios u otros para ser agregados.
                 } else if (value == 10) {
                     ArrayList<Usuario3> lista = new ArrayList<>();
+                    //Comprobamos cuales de todos los usuarios estan a los Km dados mediante el metodo
+                    //distanceTo , el cual nos devuelve la distancia entre dos localizaciones en metros
                     for (int i = 0; i < usuarioList.size(); i++) {
                         Location loc = new Location("A");
                         loc.setLatitude(usuarioList.get(i).getLatitud());
@@ -108,6 +114,7 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
                             lista.add(usuarioList.get(i));
                         }
                     }
+                    //Creamos un nuevo layout y un nuevo adapter con los usuarios que han pasado el filtro
                     recyclerView.setVisibility(View.VISIBLE);
                     info_location.setVisibility(View.INVISIBLE);
                     layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -191,21 +198,24 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
             }
         }
         });
+        //Intanciamos los objetos de Firebase necesarios para trabajar
         base = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
         referencia = base.getReference("Usuarios");
         user = auth.getCurrentUser();
+        //Llamamos al método que dota de funcionalidad de GPS a esta activity
         localizar();
 
     }
-
+    //Este método comprueba si tenemos permisos de GPS y si los tienes obtiene nuestra ubicación actual
     public void localizar() {
-
+        //Si los permisos están denegados, se los requerimos al usuario
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{
                     Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION
             }, 1000);
         } else {
+            //Sino obtenemos la localizacion
            cliente_loc= LocationServices.getFusedLocationProviderClient(this);
            cliente_loc.getLastLocation()
                     .addOnSuccessListener(this, new OnSuccessListener<Location>() {
@@ -214,20 +224,24 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
                             location=localizacion;
                         }
                     });
-
+            //Buscamos todos los usuarios
             buscarUsuarios();
         }
 
     }
-
+//Método usado para buscar a los usuarios de la BD que se van a mostrar
     public void buscarUsuarios() {
         referencia.addValueEventListener(listener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 usuarioList.clear();
+                //Recorremos el objeto DataSnapchot obteniendo los nodos hijos y serializandolos a un objeto de
+                //tipo usuario
                 for (DataSnapshot datos : dataSnapshot.getChildren()) {
                     Usuario3 usuarioo = datos.getValue(Usuario3.class);
                     Log.i("usuario", usuarioo.getId());
+                    //Si es nuestro usuario, le asignamos la localización obtenida anteriormente y lo marcamos como
+                    //localizable
                     if (usuarioo.getId().equals(user.getUid())) {
 
                         usuario = usuarioo;
@@ -240,8 +254,8 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
                         else{
                             Toast.makeText(getApplicationContext(),"Ubicación no disponible",Toast.LENGTH_SHORT).show();
                         }
-
-
+                        //Para los demas usuarios solo lo mostraremos si desea ser localizado (es decir si el atributo
+                        // localizable es igual a true)
                     } else if (usuarioo.isLocalizable()) {
                         usuarioList.add(usuarioo);
                     }
@@ -255,17 +269,19 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
             }
         });
     }
-
+    //Método que espera a la respuesta de el usuario en referencia a los permisos y actua en consecuencia
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
+            //Codigo 1000 correspondiente a nuestra solicitud de permisos de ubicación
             case 1000: {
                 if (grantResults.length > 0) {
 
                     if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
                     } else {
+                        //Una vez concedidos los permisos localizamos al usuario y llamamos al método de busqueda
                         cliente_loc= LocationServices.getFusedLocationProviderClient(this);
                         cliente_loc.getLastLocation()
                                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
@@ -283,14 +299,16 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
 
         }
     }
-
+    //Método que reconoce cuando la activity está en estado de onStop , finalizando la misma y eliminando el listener de la BD,
+    //ya que no nos interesa que corra en segundo plano ya que lleva a conflicto con otras activities
     @Override
     protected void onStop() {
         super.onStop();
         referencia.removeEventListener(listener);
         this.finish();
     }
-
+    //Método que reconoce cuando pulsamos la tecla atrás, finalizando la misma y eliminando el listener de la BD,
+    //ya que no nos interesa que corra en segundo plano ya que lleva a conflicto con otras activities
     @Override
     public void onBackPressed() {
         super.onBackPressed();

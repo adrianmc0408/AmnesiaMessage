@@ -33,6 +33,7 @@ import java.util.ArrayList;
 
 public class AgregarUsuario extends AppCompatActivity implements View.OnKeyListener {
 
+    //Declaramos los atributos
     private RecyclerView recyclerView;
     private UserAdapterBusqueda userAdapterBusqueda;
     private RecyclerView.LayoutManager layoutManager;
@@ -50,6 +51,7 @@ public class AgregarUsuario extends AppCompatActivity implements View.OnKeyListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Enlazamos las vistas con los atributos
         setContentView(R.layout.activity_agregar_usuario);
         busqueda=findViewById(R.id.search_input);
         busqueda.setOnKeyListener(this);
@@ -67,12 +69,14 @@ public class AgregarUsuario extends AppCompatActivity implements View.OnKeyListe
 
 
          usuarioList = new ArrayList<>();
+         //Obtenemos las instancias de Firebase necesarias
         mAuth= FirebaseAuth.getInstance();
         database=FirebaseDatabase.getInstance();
         reference=database.getReference("Usuarios");
         recyclerView = findViewById(R.id.recyclerview_agregar_usuarios);
         recyclerView.setHasFixedSize(true);
         cadena="";
+        //Llamada al método que nos permite leer los usuarios
         leerUsuarios();
 
 
@@ -83,17 +87,28 @@ public class AgregarUsuario extends AppCompatActivity implements View.OnKeyListe
 
 
     }
+    //Método encargado de la lectura de los usuarios, es sensible a los cambios en la base de datos,
+    //agregando al adapter todos aquellos distintos al usuario actual
     public void leerUsuarios(){
-
+        //Añadimos el listener, el cual será el encargado de controlar los cambios producidos en nuestra base de datos,
+        //En este caso los cambios de el nodo Usuarios.
         reference.addValueEventListener(new ValueEventListener() {
             @Override
+            //Detecta cuando los datos de ese nodo cambian
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //Limpiamos la lista
                 usuarioList.clear();
-
+                //Recorremos el objeto DataSnapchot obteniendo los nodos hijos y serializandolos a un objeto de
+                //tipo usuario
                 for(DataSnapshot data:dataSnapshot.getChildren()){
                    Usuario usuario= data.getValue(Usuario.class);
+                   //Obtenemos nuestro usuario actual
                     FirebaseUser user=mAuth.getCurrentUser();
                    if(usuario!=null ){
+                       //Si el usuario no es el actual comprobamos que la cadena de busqueda del EditText superior no
+                       //esté vacia, si está vacia lo añadimos directamente ya que significa que queremos ver todos los usuarios
+                       //mientras que si la cadena contiene texto deberemos de buscar aquellos usuarios cuyo  nombre de usuario
+                       //contenga la cadena a buscar
                        if(!usuario.getId().equals(user.getUid())) {
                            if(!cadena.equals("")){
                                if(usuario.getNombre_usuario().contains(cadena)){
@@ -104,11 +119,15 @@ public class AgregarUsuario extends AppCompatActivity implements View.OnKeyListe
                                usuarioList.add(usuario);
                            }
                        }
+                       //Si el ID del usuario coincide con el nuestro lo almacenamos en una variable aparte que contiene
+                       //los datos  del usuario que actualmente controla la app
                        else{
                            usuario_actual=usuario;
                        }
                    }
                 }
+                //Creamos un nuevo layout y un nuevo adapter cada vez que escribimos en el TextEdit o los datos de la base de datos
+                //cambian (es decir cuando un nuevo usuario es creado)
                 layoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerView.setLayoutManager(layoutManager);
                 userAdapterBusqueda = new UserAdapterBusqueda( usuarioList,AgregarUsuario.this,usuario_actual);
@@ -123,7 +142,8 @@ public class AgregarUsuario extends AppCompatActivity implements View.OnKeyListe
         });
     }
 
-
+    //Método utilizado para controlar el evento de tecla presionada, lo que nos permitirá buscar dentro de nuestra
+    //BD la cadena escrita.
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         cadena=busqueda.getText().toString();

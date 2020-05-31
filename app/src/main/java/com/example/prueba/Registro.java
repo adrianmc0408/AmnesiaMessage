@@ -27,6 +27,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Registro extends AppCompatActivity implements Button.OnClickListener{
+    //Declaramos los atributos
     private EditText email;
     private EditText telefono;
     private EditText nombre_usuario;
@@ -38,6 +39,7 @@ public class Registro extends AppCompatActivity implements Button.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Enlazamos los atributos con las vistas
         setContentView(R.layout.activity_registro);
         email=findViewById(R.id.registro_campo_correo);
         telefono=findViewById(R.id.registro_campo_telf);
@@ -45,19 +47,23 @@ public class Registro extends AppCompatActivity implements Button.OnClickListene
         contraseña=findViewById(R.id.registro_campo_pass1);
         registrar=findViewById(R.id.login_boton_registro);
         registrar.setOnClickListener(this);
+        //Obtenemos los elementos necesarios de Firebase
         mAuth=FirebaseAuth.getInstance();
         database=FirebaseDatabase.getInstance();
         reference=database.getReference("Usuarios");
     }
 
     @Override
+    //Dotamos de funcionalidad al botón
     public void onClick(View v) {
         final String mail=email.getText().toString();
         final String contra=contraseña.getText().toString();
         final String telef=telefono.getText().toString();
         final String nu=nombre_usuario.getText().toString();
+        //Validamos los campos (que no estén vacios y que el formato sea el correcto)
         boolean valido=validarCampos(mail,contra,nu,telef);
         if(valido) {
+            //ahora vamos a comprobar si los datos introducidos no se encuentran ya en la BD
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -66,6 +72,7 @@ public class Registro extends AppCompatActivity implements Button.OnClickListene
                         usuarios.add(data.getValue(Usuario.class));
                     }
                     Boolean valido=true;
+                    //Comprobamos los datos introducidos con todos los usuarios de la BD
                     for(Usuario user:usuarios){
                         if(nu.equals(user.getNombre_usuario())){
                             nombre_usuario.setError("Ya presente en la base de datos");
@@ -80,6 +87,8 @@ public class Registro extends AppCompatActivity implements Button.OnClickListene
                             valido=false;
                         }
                     }
+                    //Si todo está correcto registramos el usuario (solo el email y contraseña ya que estamos registrandolo en el apartado
+                    // de autentificación)
                     if(valido) {
                         mAuth.createUserWithEmailAndPassword(mail, contra).addOnCompleteListener(Registro.this, new OnCompleteListener<AuthResult>() {
                             @Override
@@ -87,11 +96,13 @@ public class Registro extends AppCompatActivity implements Button.OnClickListene
                                 if (!task.isSuccessful()) {
                                     Toast.makeText(Registro.this, "Error al registrarse", Toast.LENGTH_SHORT).show();
                                 } else {
-
+                                    //Si es correcto guardamos los demás datos en la Bd , junto a el ID generado en el registro para poder
+                                    //identificar al usuario más facilmente
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     Toast.makeText(Registro.this, "Registro completado", Toast.LENGTH_SHORT).show();
                                     Usuario usuario = new Usuario(user.getUid(), nombre_usuario.getText().toString(), email.getText().toString(), telefono.getText().toString(), "default");
                                     reference.push().setValue(usuario);
+                                    //Iniciamos la activity de login y cerramos la actual
                                     Intent intent = new Intent(Registro.this, Login.class);
                                     startActivity(intent);
                                     finish();
@@ -110,12 +121,13 @@ public class Registro extends AppCompatActivity implements Button.OnClickListene
         }
     }
     @Override
+    //si pulsamos el botón atrás se cerrará la activity
     public void onBackPressed() {
         startActivity(new Intent(getApplicationContext(), SelectorLoginRegistro.class));
         finish();
         return;
     }
-
+    //Método usado para validar el formato de los datos introducidos
     private boolean validarCampos(String c, String p,String nu,String t) {
 
         boolean camposValidos=true;
@@ -126,6 +138,8 @@ public class Registro extends AppCompatActivity implements Button.OnClickListene
             camposValidos=false;
         }
         else {
+            //Comprobamos mediante un pattern si el correo sigue el formato correcto es decir:
+            //lo que sea @ lo que sea . com/es..
             Pattern pattern = Pattern
                     .compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                             + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
@@ -160,6 +174,7 @@ public class Registro extends AppCompatActivity implements Button.OnClickListene
             telefono.setError("Campo obligatorio");
             camposValidos=false;
         } else {
+            //Comprobamos si el teléfono sigue el formato normal (9 dígitos)
             if(t.trim().length()==9) {
                 telefono.setError(null);
             }

@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import org.w3c.dom.Text;
 
 public class Login extends AppCompatActivity {
-
+    //Declaramos los atributos
     private EditText correo;
     private TextView contrasna_olvidada;
     private  EditText contraseña;
@@ -32,14 +32,16 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        //Enlazamos los atributos con las vistas
         contrasna_olvidada=findViewById(R.id.contrasena_olvidada);
         correo = findViewById(R.id.login_campo_correo);
         contraseña = findViewById(R.id.login_campo_password);
         btn_entrar = findViewById(R.id.login_boton_entrar);
         IL_mail = findViewById(R.id.IL_email);
         IL_password = findViewById(R.id.IL_password);
+        //Obtenemos los elementos de Firebase necesarios
         mAuth=FirebaseAuth.getInstance();
-
+        //dotamos de funcionalidad al botón
         btn_entrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,14 +51,17 @@ public class Login extends AppCompatActivity {
                 if(validarCampos(email,password)==true){
                     String mail=correo.getText().toString();
                     String contra=contraseña.getText().toString();
+                    //Iniciamos sesíon con los datos introducimos
                     mAuth.signInWithEmailAndPassword(mail,contra).addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
+                            //si el inicio es correcto accedemos al menú principal
                             if(task.isSuccessful()){
                                 Toast.makeText(Login.this,"Login correcto",Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getApplicationContext(), HomePrincipal.class));
                                 finish();
                             }
+                            //Sino marcamos error
                             else{
                                 Toast.makeText(Login.this,"Login inrrecto",Toast.LENGTH_SHORT).show();
                                 IL_mail.setError("Datos de Login incorrectos");
@@ -70,7 +75,7 @@ public class Login extends AppCompatActivity {
 
             }
         });
-
+                    //Dotamos de funcionalidad al botón de contraseña olvidada para ir a su acivity correspondiente
                     contrasna_olvidada.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -87,6 +92,7 @@ public class Login extends AppCompatActivity {
         finish();
         return;
     }
+    //Método que comprueba si algún campo está vacio
     private boolean validarCampos(String email, String password) {
 
         boolean camposValidos=true;

@@ -93,6 +93,7 @@ public class FriendsDisplayFragment extends Fragment {
                     }
                 }
                 if(!amigosList.isEmpty()) {
+                    sinAmigos.setVisibility(View.INVISIBLE);
                     reference2.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -123,6 +124,7 @@ public class FriendsDisplayFragment extends Fragment {
                     });
                 }
                 else{
+                    sinAmigos.setVisibility(View.VISIBLE);
                     layoutManager = new LinearLayoutManager(getContext());
                     recyclerView.setLayoutManager(layoutManager);
                     userAdapter = new UserAdapter(getContext(), usuarioList);

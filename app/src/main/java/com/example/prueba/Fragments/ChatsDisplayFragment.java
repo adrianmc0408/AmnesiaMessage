@@ -104,7 +104,6 @@ public class ChatsDisplayFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 id_list.clear();
-                sinChats.setVisibility(View.VISIBLE);
                 for(DataSnapshot data:dataSnapshot.getChildren()){
                     Chat chat= data.getValue(Chat.class);
                     Boolean existe_ya=false;
@@ -177,6 +176,12 @@ public class ChatsDisplayFragment extends Fragment {
 
                             }
                         });
+                        if(usuarioList.size()==0){
+                            sinChats.setVisibility(View.VISIBLE);
+                        }
+                        else{
+                            sinChats.setVisibility(View.INVISIBLE);
+                        }
                         recyclerView.setAdapter(userChatDisplayAdapter);
 
                     }

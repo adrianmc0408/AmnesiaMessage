@@ -63,7 +63,7 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     @Override
     /*
         Creamos un ViewHolder, el RecyclerView lo inflará con las filas visibles
-        -Asignamos un layout u otro a la vista en función del emisor del mensaje
+        - Asignamos un layout u otro a la vista en función del emisor del mensaje
      */
     public ChatAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if(viewType == MSG_TYPE_RIGHT){

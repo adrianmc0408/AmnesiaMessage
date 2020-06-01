@@ -173,7 +173,7 @@ public class ChatRoom extends AppCompatActivity {
                 }
                 linearLayoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerView.setLayoutManager(linearLayoutManager);
-                chatAdapter = new ChatAdapter(getApplicationContext(), listaChats, "ded");
+                chatAdapter = new ChatAdapter(getApplicationContext(), listaChats, user.getUrl_imagen());
                 linearLayoutManager.setStackFromEnd(true);
                 recyclerView.setAdapter(chatAdapter);
 

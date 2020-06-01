@@ -85,12 +85,27 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ChatAdapter.ViewHolder holder, int position) {
         Chat chat = listaChats.get(position);
         holder.show_message.setText(chat.getMessage());
-        holder.txt_hora.setText("00:00");
+        String hora="";
+        int horas=listaChats.get(position).getFecha().getHours();
+        int minutos=listaChats.get(position).getFecha().getMinutes();
+        if(horas<10){
+            hora="0"+horas+":";
+        }
+        else{
+            hora=horas+":";
+        }
+        if(minutos<10){
+            hora=hora+"0"+minutos;
+        }
+        else{
+            hora=hora+minutos;
+        }
+        holder.txt_hora.setText(hora);
 
 
 
         if(imageurl.equals("default")){
-            holder.profile_image.setImageResource(R.drawable.arrow_dark);
+            holder.profile_image.setImageResource(R.drawable.profile);
         }else{
             //Coger imagen
             Glide.with(mContext).load(imageurl).into(holder.profile_image);
@@ -140,7 +155,7 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder{
         Context context;
         TextView show_message;
-        ImageView profile_image;
+        CircleImageView profile_image;
         TextView txt_visto;
         TextView txt_hora;
         public ViewHolder(@NonNull View itemView) {

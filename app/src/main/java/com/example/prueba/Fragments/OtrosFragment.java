@@ -104,7 +104,7 @@ public class OtrosFragment extends Fragment {
         cerrar_sesion.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-               final Dialog dialog_conf = new Dialog(getContext());
+                final Dialog dialog_conf = new Dialog(getContext());
                 dialog_conf.setContentView(R.layout.popup_confirmacion);
                 dialog_conf.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 TextView titulo = (TextView) dialog_conf.findViewById(R.id.dialog_conf_titulo);

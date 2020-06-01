@@ -18,6 +18,7 @@ import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.prueba.Objetos.Amistad;
 import com.example.prueba.Objetos.Usuario;
 import com.example.prueba.Objetos.Usuario2;
@@ -108,6 +109,14 @@ public class AgregarUsuarioQR extends AppCompatActivity {
                     if(usuario!=null) {
                         //Enlazamos los atributos de dialog con sus vistas
                         CircleImageView image = (CircleImageView) dialog_confirm.findViewById(R.id.dialog_qr_img_profile);
+                        String url_destino = usuario.getUrl_imagen();
+                        if(url_destino.equals("default")){
+                            image.setImageResource(R.drawable.profile);
+                        }
+                        else{
+                            Glide.with(AgregarUsuarioQR.this).load(url_destino).into(image);
+
+                        }
                         TextView username = (TextView) dialog_confirm.findViewById(R.id.dialog_qr_username);
                         Button confirmar = (Button) dialog_confirm.findViewById(R.id.dialog_qr_btn_confirmar);
                         image.setImageResource(R.drawable.profile);

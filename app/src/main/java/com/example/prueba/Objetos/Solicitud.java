@@ -1,18 +1,18 @@
 package com.example.prueba.Objetos;
 
 public class Solicitud {
-
+    //Declaramos los atributos de la clase
     private String id_destino;
     private String id;
     private String nombre_usuario;
     private String email;
     private String telefono;
     private String url_imagen;
-
+    //Metodo constructor vacio
     public Solicitud() {
 
     }
-
+    //Metodo constructor
     public Solicitud(String id_destino, String id, String nombre_usuario, String email, String telefono, String url_imagen) {
         this.id_destino = id_destino;
         this.id = id;
@@ -22,6 +22,7 @@ public class Solicitud {
         this.url_imagen = url_imagen;
     }
 
+    //Getters y setters de los atributos
     public String getNombre_usuario() {
         return nombre_usuario;
     }

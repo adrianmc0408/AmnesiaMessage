@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.prueba.ChatRoom;
 import com.example.prueba.Objetos.Usuario;
 import com.example.prueba.Objetos.Usuario2;
@@ -33,12 +34,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
+    //Declaramos las variables
     private Context mContext;
     private ArrayList<Usuario2> listaUsuarios;
     private Dialog myDialog;
     private FirebaseDatabase base;
     private DatabaseReference referencia;
 
+    //Constructor del adaptador de Usuarios (presente en el fragment friends)
     public UserAdapter(Context context, ArrayList<Usuario2> usuarios) {
         this.mContext = context;
         this.listaUsuarios = usuarios;
@@ -46,25 +49,40 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     @NonNull
     @Override
+    //Creamos un ViewHolder, el RecyclerView lo inflará con las filas visibles
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.row_friend, parent, false);
         final ViewHolder viewHolder = new ViewHolder(view);
+        //Obtenemos las referencias necesarias
         base=FirebaseDatabase.getInstance();
         referencia=base.getReference("Amigos");
 
+        //Construimos un dialogo para cada elemento que se abrirá al clickar sobre cada usuario desplegado en el recycler
         myDialog = new Dialog(mContext);
         myDialog.setContentView(R.layout.popup_opciones_usuario);
         myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
+        /*
+        Cuando clickamos sobre un usuario desplegaremos un dialog con dos opciones:
+                -Chat: abrimos un chat con ese usuario
+                -Eliminar: nos dará la posibilidad de eliminar a ese usuario de nuestros amigos
+                          (Despliega antes un dialogbox de confirmacion)
+         */
         viewHolder.item_contact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 final TextView dialog_user= (TextView) myDialog.findViewById(R.id.dialog_usuario_username);
-                CircleImageView dialog_image_profile = (CircleImageView) myDialog.findViewById(R.id.dialog_usuario_foto_perfil);
+               final CircleImageView dialog_image_profile = (CircleImageView) myDialog.findViewById(R.id.dialog_usuario_foto_perfil);
                 dialog_user.setText(listaUsuarios.get(viewHolder.getAdapterPosition()).getNombre_usuario());
                 final int position = viewHolder.getAdapterPosition();
+                String url_destino = listaUsuarios.get(viewHolder.getAdapterPosition()).getUrl_imagen();
+                if(url_destino.equals("default")){
+                    dialog_image_profile.setImageResource(R.drawable.profile);
+                }
+                else{
+                    Glide.with(mContext).load(url_destino).into(dialog_image_profile);
 
+                }
                 Button chat = myDialog.findViewById(R.id.dialog_usuario_btn_chat);
                 Button eliminar = myDialog.findViewById(R.id.dialog_usuario_btn_eliminar);
                 //dialog_image_profile.setImageResource(R.id.profile);
@@ -108,12 +126,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                         bundle.putSerializable("usuario",listaUsuarios.get(position));
                         intent.putExtras(bundle);
                         mContext.startActivity(intent);
+                        myDialog.cancel();
                     }
                 });
-
+                //Mostramos el dialog box
                 myDialog.show();
 
-                //EVENTO DE ENVIAR SOLICITUD AQUI
+
 
 
 
@@ -123,28 +142,42 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         return viewHolder;
     }
+    /*Metodo que utilizamos para eliminar una solicitud de amistad del recyclerview
+    (pasandole por parametro la posicion dentro del arraylist que queremos eliminar) */
     public final void removeAt(int position) {
         listaUsuarios.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, listaUsuarios.size());
     }
     @Override
+     /*
+    El RecyclerView llama a este método para reutilizar los ViewHolder creados,
+    , es decir los infla con las nuevas filas visibles según el usuario desliza la lista.
+    (Se establece una foto de perfil predeterminada en caso de que no tenga una el usuario)
+     */
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         Usuario2 user = listaUsuarios.get(position);
         holder.username.setText(user.getNombre_usuario());
-        //Aqui no se que coño poner asique pongo cualquier imagen
-        holder.profile_image.setImageResource(R.mipmap.ic_launcher);
+
+        if(user.getUrl_imagen().equals("default")){
+            holder.profile_image.setImageResource(R.drawable.profile);
+        }
+        else{
+            Glide.with(mContext).load(user.getUrl_imagen()).into(holder.profile_image);
+
+        }
 
 
 
     }
 
     @Override
+    //Obtenemos el numero de elementos de nuestro Arraylist listaChats
     public int getItemCount() {
         return listaUsuarios.size();
     }
-
+    //Clase estática por recomendación del API
     public static class ViewHolder extends RecyclerView.ViewHolder{
          Context context;
          TextView username;

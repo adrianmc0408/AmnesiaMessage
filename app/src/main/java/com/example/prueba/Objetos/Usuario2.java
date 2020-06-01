@@ -2,7 +2,9 @@ package com.example.prueba.Objetos;
 
 import java.io.Serializable;
 
+//La clase hereda de Serializable
 public class Usuario2 implements Serializable {
+    //Declaramos los atributos de la clase
     private String referencia;
     private String id;
     private String nombre_usuario;
@@ -10,10 +12,12 @@ public class Usuario2 implements Serializable {
     private String telefono;
     private String url_imagen;
 
+    //Metodo constructor vacio
     public Usuario2(){
 
     }
 
+    //Metodo constructor
     public Usuario2(String referencia, String id, String nombre_usuario, String email, String telefono, String url_imagen) {
         this.referencia = referencia;
         this.id = id;
@@ -22,7 +26,7 @@ public class Usuario2 implements Serializable {
         this.telefono = telefono;
         this.url_imagen = url_imagen;
     }
-
+    //Getters y setters de los atributos
     public String getNombre_usuario() {
         return nombre_usuario;
     }

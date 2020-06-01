@@ -84,7 +84,7 @@ public class SolicitudAmistad extends AppCompatActivity {
                 //Agregamos los datos al adapter
                 layoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerView.setLayoutManager(layoutManager);
-                solicitudAmistadAdapter = new SolicitudAmistadAdapter( listaPeticiones );
+                solicitudAmistadAdapter = new SolicitudAmistadAdapter( listaPeticiones,SolicitudAmistad.this );
                 recyclerView.setAdapter(solicitudAmistadAdapter);
             }
 

@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/txt_hour"
         android:text="12:09"
+
         android:layout_below="@id/mensaje_global"
         android:layout_toLeftOf="@+id/txt_seen"
         android:layout_alignParentEnd="true"

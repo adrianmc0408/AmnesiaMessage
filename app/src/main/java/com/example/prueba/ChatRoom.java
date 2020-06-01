@@ -1,21 +1,35 @@
 package com.example.prueba;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.telephony.mbms.StreamingServiceInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
 import com.example.prueba.Adaptadores.ChatAdapter;
 import com.example.prueba.Adaptadores.UserChatDisplayAdapter;
 import com.example.prueba.Fragments.ChatsDisplayFragment;
@@ -30,6 +44,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.InputStream;
 import java.io.Serializable;
 import java.net.Inet4Address;
 import java.util.ArrayList;
@@ -40,6 +55,13 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatRoom extends AppCompatActivity {
+
+    private static final int REQUEST_CODE_STORAGE_PERMISION=1;
+    private static final int REQUEST_CODE_SELECT_IMAGE=2;
+
+    private
+
+    Uri image_uri = null;
 
     private TextView username;
     private CircleImageView image_profile;
@@ -66,6 +88,8 @@ public class ChatRoom extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
 
+
+
         Toolbar toolbar = findViewById(R.id.tooalbar_chatroom);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
@@ -77,22 +101,30 @@ public class ChatRoom extends AppCompatActivity {
                 finish();
             }
         });
-        base=FirebaseDatabase.getInstance();
-        referencia=base.getReference("Chats");
-        auth=FirebaseAuth.getInstance();
-        usuario=auth.getCurrentUser();
+        base = FirebaseDatabase.getInstance();
+        referencia = base.getReference("Chats");
+        auth = FirebaseAuth.getInstance();
+        usuario = auth.getCurrentUser();
         recyclerView = findViewById(R.id.recyclerview_chatroom);
         recyclerView.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        chatAdapter = new ChatAdapter(getApplicationContext(),listaChats,"ded");
+        user = (Usuario2) getIntent().getExtras().getSerializable("usuario");
+        chatAdapter = new ChatAdapter(getApplicationContext(), listaChats, user.getUrl_imagen() );
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setAdapter(chatAdapter);
 
-        user =(Usuario2) getIntent().getExtras().getSerializable("usuario");
 
         btn_adjuntar = findViewById(R.id.ic_adjuntar);
         image_profile = findViewById(R.id.image_profile_chatroom);
+
+        if(user.getUrl_imagen().equals("default")){
+            image_profile.setImageResource(R.drawable.profile);
+        }
+        else{
+            Glide.with(ChatRoom.this).load(user.getUrl_imagen()).into(image_profile);
+        }
+
         message_hour = findViewById(R.id.txt_hour);
         username = findViewById(R.id.username_chatroom);
         sendButton = findViewById(R.id.btn_send_chatroom);
@@ -103,9 +135,9 @@ public class ChatRoom extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String msg = message_field.getText().toString();
-                Date fecha=new Date();
-                if (!msg.equals("")){
-                    Chat mensaje=new Chat(usuario.getUid(),user.getId(),msg,fecha,"txt");
+                Date fecha = new Date();
+                if (!msg.equals("")) {
+                    Chat mensaje = new Chat(usuario.getUid(), user.getId(), msg, fecha, "txt");
                     referencia.push().setValue(mensaje);
                 }
                 message_field.setText("");
@@ -121,19 +153,18 @@ public class ChatRoom extends AppCompatActivity {
         });
 
 
-
-
     }
-   public void  leerMensajes(){
 
-        referencia.addValueEventListener(valueEventListener=new ValueEventListener() {
+    public void leerMensajes() {
+
+        referencia.addValueEventListener(valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listaChats.clear();
-                for(DataSnapshot data:dataSnapshot.getChildren()){
-                    Chat chat=data.getValue(Chat.class);
-                    if (((chat.getReceiver().equals(usuario.getUid()))&&(chat.getSender().equals(user.getId())))||((chat.getReceiver().equals(user.getId()))&&(chat.getSender().equals(usuario.getUid())))) {
-                        if((chat.getReceiver().equals(usuario.getUid()))&&(chat.isLeido()==false)){
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    Chat chat = data.getValue(Chat.class);
+                    if (((chat.getReceiver().equals(usuario.getUid())) && (chat.getSender().equals(user.getId()))) || ((chat.getReceiver().equals(user.getId())) && (chat.getSender().equals(usuario.getUid())))) {
+                        if ((chat.getReceiver().equals(usuario.getUid())) && (chat.isLeido() == false)) {
                             chat.setLeido(true);
                             referencia.child(data.getKey()).setValue(chat);
                         }
@@ -142,7 +173,7 @@ public class ChatRoom extends AppCompatActivity {
                 }
                 linearLayoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerView.setLayoutManager(linearLayoutManager);
-                chatAdapter = new ChatAdapter(getApplicationContext(),listaChats,"ded");
+                chatAdapter = new ChatAdapter(getApplicationContext(), listaChats, "ded");
                 linearLayoutManager.setStackFromEnd(true);
                 recyclerView.setAdapter(chatAdapter);
 
@@ -152,7 +183,8 @@ public class ChatRoom extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });{
+        });
+        {
         }
     }
 
@@ -169,4 +201,7 @@ public class ChatRoom extends AppCompatActivity {
         referencia.removeEventListener(valueEventListener);
         this.finish();
     }
+
+
+
 }

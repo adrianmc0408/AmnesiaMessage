@@ -17,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.example.prueba.MiPerfil;
 import com.example.prueba.Objetos.Chat;
 import com.example.prueba.Objetos.Usuario2;
 import com.example.prueba.R;
@@ -31,8 +33,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
+    //Declaramos e inicializamos las variables
+
+    //Variables que serviran para establecer un layout u otro a la burbuja de chat en función del emisor del mensaje
     public static final int MSG_TYPE_LEFT = 0;
     public static final int MSG_TYPE_RIGHT = 1;
+
     private Context mContext;
     private ArrayList<Chat> listaChats;
     private String imageurl;
@@ -42,17 +48,23 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     private FirebaseUser fuser;
     private FirebaseAuth auth;
 
+        //Constructor del adaptador del chat
+        public ChatAdapter(Context context, ArrayList<Chat> chats,String imageurl) {
+            auth=FirebaseAuth.getInstance();
+            fuser=auth.getCurrentUser();
+            this.mContext = context;
+            this.listaChats = chats;
+            this.imageurl=imageurl;
+        }
 
-    public ChatAdapter(Context context, ArrayList<Chat> chats,String imageurl) {
-        auth=FirebaseAuth.getInstance();
-        fuser=auth.getCurrentUser();
-        this.mContext = context;
-        this.listaChats = chats;
-        this.imageurl=imageurl;
-    }
+
 
     @NonNull
     @Override
+    /*
+        Creamos un ViewHolder, el RecyclerView lo inflará con las filas visibles
+        -Asignamos un layout u otro a la vista en función del emisor del mensaje
+     */
     public ChatAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if(viewType == MSG_TYPE_RIGHT){
             View view = LayoutInflater.from(mContext).inflate(R.layout.chat_item_right,parent,false);
@@ -62,30 +74,35 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             View view = LayoutInflater.from(mContext).inflate(R.layout.chat_item_left,parent,false);
             return new ChatAdapter.ViewHolder(view);
         }
-
-
-
-
-
-
     }
 
     @Override
+    /*
+    El RecyclerView llama a este método para reutilizar los ViewHolder creados,
+    , es decir los infla con las nuevas filas visibles según el usuario desliza la lista.
+    (Se establece una foto de perfil predeterminada en caso de que no tenga una el usuario)
+     */
     public void onBindViewHolder(@NonNull ChatAdapter.ViewHolder holder, int position) {
         Chat chat = listaChats.get(position);
         holder.show_message.setText(chat.getMessage());
         holder.txt_hora.setText("00:00");
-        if(imageurl.equals("default")){
-            holder.profile_image.setImageResource(R.mipmap.ic_launcher);
 
+
+
+        if(imageurl.equals("default")){
+            holder.profile_image.setImageResource(R.drawable.arrow_dark);
         }else{
             //Coger imagen
-            holder.profile_image.setImageResource(R.mipmap.ic_launcher);
+            Glide.with(mContext).load(imageurl).into(holder.profile_image);
         }
 
 
-
+        //En este if solo entraremos en el caso de que sea el ultimo mensaje del array
         if(position == listaChats.size()-1){
+            /*
+            Si el mensaje ha sido leido, mostraremos la etiqueta "Visto" y desplazaremos la etiqueta de hora de
+            envio de mensaje hacia la izquierda
+             */
             if(chat.isLeido()==true){
                 holder.txt_visto.setText("Visto");
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)holder.txt_hora.getLayoutParams();
@@ -94,12 +111,17 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
 
                 holder.txt_hora.setLayoutParams(params);
-                holder.txt_hora.setText(holder.txt_hora.getText()+" - ");
+               if( getItemViewType(position)==MSG_TYPE_RIGHT){
+                    holder.txt_hora.setText(holder.txt_hora.getText()+" - ");
+                }
+
             }
+            //Si el mensaje no ha sido leido ocultamos la etiqueta de "Visto"
             else {
                 holder.txt_visto.setVisibility(View.GONE);
             }
         }
+        //Si no es el ultimo mensaje ocultamos la etiqueta "Visto"
         else {
             holder.txt_visto.setVisibility(View.GONE);
         }
@@ -109,17 +131,18 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     }
 
     @Override
+    //Obtenemos el numero de elementos de nuestro Arraylist listaChats
     public int getItemCount() {
         return listaChats.size();
     }
 
+    //Clase estática por recomendación del API
     public static class ViewHolder extends RecyclerView.ViewHolder{
         Context context;
         TextView show_message;
         ImageView profile_image;
         TextView txt_visto;
         TextView txt_hora;
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             context = itemView.getContext();
@@ -128,10 +151,14 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             txt_visto = itemView.findViewById(R.id.txt_seen);
             txt_hora = itemView.findViewById(R.id.txt_hour);
 
+
+
         }
 
     }
-
+    /*
+    Con este metodo filtraremos si el mensaje obtenido lo hemos enviado nosotros o no
+     */
     @Override
     public int getItemViewType(int position) {
 

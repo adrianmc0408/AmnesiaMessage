@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.prueba.Objetos.Solicitud;
 import com.example.prueba.Objetos.Usuario;
 import com.example.prueba.Objetos.Usuario3;
@@ -32,6 +33,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserAdapterBusquedaLocation extends RecyclerView.Adapter<UserAdapterBusquedaLocation.ViewHolder> {
 
+    //Declaramos las variables
     private ArrayList<Usuario3> listaUsuarios;
     private Context mContext;
     private Dialog myDialog;
@@ -39,9 +41,8 @@ public class UserAdapterBusquedaLocation extends RecyclerView.Adapter<UserAdapte
     private DatabaseReference referencia;
     private Usuario3 usuario;
 
-
+    //Constructor del adaptador de Usuarios (presente en el activity AgregarUsuarioLocation)
     public UserAdapterBusquedaLocation( ArrayList<Usuario3> usuarios,Context mContext,Usuario3 usuario) {
-
         this.usuario=usuario;
         this.mContext= mContext;
         this.listaUsuarios = usuarios;
@@ -49,13 +50,14 @@ public class UserAdapterBusquedaLocation extends RecyclerView.Adapter<UserAdapte
 
     @NonNull
     @Override
+    //Creamos un ViewHolder, el RecyclerView lo inflará con las filas visibles
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_agregar_usuario, parent, false);
         final ViewHolder viewHolder = new ViewHolder(view);
-
+        //Obtenemos las referencias necesarias
         base=FirebaseDatabase.getInstance();
         referencia=base.getReference("Solicitudes");
-
+        //Construimos un dialogo para cada elemento que se abrirá al clickar sobre cada usuario desplegado en el recycler
         myDialog = new Dialog(mContext);
         myDialog.setContentView(R.layout.popup_mandar_solicitud);
         myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -65,22 +67,33 @@ public class UserAdapterBusquedaLocation extends RecyclerView.Adapter<UserAdapte
             public void onClick(View v) {
 
                 TextView dialog_user= (TextView) myDialog.findViewById(R.id.dialog_user);
-                CircleImageView dialog_image_profile = (CircleImageView) myDialog.findViewById(R.id.dialog_img_profile);
+                final CircleImageView dialog_image_profile = (CircleImageView) myDialog.findViewById(R.id.dialog_img_profile);
                 dialog_user.setText(listaUsuarios.get(viewHolder.getAdapterPosition()).getNombre_usuario());
                 Button enviarSolicitud = myDialog.findViewById(R.id.dialog_btn_enviarSolicitud);
                 Button cancelar = myDialog.findViewById(R.id.dialog_btn_cancelar);
                 //dialog_image_profile.setImageResource(R.id.profile);
 
+                 /* Cuando clickamos sobre el usuario buscado se nos abrirá un dialogbox que nos dara la opcion de enviar una
+                    solicitud de amistad al usuario o no */
                 enviarSolicitud.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        //Construimos un objeto "Solicitud" y la subimos a la base de datos
                         String id_destino=listaUsuarios.get(viewHolder.getAdapterPosition()).getId();
                         String id=usuario.getId();
                         String nombre_usuario=usuario.getNombre_usuario();
                         String email=usuario.getEmail();
                         String telefono=usuario.getTelefono();
-                        String url_imagen=usuario.getUrl_imagen();
-                        Solicitud solicitud=new Solicitud( id_destino,id,nombre_usuario,email, telefono, url_imagen);
+                        String url_destino = listaUsuarios.get(viewHolder.getAdapterPosition()).getUrl_imagen();
+                        if(url_destino.equals("default")){
+                            dialog_image_profile.setImageResource(R.drawable.profile);
+                        }
+                        else{
+                            Glide.with(mContext).load(url_destino).into(dialog_image_profile);
+
+                        }
+
+                        Solicitud solicitud=new Solicitud( id_destino,id,nombre_usuario,email, telefono, url_destino);
                         referencia.push().setValue(solicitud);
 
                         Toast.makeText(mContext, "Solicitud enviada", Toast.LENGTH_SHORT).show();
@@ -96,7 +109,7 @@ public class UserAdapterBusquedaLocation extends RecyclerView.Adapter<UserAdapte
 
                 myDialog.show();
 
-                //EVENTO DE ENVIAR SOLICITUD AQUI
+
 
 
 
@@ -106,15 +119,24 @@ public class UserAdapterBusquedaLocation extends RecyclerView.Adapter<UserAdapte
     }
 
     @Override
+       /*
+    El RecyclerView llama a este método para reutilizar los ViewHolder creados,
+    , es decir los infla con las nuevas filas visibles según el usuario desliza la lista.
+    (Se establece una foto de perfil predeterminada en caso de que no tenga una el usuario)
+     */
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         Usuario3 user = listaUsuarios.get(position);
 
 
         holder.username.setText(user.getNombre_usuario());
-        //Aqui no se que coño poner asique pongo cualquier imagen
-        holder.profile_image.setImageResource(R.mipmap.ic_launcher);
+        if(user.getUrl_imagen().equals("default")){
+            holder.profile_image.setImageResource(R.drawable.profile);
+        }
+        else{
+            Glide.with(mContext).load(user.getUrl_imagen()).into(holder.profile_image);
 
+        }
 
 
 
@@ -123,6 +145,7 @@ public class UserAdapterBusquedaLocation extends RecyclerView.Adapter<UserAdapte
     }
 
     @Override
+    //Metodo con el que obtenemos la longitud del Arraylist de listaUsuarios
     public int getItemCount() {
         return listaUsuarios.size();
     }

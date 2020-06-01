@@ -16,7 +16,7 @@
         android:background="@drawable/bg">
 
         <ImageView
-            android:id="@+id/profile"
+            android:id="@+id/profile_otros"
             android:layout_width="51dp"
             android:layout_height="48dp"
             android:layout_centerVertical="true"
@@ -31,7 +31,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="17dp"
             android:layout_marginTop="18dp"
-            android:layout_toRightOf="@+id/profile"
+            android:layout_toRightOf="@+id/profile_otros"
             android:text="Mi perfil"
             android:textColor="#ffff"
             android:textSize="20dp" />

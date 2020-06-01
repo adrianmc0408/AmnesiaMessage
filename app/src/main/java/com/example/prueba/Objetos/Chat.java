@@ -3,14 +3,14 @@ package com.example.prueba.Objetos;
 import java.util.Date;
 
 public class Chat {
-
+    //Declaramos los atributos de la clase
     private String sender;
     private String receiver;
     private String message;
     private String type;
     private Date fecha;
     private boolean leido;
-
+    //Metodo constructor
     public Chat(String sender, String receiver, String message, Date fecha,String type) {
         this.leido=false;
         this.sender = sender;
@@ -19,11 +19,11 @@ public class Chat {
         this.fecha = fecha;
         this.type = type;
     }
-
+    //Metodo constructor vacio
     public Chat() {
 
     }
-
+    //Getters y setters de los atributos
     public String getType() { return type; }
 
     public void setType(String type) { this.type = type; }

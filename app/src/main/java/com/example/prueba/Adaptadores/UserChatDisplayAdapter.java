@@ -23,6 +23,7 @@ import androidx.appcompat.view.menu.MenuView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.prueba.ChatRoom;
 import com.example.prueba.Objetos.Chat;
 import com.example.prueba.Objetos.Usuario;
@@ -42,9 +43,9 @@ import java.util.Collections;
 import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-//implements Filterable
-public class UserChatDisplayAdapter extends RecyclerView.Adapter<UserChatDisplayAdapter.ViewHolder>  {
 
+public class UserChatDisplayAdapter extends RecyclerView.Adapter<UserChatDisplayAdapter.ViewHolder>  {
+    //Declaramos las variables
     private Context mContext;
     private ArrayList<Usuario2> listaUsuarios;
     private OnItemClickListener mListener;
@@ -55,18 +56,19 @@ public class UserChatDisplayAdapter extends RecyclerView.Adapter<UserChatDisplay
     ArrayList<String> datos;
     ArrayList<Chat> conversacion;
 
+    // Se crea una interfaz dentro de la clase Adapterr
 
     public interface OnItemClickListener{
-
         void OnItemClick(int position);
     }
 
+    //Se define un atributo que es el listener
 
     public void setOnClickListener(OnItemClickListener listener){
         mListener=listener;
     }
 
-
+    //Constructor del adapter
     public UserChatDisplayAdapter(Context context, ArrayList<Usuario2> usuarios) {
         datos=new ArrayList<>();
         conversacion=new ArrayList<>();
@@ -80,6 +82,7 @@ public class UserChatDisplayAdapter extends RecyclerView.Adapter<UserChatDisplay
 
     @NonNull
     @Override
+    //Constructor del adaptador de Usuarios (presente en el fragment ChatDisplayFragment)
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.row_chat_display, parent, false);
         ViewHolder viewHolder = new ViewHolder(view,mListener);
@@ -89,6 +92,12 @@ public class UserChatDisplayAdapter extends RecyclerView.Adapter<UserChatDisplay
     }
 
     @Override
+     /*
+    El RecyclerView llama a este método para reutilizar los ViewHolder creados
+    , es decir los infla con las nuevas filas visibles según el usuario desliza entre las diferentes
+    conversaciones .
+
+     */
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
         Usuario2 user = listaUsuarios.get(position);
@@ -154,7 +163,7 @@ public class UserChatDisplayAdapter extends RecyclerView.Adapter<UserChatDisplay
             last_message_time = itemView.findViewById(R.id.chat_display_last_hour_message);
             message_counter = itemView.findViewById(R.id.chat_display_counter);
 
-
+            //Evento de click para abrir la conversacion
             itemView.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -174,6 +183,10 @@ public class UserChatDisplayAdapter extends RecyclerView.Adapter<UserChatDisplay
         }
 
     }
+    /*
+    Metodo que utilizamos para cargar los mensajes sin leer, la hora y contenido del ultimo mensaje...
+     */
+
     public void ultimoMensaje(final Usuario2 usuario,final ViewHolder holder){
 
 
@@ -251,8 +264,13 @@ public class UserChatDisplayAdapter extends RecyclerView.Adapter<UserChatDisplay
                 }
                 holder.last_message.setText(datos.get(0));
                 holder.last_message_time.setText(datos.get(1));
+                if(usuario.getUrl_imagen().equals("default")){
+                    holder.profile_image.setImageResource(R.drawable.profile);
+                }
+                else{
+                    Glide.with(mContext).load(usuario.getUrl_imagen()).into(holder.profile_image);
+                }
 
-                holder.profile_image.setImageResource(R.mipmap.ic_launcher);
 
 
             }

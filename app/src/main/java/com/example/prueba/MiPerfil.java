@@ -8,6 +8,8 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,17 +22,25 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Gallery;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.prueba.Objetos.Usuario;
 import com.example.prueba.Objetos.Usuario2;
 import com.example.prueba.Objetos.Usuario3;
+import com.google.android.gms.auth.api.signin.internal.Storage;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -38,9 +48,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 
 
 import net.glxn.qrgen.android.QRCode;
+
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -63,7 +79,7 @@ public class MiPerfil extends AppCompatActivity {
     private TextView username_superior;
     private CircleImageView foto_perfil;
 
-    private static final int GaleriaPick = 1;
+
     private EditText username;
     private EditText telefono;
     private EditText correo;
@@ -72,6 +88,12 @@ public class MiPerfil extends AppCompatActivity {
 
     private FirebaseDatabase base;
     private DatabaseReference referencia;
+    private static final int IMAGE_REQUEST=1;
+    private StorageReference storageReference;
+    private Uri imageUri;
+    private StorageTask uploadTask;
+
+
     private FirebaseAuth auth;
     private FirebaseUser user;
     private Usuario3 usuario3;
@@ -110,6 +132,7 @@ public class MiPerfil extends AppCompatActivity {
                 finish();
             }
         });
+        storageReference = FirebaseStorage.getInstance().getReference("fotosPerfil");
 
         base=FirebaseDatabase.getInstance();
         referencia=base.getReference("Usuarios");
@@ -118,17 +141,25 @@ public class MiPerfil extends AppCompatActivity {
 
 
 
-    btn_qr.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
+        foto_perfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openImage();
+            }
+        });
 
 
-            ImageView image= (ImageView) qr_dialog.findViewById(R.id.qr_image);
-            Bitmap bitmap = QRCode.from(usuario3.getId()).withSize(400, 400).bitmap();
-            image.setImageBitmap(bitmap);
-            qr_dialog.show();
-        }
-    });
+        btn_qr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                ImageView image= (ImageView) qr_dialog.findViewById(R.id.qr_image);
+                Bitmap bitmap = QRCode.from(usuario3.getId()).withSize(400, 400).bitmap();
+                image.setImageBitmap(bitmap);
+                qr_dialog.show();
+            }
+        });
 
         btn_contrasena.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,18 +189,10 @@ public class MiPerfil extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(funcion_mod.equals("mod")){
-
                     telefono_mod=telefono.getText().toString();
-
-
                     btn_contrasena.setVisibility(View.INVISIBLE);
-
                     btn_modificar.setBackgroundColor(Color.rgb(10,210,149));
-
-
                     btn_modificar.setText("Confirmar cambios");
-
-
 
                     telefono.setEnabled(true);
                     funcion_mod="conf";
@@ -182,19 +205,19 @@ public class MiPerfil extends AppCompatActivity {
                         Toast.makeText(MiPerfil.this, "No se ha realizado ningun cambio", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                      if (telefono.getText().equals("")){
-                          Toast.makeText(MiPerfil.this, "Campo incompleto", Toast.LENGTH_SHORT).show();
-                          salida=false;
-                      }
-                      else{
-                          if( validCellPhone(telefono.getText().toString()) && telefono.getText().toString().length()==9 ){
-                              salida=true;
-                          }
-                          else{
-                              Toast.makeText(MiPerfil.this, "Campo no valido", Toast.LENGTH_SHORT).show();
-                              salida=false;
-                          }
-                      }
+                        if (telefono.getText().equals("")){
+                            Toast.makeText(MiPerfil.this, "Campo incompleto", Toast.LENGTH_SHORT).show();
+                            salida=false;
+                        }
+                        else{
+                            if( validCellPhone(telefono.getText().toString()) && telefono.getText().toString().length()==9 ){
+                                salida=true;
+                            }
+                            else{
+                                Toast.makeText(MiPerfil.this, "Campo no valido", Toast.LENGTH_SHORT).show();
+                                salida=false;
+                            }
+                        }
                     }
                     if(salida==true){
                         usuario3.setTelefono(telefono.getText().toString());
@@ -224,7 +247,8 @@ public class MiPerfil extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     Usuario3 usuarioo = data.getValue(Usuario3.class);
-                    if (usuarioo.getId().equals(user.getUid())) {
+
+                    if ( user.getUid().equals(usuarioo.getId())) {
                         usuario3=usuarioo;
                         ref=data.getKey();
                         if(usuario3.isLocalizable()!=true){
@@ -239,6 +263,14 @@ public class MiPerfil extends AppCompatActivity {
                         username.setText(usuario3.getNombre_usuario());
                         correo.setText(usuario3.getEmail());
                         telefono.setText(usuario3.getTelefono());
+                        if(usuario3.getUrl_imagen().equals("default")){
+                            foto_perfil.setImageResource(R.drawable.profile);
+                        }
+                        else{
+                            Glide.with(MiPerfil.this).load(usuario3.getUrl_imagen()).into(foto_perfil);
+
+                        }
+
                     }
                 }
 
@@ -257,7 +289,7 @@ public class MiPerfil extends AppCompatActivity {
                     Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION
             }, 1000);
         } else {
-          LocationManager  ubicacion_usuario = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            LocationManager  ubicacion_usuario = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             location = ubicacion_usuario.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
         }
@@ -287,6 +319,71 @@ public class MiPerfil extends AppCompatActivity {
         }
     }
 
+    private void openImage(){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent,IMAGE_REQUEST);
+    }
+    private String getFileExtension(Uri uri){
+        ContentResolver contentResolver = this.getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return  mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+    private void uploadImage(){
+        final ProgressDialog pd = new ProgressDialog(this);
+        pd.setMessage("Estableciendo foto de perfil");
+        pd.show();
+        if(imageUri != null){
+            final StorageReference fileReference = storageReference.child(System.currentTimeMillis()
+                    +"."+getFileExtension(imageUri));
+            uploadTask = fileReference.putFile(imageUri);
+            uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot,Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot>task) throws Exception {
+                    if(!task.isSuccessful()){
+                        throw task.getException();
+                    }
+                    return fileReference.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if(task.isSuccessful()){
+                        Uri downloadUri = task.getResult();
+                        String mUri = downloadUri.toString();
+                        usuario3.setUrl_imagen(mUri);
+                        referencia.child(ref).setValue(usuario3);
+                        pd.dismiss();
+                    }else{
+                        Toast.makeText(MiPerfil.this, "error", Toast.LENGTH_SHORT).show();
+                        pd.dismiss();
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(MiPerfil.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    pd.dismiss();
+                }
+            });
+        } else{
+            Toast.makeText(this, "No ha seleccionado imagen", Toast.LENGTH_SHORT).show();
+        }
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == IMAGE_REQUEST && resultCode == RESULT_OK && data!=null && data.getData()!=null){
+            imageUri = data.getData();
+            if(uploadTask != null && uploadTask.isInProgress()){
+                Toast.makeText(this, "Upload en progreso", Toast.LENGTH_SHORT).show();
 
+            } else{
+                uploadImage();
+            }
+
+        }
+    }
 }

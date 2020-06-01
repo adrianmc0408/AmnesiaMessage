@@ -3,8 +3,9 @@ package com.example.prueba.Objetos;
 import android.location.Location;
 
 import java.io.Serializable;
-
+//La clase hereda de Serializable
 public class Usuario3 implements Serializable {
+    //Declaramos los atributos de la clase
     private double latitud;
     private double longitud;
     private boolean localizable;
@@ -13,11 +14,11 @@ public class Usuario3 implements Serializable {
     private String email;
     private String telefono;
     private String url_imagen;
-
+    //Metodo constructor vacio
     public Usuario3(){
 
     }
-
+    //Metodo constructor
     public Usuario3(double latitud, double longitud, boolean localizable, String id, String nombre_usuario, String email, String telefono, String url_imagen) {
         this.latitud = latitud;
         this.longitud = longitud;
@@ -28,7 +29,7 @@ public class Usuario3 implements Serializable {
         this.telefono = telefono;
         this.url_imagen = url_imagen;
     }
-
+    //Getters y setters de los atributos
     public double getLatitud() {
         return latitud;
     }

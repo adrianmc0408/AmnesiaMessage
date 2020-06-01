@@ -1,5 +1,6 @@
 package com.example.prueba.Items;
 
+//Clase que contiene la informacion del primer Scroll que presenta la aplicacion
 public class OnboardingItem {
     private int image;
     private String title;

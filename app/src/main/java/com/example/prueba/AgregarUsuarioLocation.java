@@ -59,7 +59,7 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
     private FirebaseUser user;
     private DatabaseReference referencia;
     private Location location;
-    private FusedLocationProviderClient cliente_loc;
+
     ValueEventListener listener;
 
     @Override
@@ -216,14 +216,8 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
             }, 1000);
         } else {
             //Sino obtenemos la localizacion
-           cliente_loc= LocationServices.getFusedLocationProviderClient(this);
-           cliente_loc.getLastLocation()
-                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location localizacion) {
-                            location=localizacion;
-                        }
-                    });
+            LocationManager  ubicacion_usuario = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            location = ubicacion_usuario.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             //Buscamos todos los usuarios
             buscarUsuarios();
         }
@@ -282,14 +276,8 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
 
                     } else {
                         //Una vez concedidos los permisos localizamos al usuario y llamamos al método de busqueda
-                        cliente_loc= LocationServices.getFusedLocationProviderClient(this);
-                        cliente_loc.getLastLocation()
-                                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                                    @Override
-                                    public void onSuccess(Location localizacion) {
-                                        location=localizacion;
-                                    }
-                                });
+                        LocationManager  ubicacion_usuario = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                        location = ubicacion_usuario.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                         buscarUsuarios();
                     }
                 } else {

@@ -99,6 +99,7 @@ public class AgregarUsuarioQR extends AppCompatActivity {
             referencia.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    usuario=null;
                     for(DataSnapshot datos:dataSnapshot.getChildren()){
                         Usuario usuario2=datos.getValue(Usuario.class);
                         if(resultado2.equals(usuario2.getId())){
@@ -119,7 +120,6 @@ public class AgregarUsuarioQR extends AppCompatActivity {
                         }
                         TextView username = (TextView) dialog_confirm.findViewById(R.id.dialog_qr_username);
                         Button confirmar = (Button) dialog_confirm.findViewById(R.id.dialog_qr_btn_confirmar);
-                        image.setImageResource(R.drawable.profile);
                         username.setText(usuario.getNombre_usuario());
                         //Dotamos de funcionalidad al botón confirmar del dialog , el cual agregará al usuarios leido mediante,
                         //el código QR directamente a nuestros amigos

@@ -15,7 +15,7 @@
         android:layout_height="67dp"
         android:background="@drawable/bg">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_otros"
             android:layout_width="51dp"
             android:layout_height="48dp"

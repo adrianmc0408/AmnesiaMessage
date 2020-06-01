@@ -37,6 +37,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,7 +56,7 @@ public class OtrosFragment extends Fragment {
     private FirebaseDatabase base;
     private DatabaseReference referencia;
     private FirebaseUser user;
-    private ImageView foto_perfil;
+    private CircleImageView foto_perfil;
 
     public OtrosFragment() {
         // Required empty public constructor

@@ -101,7 +101,7 @@ public class AgregarUsuarioQR extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for(DataSnapshot datos:dataSnapshot.getChildren()){
                         Usuario usuario2=datos.getValue(Usuario.class);
-                        if(usuario2.getId().equals(resultado2)){
+                        if(resultado2.equals(usuario2.getId())){
                             usuario=datos.getValue(Usuario.class);
                         }
                     }

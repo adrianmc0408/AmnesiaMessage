@@ -264,6 +264,7 @@ public class UserChatDisplayAdapter extends RecyclerView.Adapter<UserChatDisplay
                 }
                 holder.last_message.setText(datos.get(0));
                 holder.last_message_time.setText(datos.get(1));
+
                 if(usuario.getUrl_imagen().equals("default")){
                     holder.profile_image.setImageResource(R.drawable.profile);
                 }

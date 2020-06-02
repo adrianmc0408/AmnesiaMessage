@@ -55,7 +55,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@id/friend_image_profile"
                 android:layout_toRightOf="@id/friend_image_profile"
-                android:text="patitofeo23"
+                android:text="usuario13412"
                 android:textColor="@color/colorDarkGrey"
                 android:textSize="17sp"
                 android:textStyle="bold"

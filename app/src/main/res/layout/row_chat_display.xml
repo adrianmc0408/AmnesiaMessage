@@ -43,7 +43,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@id/chat_display_profile_image"
                 android:layout_toRightOf="@id/chat_display_profile_image"
-                android:text="patitofeo23"
+                android:text="usuario865"
                 android:textColor="@color/colorDarkGrey"
                 android:textSize="17sp"
                 android:textStyle="bold"

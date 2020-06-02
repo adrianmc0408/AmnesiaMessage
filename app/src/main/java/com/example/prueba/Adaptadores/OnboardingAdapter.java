@@ -15,15 +15,20 @@ import com.example.prueba.R;
 import java.util.List;
 
 public class OnboardingAdapter extends  RecyclerView.Adapter<OnboardingAdapter.OnboardingViewHolder>{
-
+    //Declaramos los atributos
     private List<OnboardingItem> onboardingItems;
-
+    //Método constructor
     public OnboardingAdapter(List<OnboardingItem> onboardingItems) {
         this.onboardingItems = onboardingItems;
     }
 
     @NonNull
     @Override
+   /*
+    El RecyclerView llama a este método para reutilizar los ViewHolder creados,
+    , es decir los infla con las nuevas filas visibles según el usuario desliza horinzontalmente.
+    (Se establece una foto de perfil predeterminada en caso de que no tenga una el usuario)
+     */
     public OnboardingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new OnboardingViewHolder(
                 LayoutInflater.from(parent.getContext()).inflate(

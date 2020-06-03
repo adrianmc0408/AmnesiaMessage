@@ -96,15 +96,7 @@ public class OtrosFragment extends Fragment {
             }
         });
 
-        opcion_ajustes.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
 
-
-                startActivity(new Intent(getContext(), VisualizadorFotos.class));
-
-            }
-        });
         agregar_usuario_qr.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {

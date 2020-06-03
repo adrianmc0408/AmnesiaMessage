@@ -8,6 +8,7 @@ public class Solicitud {
     private String email;
     private String telefono;
     private String url_imagen;
+    private boolean notificado;
     //Metodo constructor vacio
     public Solicitud() {
 
@@ -69,5 +70,13 @@ public class Solicitud {
 
     public void setId_destino(String id_destino) {
         this.id_destino = id_destino;
+    }
+
+    public boolean isNotificado() {
+        return notificado;
+    }
+
+    public void setNotificado(boolean notificado) {
+        this.notificado = notificado;
     }
 }

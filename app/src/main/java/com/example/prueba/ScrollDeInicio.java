@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 
 import com.example.prueba.Adaptadores.OnboardingAdapter;
 import com.example.prueba.Items.OnboardingItem;
+import com.example.prueba.Objetos.ServicioNotificaciones;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -134,6 +135,8 @@ public class ScrollDeInicio extends AppCompatActivity {
         if(usuario_actual!=null){
             pasar();
         }
+
+        startService(new Intent(getApplicationContext(), ServicioNotificaciones.class));
     }
     private void pasar(){
 

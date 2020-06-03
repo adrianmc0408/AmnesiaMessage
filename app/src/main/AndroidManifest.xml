@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.prueba">
+    package="com.example.prueba" >
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -16,8 +17,15 @@
         android:resizeableActivity="false"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".RecuperarContrasena"></activity>
+        android:theme="@style/AppTheme" >
+
+
+        <service
+            android:name="com.example.prueba.Objetos.ServicioNotificaciones"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".RecuperarContrasena" />
         <activity android:name=".AgregarUsuarioLocation" />
         <activity android:name=".CambioContrasena" />
         <activity android:name=".AgregarUsuarioQR" />
@@ -32,7 +40,7 @@
             android:name=".AgregarUsuario"
             android:label="@string/title_activity_agregar_usuario"
             android:parentActivityName=".HomePrincipal"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.prueba.HomePrincipal" />
@@ -41,7 +49,7 @@
         <activity android:name=".Registro" />
         <activity android:name=".Login" />
         <activity android:name=".SelectorLoginRegistro" />
-        <activity android:name=".ScrollDeInicio">
+        <activity android:name=".ScrollDeInicio" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

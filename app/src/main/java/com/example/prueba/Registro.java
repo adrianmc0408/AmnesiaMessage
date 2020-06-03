@@ -140,11 +140,11 @@ public class Registro extends AppCompatActivity implements Button.OnClickListene
         else {
             //Comprobamos mediante un pattern si el correo sigue el formato correcto es decir:
             //lo que sea @ lo que sea . com/es..
-            Pattern pattern = Pattern
+            Pattern patron = Pattern
                     .compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                             + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-            Matcher mather = pattern.matcher(c);
-            if(mather.find()==false){
+            Matcher comparador = patron.matcher(c);
+            if(comparador.find()==false){
                 email.setError("Formato email incorrecto");
                 camposValidos=false;
             }

@@ -57,6 +57,7 @@ public class OtrosFragment extends Fragment {
     private DatabaseReference referencia;
     private FirebaseUser user;
     private CircleImageView foto_perfil;
+    private ValueEventListener listener;
 
     public OtrosFragment() {
         // Required empty public constructor
@@ -170,10 +171,11 @@ public class OtrosFragment extends Fragment {
 
     }
  public void obtenerUsuario(){
-        referencia.addValueEventListener(new ValueEventListener() {
+        referencia.addValueEventListener(listener=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot datos:dataSnapshot.getChildren()){
+
                     Usuario3 usuario=datos.getValue(Usuario3.class);
                     if(user.getUid().equals(usuario.getId())){
                         if(!usuario.getUrl_imagen().equals("default")){
@@ -190,5 +192,11 @@ public class OtrosFragment extends Fragment {
             }
         });
  }
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+        referencia.removeEventListener(listener);
+
+    }
 
 }

@@ -99,6 +99,7 @@ public class MiPerfil extends AppCompatActivity {
     private Usuario3 usuario3;
     private Location location;
     private String ref;
+    private ValueEventListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -242,7 +243,7 @@ public class MiPerfil extends AppCompatActivity {
         leerDatos();
     }
     public void leerDatos(){
-        referencia.addValueEventListener(new ValueEventListener() {
+        referencia.addValueEventListener(listener=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
@@ -386,4 +387,13 @@ public class MiPerfil extends AppCompatActivity {
 
         }
     }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        referencia.removeEventListener(listener);
+    }
+
+
 }

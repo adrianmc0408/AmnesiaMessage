@@ -41,6 +41,7 @@ public class FriendsDisplayFragment extends Fragment {
     private RecyclerView recyclerView;
     private UserAdapter userAdapter;
     private TextView sinAmigos;
+    private TextView cargandoAmigos;
     private ArrayList<Usuario2> usuarioList;
     private ArrayList<Amistad2> amigosList;
     private RecyclerView.LayoutManager layoutManager;
@@ -61,6 +62,7 @@ public class FriendsDisplayFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_friends, container, false);
         sinAmigos=view.findViewById(R.id.friends_display_sinamigos);
+        cargandoAmigos=view.findViewById(R.id.friends_cargando);
         mAuth= FirebaseAuth.getInstance();
         usuario=mAuth.getCurrentUser();
         database=FirebaseDatabase.getInstance();
@@ -92,6 +94,7 @@ public class FriendsDisplayFragment extends Fragment {
 
                     }
                 }
+                cargandoAmigos.setVisibility(View.GONE);
                 if(!amigosList.isEmpty()) {
                     sinAmigos.setVisibility(View.INVISIBLE);
                     reference2.addListenerForSingleValueEvent(new ValueEventListener() {

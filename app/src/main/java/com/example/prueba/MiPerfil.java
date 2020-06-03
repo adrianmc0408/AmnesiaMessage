@@ -53,7 +53,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
-
 import net.glxn.qrgen.android.QRCode;
 
 import java.util.HashMap;

@@ -45,11 +45,15 @@
         <ImageView
             android:id="@+id/show_image"
             android:visibility="gone"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="250dp"
+            android:maxWidth="250dp"
+            android:minWidth="120dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:background="@drawable/bg_message_right"
             android:padding="80dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
             android:src="@drawable/ic_cargador" />
         <TextView
             android:id="@+id/show_message"

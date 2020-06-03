@@ -2,6 +2,7 @@ package com.example.prueba.Adaptadores;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import com.example.prueba.MiPerfil;
 import com.example.prueba.Objetos.Chat;
 import com.example.prueba.Objetos.Usuario2;
 import com.example.prueba.R;
+import com.example.prueba.VisualizadorFotos;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -44,7 +46,8 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     private String imageurl;
     private String txt_visto;
     private String txt_hora;
-
+    //1Izquierda 2Derecha
+    private int mensajeType;
     private FirebaseUser fuser;
     private FirebaseAuth auth;
 
@@ -68,10 +71,12 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     public ChatAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if(viewType == MSG_TYPE_RIGHT){
             View view = LayoutInflater.from(mContext).inflate(R.layout.chat_item_right,parent,false);
+            mensajeType=2;
             return new ChatAdapter.ViewHolder(view);
         }
         else{
             View view = LayoutInflater.from(mContext).inflate(R.layout.chat_item_left,parent,false);
+            mensajeType=1;
             return new ChatAdapter.ViewHolder(view);
         }
     }
@@ -82,7 +87,7 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     , es decir los infla con las nuevas filas visibles según el usuario desliza la lista.
     (Se establece una foto de perfil predeterminada en caso de que no tenga una el usuario)
      */
-    public void onBindViewHolder(@NonNull ChatAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ChatAdapter.ViewHolder holder, final int position) {
         Chat chat = listaChats.get(position);
         holder.show_message.setText(chat.getMessage());
         String hora="";
@@ -101,6 +106,19 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             hora=hora+minutos;
         }
         holder.txt_hora.setText(hora);
+
+        if(chat.getType().equals("img")){
+            holder.show_image.setVisibility(View.VISIBLE);
+            holder.show_message.setVisibility(View.GONE);
+            Glide.with(mContext).load(chat.getUrl_imagen()).into(holder.show_image);
+            holder.show_image.setPadding(12,12,12,12);
+                if(mensajeType==1) {
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.txt_hora.getLayoutParams();
+                    params.addRule(RelativeLayout.BELOW, R.id.show_image);
+                    holder.txt_hora.setLayoutParams(params);
+                }
+
+        }
 
 
 
@@ -158,6 +176,9 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         CircleImageView profile_image;
         TextView txt_visto;
         TextView txt_hora;
+        ImageView show_image;
+
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             context = itemView.getContext();
@@ -165,7 +186,7 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             profile_image = itemView.findViewById(R.id.msg_profile_image);
             txt_visto = itemView.findViewById(R.id.txt_seen);
             txt_hora = itemView.findViewById(R.id.txt_hour);
-
+            show_image = itemView.findViewById(R.id.show_image);
 
 
         }
@@ -178,9 +199,11 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     public int getItemViewType(int position) {
 
         if (listaChats.get(position).getSender().equals(fuser.getUid())){
+
             return MSG_TYPE_RIGHT;
         }
         else{
+
             return MSG_TYPE_LEFT;
         }
     }

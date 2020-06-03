@@ -48,6 +48,7 @@ public class ChatsDisplayFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private TextView sinChats;
+    private TextView cargandoChats;
     private UserChatDisplayAdapter userChatDisplayAdapter;
     private ArrayList<Usuario2> usuarioList;
     private ArrayList<String> id_list;
@@ -74,6 +75,7 @@ public class ChatsDisplayFragment extends Fragment {
         TareaBorrarMensaje tarea=new TareaBorrarMensaje();
         timer.scheduleAtFixedRate(tarea,0,300000);
         sinChats = view.findViewById(R.id.chat_display_sinchats);
+        cargandoChats = view.findViewById(R.id.chat_display_cargando);
         base=FirebaseDatabase.getInstance();
         referencia=base.getReference("Chats");
         referencia2=base.getReference("Usuarios");
@@ -176,6 +178,7 @@ public class ChatsDisplayFragment extends Fragment {
 
                             }
                         });
+                        cargandoChats.setVisibility(View.GONE);
                         if(usuarioList.size()==0){
                             sinChats.setVisibility(View.VISIBLE);
                         }

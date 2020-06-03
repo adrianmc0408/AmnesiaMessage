@@ -29,6 +29,7 @@ import com.example.prueba.Objetos.Usuario3;
 import com.example.prueba.R;
 import com.example.prueba.SelectorLoginRegistro;
 import com.example.prueba.SolicitudAmistad;
+import com.example.prueba.VisualizadorFotos;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -47,6 +48,7 @@ public class OtrosFragment extends Fragment {
 
 
     private RelativeLayout agregar_usuario;
+    private RelativeLayout opcion_ajustes;
     private RelativeLayout agregar_usuario_qr;
     private RelativeLayout agregar_usuario_location;
     private RelativeLayout solicitud_amistad;
@@ -73,6 +75,7 @@ public class OtrosFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_otros, container, false);
         foto_perfil=view.findViewById(R.id.profile_otros);
         agregar_usuario = view.findViewById(R.id.opcion_agregar_usuario);
+        opcion_ajustes = view.findViewById(R.id.opcion_ajustes);
         agregar_usuario_qr = view.findViewById(R.id.opcion_agregar_por_qr);
         agregar_usuario_location = view.findViewById(R.id.opcion_agregar_por_localizacion);
         solicitud_amistad = view.findViewById(R.id.opcion_solicitudes_amistad);
@@ -89,6 +92,16 @@ public class OtrosFragment extends Fragment {
 
 
                 startActivity(new Intent(getContext(), AgregarUsuario.class));
+
+            }
+        });
+
+        opcion_ajustes.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+
+                startActivity(new Intent(getContext(), VisualizadorFotos.class));
 
             }
         });

@@ -20,6 +20,7 @@
         <activity android:name=".RecuperarContrasena"></activity>
         <activity android:name=".AgregarUsuarioLocation" />
         <activity android:name=".CambioContrasena" />
+        <activity android:name=".VisualizadorFotos" />
         <activity android:name=".AgregarUsuarioQR" />
         <activity android:name=".MiPerfil" />
         <activity android:name=".ChatRoom" />

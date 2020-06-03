@@ -108,7 +108,7 @@ public class UserChatDisplayAdapter extends RecyclerView.Adapter<UserChatDisplay
             public void onClick(View v) {
                 Intent intent = new Intent(mContext,VisualizadorFotos.class);
                 intent.putExtra("url_image",user.getUrl_imagen());
-                intent.putExtra("username",user.getNombre_usuario());
+
                 mContext.startActivity(intent);
             }
         });

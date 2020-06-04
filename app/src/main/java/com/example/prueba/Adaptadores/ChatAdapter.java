@@ -131,6 +131,7 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         }
 
 
+
         //En este if solo entraremos en el caso de que sea el ultimo mensaje del array
         if(position == listaChats.size()-1){
             /*

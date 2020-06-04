@@ -25,6 +25,7 @@ import com.example.prueba.Objetos.Usuario;
 import com.example.prueba.Objetos.Usuario2;
 import com.example.prueba.R;
 import com.example.prueba.SelectorLoginRegistro;
+import com.example.prueba.VisualizadorFotos;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -72,7 +73,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             public void onClick(View v) {
 
                 final TextView dialog_user= (TextView) myDialog.findViewById(R.id.dialog_usuario_username);
-               final CircleImageView dialog_image_profile = (CircleImageView) myDialog.findViewById(R.id.dialog_usuario_foto_perfil);
+                final CircleImageView dialog_image_profile = (CircleImageView) myDialog.findViewById(R.id.dialog_usuario_foto_perfil);
                 dialog_user.setText(listaUsuarios.get(viewHolder.getAdapterPosition()).getNombre_usuario());
                 final int position = viewHolder.getAdapterPosition();
                 String url_destino = listaUsuarios.get(viewHolder.getAdapterPosition()).getUrl_imagen();
@@ -157,9 +158,17 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
      */
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        Usuario2 user = listaUsuarios.get(position);
+        final Usuario2 user = listaUsuarios.get(position);
         holder.username.setText(user.getNombre_usuario());
-
+        holder.profile_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, VisualizadorFotos.class);
+                intent.putExtra("url_image",user.getUrl_imagen());
+                intent.putExtra("username",user.getNombre_usuario());
+                mContext.startActivity(intent);
+            }
+        });
         if(user.getUrl_imagen().equals("default")){
             holder.profile_image.setImageResource(R.drawable.profile);
         }

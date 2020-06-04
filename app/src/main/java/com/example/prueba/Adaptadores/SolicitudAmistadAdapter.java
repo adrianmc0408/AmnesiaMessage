@@ -2,6 +2,7 @@ package com.example.prueba.Adaptadores;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import com.example.prueba.Objetos.Usuario;
 import com.example.prueba.Objetos.Usuario2;
 import com.example.prueba.R;
 import com.example.prueba.SolicitudAmistad;
+import com.example.prueba.VisualizadorFotos;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -75,7 +77,7 @@ public class SolicitudAmistadAdapter extends RecyclerView.Adapter<SolicitudAmist
      */
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         //Cogemos el usuario actual
-        Usuario2 user = listaPeticiones.get(position);
+        final Usuario2 user = listaPeticiones.get(position);
         //Rellenamos los campos de la vista
         holder.username.setText(user.getNombre_usuario());
         if(user.getUrl_imagen().equals("default")){
@@ -86,7 +88,15 @@ public class SolicitudAmistadAdapter extends RecyclerView.Adapter<SolicitudAmist
         }
 
 
-
+        holder.profile_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, VisualizadorFotos.class);
+                intent.putExtra("url_image",user.getUrl_imagen());
+                intent.putExtra("username",user.getNombre_usuario());
+                mContext.startActivity(intent);
+            }
+        });
 
 
         //En caso de que denegemos la solicitud de amistad la borraremos de Firebase y del recyclerview

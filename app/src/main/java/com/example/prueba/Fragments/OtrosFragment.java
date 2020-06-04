@@ -48,7 +48,7 @@ public class OtrosFragment extends Fragment {
 
 
     private RelativeLayout agregar_usuario;
-    private RelativeLayout opcion_ajustes;
+
     private RelativeLayout agregar_usuario_qr;
     private RelativeLayout agregar_usuario_location;
     private RelativeLayout solicitud_amistad;
@@ -75,7 +75,7 @@ public class OtrosFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_otros, container, false);
         foto_perfil=view.findViewById(R.id.profile_otros);
         agregar_usuario = view.findViewById(R.id.opcion_agregar_usuario);
-        opcion_ajustes = view.findViewById(R.id.opcion_ajustes);
+
         agregar_usuario_qr = view.findViewById(R.id.opcion_agregar_por_qr);
         agregar_usuario_location = view.findViewById(R.id.opcion_agregar_por_localizacion);
         solicitud_amistad = view.findViewById(R.id.opcion_solicitudes_amistad);
@@ -95,8 +95,6 @@ public class OtrosFragment extends Fragment {
 
             }
         });
-
-
         agregar_usuario_qr.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {

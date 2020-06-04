@@ -45,39 +45,7 @@
             android:src="@drawable/arrow_white" />
 
     </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/opcion_ajustes"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="34dp">
 
-        <ImageView
-            android:id="@+id/icon_set"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/settings">
-
-        </ImageView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:layout_toRightOf="@id/icon_set"
-            android:text="Ajustes"
-            android:textColor="#202020"
-            android:textSize="16dp" />
-
-        <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/arrow_dark" />
-
-
-    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/opcion_agregar_usuario"

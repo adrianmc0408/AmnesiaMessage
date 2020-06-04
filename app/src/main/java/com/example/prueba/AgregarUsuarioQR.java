@@ -32,6 +32,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.util.ArrayList;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AgregarUsuarioQR extends AppCompatActivity {
@@ -44,6 +46,7 @@ public class AgregarUsuarioQR extends AppCompatActivity {
 
     private FirebaseDatabase base;
     private DatabaseReference referencia;
+    private DatabaseReference referencia2;
     private FirebaseAuth auth;
     private FirebaseUser user;
 
@@ -61,6 +64,7 @@ public class AgregarUsuarioQR extends AppCompatActivity {
         //Intanciamos los objetos de Firebase necesarios para trabajar
         base=FirebaseDatabase.getInstance();
         referencia=base.getReference("Usuarios");
+        referencia2=base.getReference("Amigos");
         auth=FirebaseAuth.getInstance();
         user=auth.getCurrentUser();
         escaner = findViewById(R.id.btn_prueba);
@@ -126,10 +130,15 @@ public class AgregarUsuarioQR extends AppCompatActivity {
                         confirmar.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                DatabaseReference referencia2 = base.getReference("Amigos");
-                                referencia2.push().setValue(new Amistad(usuario.getId(), user.getUid()));
-                                Toast.makeText(AgregarUsuarioQR.this,usuario.getNombre_usuario()+" agregado a amigos",Toast.LENGTH_SHORT).show();
-                                dialog_confirm.cancel();
+                                if(user.getUid().equals(usuario.getId())){
+                                    Toast.makeText(AgregarUsuarioQR.this, "No puedes agregarte a ti mismo", Toast.LENGTH_SHORT).show();
+                                }
+                                else{
+                                    comprobarAmistad(usuario.getId(), user.getUid());
+                                }
+
+
+
 
                             }
                         });
@@ -148,6 +157,49 @@ public class AgregarUsuarioQR extends AppCompatActivity {
                 }
             });
         }
+
+
+    }
+    public void comprobarAmistad(final String id1, final String id2) {
+        Boolean existente = false;
+        referencia2.addValueEventListener(new ValueEventListener() {
+
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<Amistad> listaAmigos = new ArrayList<>();
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    Amistad amigo = data.getValue(Amistad.class);
+                    listaAmigos.add(amigo);
+                }
+                boolean amistadEncontrada=false;
+                int contador = 0;
+                for (Amistad am : listaAmigos){
+                    if(    (am.getId1().equals(id1)&& am.getId2().equals(id2) ) || (am.getId1().equals(id2)&& am.getId2().equals(id1) ) ){
+                        amistadEncontrada=true;
+                    }
+                }
+                if(amistadEncontrada==true){
+                    Toast.makeText(AgregarUsuarioQR.this, "Este usuario es tu amigo", Toast.LENGTH_SHORT).show();
+                    dialog_confirm.cancel();
+                }
+                else{
+                    DatabaseReference referencia2 = base.getReference("Amigos");
+                    referencia2.push().setValue(new Amistad(usuario.getId(), user.getUid()));
+                    Toast.makeText(AgregarUsuarioQR.this,usuario.getNombre_usuario()+" agregado a amigos",Toast.LENGTH_SHORT).show();
+                    dialog_confirm.cancel();
+                }
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+        });
 
 
     }

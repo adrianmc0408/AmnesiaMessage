@@ -89,15 +89,18 @@ public class ServicioNotificaciones2 extends Service {
 
     public void crearNotificacion(int num){
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
-            NotificationChannel canal=new NotificationChannel(CHANNEL_ID,"Notificacion", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationChannel canal=new NotificationChannel(CHANNEL_ID,"Notificacion", NotificationManager.IMPORTANCE_HIGH);
             NotificationManager notificationManager=(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             notificationManager.createNotificationChannel(canal);
+            canal.enableLights(true);
+            canal.enableVibration(true);
+            canal.setLightColor(Color.BLUE);
         }
         NotificationCompat.Builder builder=new NotificationCompat.Builder(getApplicationContext(),CHANNEL_ID);
         builder.setSmallIcon(R.drawable.logo_final);
         builder.setContentTitle("Amnesia Message");
         builder.setContentText("Tienes "+num+" mensajes sin leer");
-        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        builder.setPriority(NotificationCompat.PRIORITY_MAX);
         builder.setColor(Color.BLUE);
         builder.setDefaults(Notification.DEFAULT_ALL);
         NotificationManagerCompat notificationManagerCompat=NotificationManagerCompat.from(getApplicationContext());

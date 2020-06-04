@@ -3,7 +3,9 @@ package com.example.prueba.Objetos;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.app.TaskStackBuilder;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -14,7 +16,9 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.example.prueba.HomePrincipal;
 import com.example.prueba.R;
+import com.example.prueba.SolicitudAmistad;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +36,7 @@ public class ServicioNotificaciones extends Service {
     private FirebaseUser user;
     private final static String CHANNEL_ID="NOTIFICACION";
     private final static int NOTIFICACION_ID=0;
+    private PendingIntent pi;
     public ServicioNotificaciones() {
     }
 
@@ -46,6 +51,7 @@ public class ServicioNotificaciones extends Service {
         base=FirebaseDatabase.getInstance();
         auth=FirebaseAuth.getInstance();
         referencia=base.getReference("Solicitudes");
+        crearPending();
         leerDatos();
     }
 
@@ -81,6 +87,13 @@ public class ServicioNotificaciones extends Service {
             }
         });
     }
+    public void crearPending(){
+        Intent intent=new Intent(getApplicationContext(), SolicitudAmistad.class);
+        TaskStackBuilder stackBuilder=TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(HomePrincipal.class);
+        stackBuilder.addNextIntent(intent);
+        pi=stackBuilder.getPendingIntent(1,PendingIntent.FLAG_UPDATE_CURRENT);
+    }
 
     public void crearNotificacion(){
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
@@ -100,6 +113,8 @@ public class ServicioNotificaciones extends Service {
         builder.setColor(Color.BLUE);
         builder.setDefaults(Notification.DEFAULT_ALL);
         builder.setDefaults(Notification.DEFAULT_SOUND);
+        builder.setContentIntent(pi);
+        builder.setAutoCancel(true);
         NotificationManagerCompat notificationManagerCompat=NotificationManagerCompat.from(getApplicationContext());
         notificationManagerCompat.notify(NOTIFICACION_ID,builder.build());
     }

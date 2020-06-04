@@ -10,6 +10,7 @@ public class Chat {
     private String type;
     private Date fecha;
     private String url_imagen;
+    private boolean notificado;
 
     private boolean leido;
     //Metodo constructor
@@ -77,5 +78,13 @@ public class Chat {
 
     public void setUrl_imagen(String url_imagen) {
         this.url_imagen = url_imagen;
+    }
+
+    public boolean isNotificado() {
+        return notificado;
+    }
+
+    public void setNotificado(boolean notificado) {
+        this.notificado = notificado;
     }
 }

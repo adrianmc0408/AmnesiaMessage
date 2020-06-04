@@ -119,6 +119,7 @@ public class ChatRoom extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                referencia.removeEventListener(valueEventListener);
                 finish();
             }
         });
@@ -211,15 +212,8 @@ public class ChatRoom extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        referencia.removeEventListener(valueEventListener);
-        this.finish();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
+    public void onBackPressed() {
+        super.onBackPressed();
         referencia.removeEventListener(valueEventListener);
         this.finish();
     }

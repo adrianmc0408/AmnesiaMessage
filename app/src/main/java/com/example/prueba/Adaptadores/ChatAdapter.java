@@ -105,6 +105,7 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         else{
             hora=hora+minutos;
         }
+
         holder.txt_hora.setText(hora);
 
         if(chat.getType().equals("img")){

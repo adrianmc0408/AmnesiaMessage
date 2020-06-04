@@ -146,7 +146,10 @@ public class ChatsDisplayFragment extends Fragment {
                 referencia2.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        Collections.reverse(id_list);
+                        ArrayList<String> id_list2=new ArrayList<>();
+                        for(int i=id_list.size()-1;i>-1;i--){
+                            id_list2.add(id_list.get(i));
+                        }
                         usuarioList.clear();
                         ArrayList<Usuario> usuarios=new ArrayList<>();
                         Usuario usuario=new Usuario();
@@ -154,9 +157,9 @@ public class ChatsDisplayFragment extends Fragment {
                            usuarios.add(usuario=data.getValue(Usuario.class));
                         }
 
-                        for(int i=0;i<id_list.size();i++){
+                        for(int i=0;i<id_list2.size();i++){
                             for(int j=0;j<usuarios.size();j++){
-                                if(id_list.get(i).equals(usuarios.get(j).getId())){
+                                if(id_list2.get(i).equals(usuarios.get(j).getId())){
                                     usuarioList.add(new Usuario2(dataSnapshot.getKey(),usuarios.get(j).getId(),usuarios.get(j).getNombre_usuario(),
                                             usuarios.get(j).getEmail(),usuarios.get(j).getTelefono(),usuarios.get(j).getUrl_imagen()));
                                 }

@@ -29,6 +29,7 @@ import com.example.prueba.Objetos.Chat;
 import com.example.prueba.Objetos.Usuario;
 import com.example.prueba.Objetos.Usuario2;
 import com.example.prueba.R;
+import com.example.prueba.VisualizadorFotos;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -100,7 +101,19 @@ public class UserChatDisplayAdapter extends RecyclerView.Adapter<UserChatDisplay
      */
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
-        Usuario2 user = listaUsuarios.get(position);
+        final Usuario2 user = listaUsuarios.get(position);
+
+        holder.profile_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext,VisualizadorFotos.class);
+                intent.putExtra("url_image",user.getUrl_imagen());
+
+                mContext.startActivity(intent);
+            }
+        });
+
+
         ultimoMensaje(user,holder);
 
     }
@@ -271,9 +284,6 @@ public class UserChatDisplayAdapter extends RecyclerView.Adapter<UserChatDisplay
                 else{
                     Glide.with(mContext).load(usuario.getUrl_imagen()).into(holder.profile_image);
                 }
-
-
-
             }
 
             @Override

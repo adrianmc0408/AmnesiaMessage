@@ -16,14 +16,20 @@
 
     <ImageView
         android:id="@+id/show_image"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="250dp"
+        android:maxWidth="250dp"
+        android:minWidth="120dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@id/msg_profile_image"
         android:background="@drawable/bg_messasge_left"
         android:padding="80dp"
         android:src="@drawable/ic_cargador"
-        android:visibility="gone" />
+        android:visibility="gone"
+
+        />
 
     <TextView
         android:id="@+id/show_message"
@@ -54,6 +60,6 @@
         android:layout_marginRight="5dp"
         android:layout_below="@id/show_message"
         android:layout_marginLeft="50dp"
-        android:layout_toRightOf="@+id/txt_seen"/>
+        />
 
 </RelativeLayout>

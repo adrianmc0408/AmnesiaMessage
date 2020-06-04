@@ -9,14 +9,17 @@ public class Chat {
     private String message;
     private String type;
     private Date fecha;
+    private String url_imagen;
+
     private boolean leido;
     //Metodo constructor
-    public Chat(String sender, String receiver, String message, Date fecha,String type) {
+    public Chat(String sender, String receiver, String message, Date fecha,String type,String url_imagen) {
         this.leido=false;
         this.sender = sender;
         this.receiver = receiver;
         this.message = message;
         this.fecha = fecha;
+        this.url_imagen=url_imagen;
         this.type = type;
     }
     //Metodo constructor vacio
@@ -66,5 +69,13 @@ public class Chat {
 
     public void setLeido(boolean leido) {
         this.leido = leido;
+    }
+
+    public String getUrl_imagen() {
+        return url_imagen;
+    }
+
+    public void setUrl_imagen(String url_imagen) {
+        this.url_imagen = url_imagen;
     }
 }

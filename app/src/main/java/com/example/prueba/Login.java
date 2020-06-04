@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.prueba.Objetos.ServicioNotificaciones;
+import com.example.prueba.Objetos.ServicioNotificaciones2;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
@@ -59,6 +61,8 @@ public class Login extends AppCompatActivity {
                             if(task.isSuccessful()){
                                 Toast.makeText(Login.this,"Login correcto",Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getApplicationContext(), HomePrincipal.class));
+                                startService(new Intent(getApplicationContext(), ServicioNotificaciones.class));
+                                startService(new Intent(getApplicationContext(), ServicioNotificaciones2.class));
                                 finish();
                             }
                             //Sino marcamos error

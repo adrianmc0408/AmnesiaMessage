@@ -150,10 +150,11 @@ public class ScrollDeInicio extends AppCompatActivity {
         FirebaseUser usuario_actual=mAuth.getCurrentUser();
         if(usuario_actual!=null){
             pasar();
+            startService(new Intent(getApplicationContext(), ServicioNotificaciones.class));
+            startService(new Intent(getApplicationContext(), ServicioNotificaciones2.class));
         }
 
-        startService(new Intent(getApplicationContext(), ServicioNotificaciones.class));
-        startService(new Intent(getApplicationContext(), ServicioNotificaciones2.class));
+
     }
     //Metodo que nos envia al Home si hay sesion abierta
     private void pasar(){

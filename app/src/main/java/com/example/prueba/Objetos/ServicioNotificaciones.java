@@ -86,10 +86,11 @@ public class ServicioNotificaciones extends Service {
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
             NotificationChannel canal=new NotificationChannel(CHANNEL_ID,"Notificacion", NotificationManager.IMPORTANCE_HIGH);
             NotificationManager notificationManager=(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            notificationManager.createNotificationChannel(canal);
             canal.enableLights(true);
             canal.enableVibration(true);
             canal.setLightColor(Color.BLUE);
+            notificationManager.createNotificationChannel(canal);
+
         }
         NotificationCompat.Builder builder=new NotificationCompat.Builder(getApplicationContext(),CHANNEL_ID);
         builder.setSmallIcon(R.drawable.logo_final);

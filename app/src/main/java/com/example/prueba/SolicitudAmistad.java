@@ -3,6 +3,9 @@ package com.example.prueba;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.prueba.Adaptadores.SolicitudAmistadAdapter;
 import com.example.prueba.Adaptadores.UserAdapterBusqueda;
@@ -35,6 +38,7 @@ public class SolicitudAmistad extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private FirebaseDatabase database;
     private DatabaseReference reference;
+    private TextView sinSolicitudes;
     private FirebaseAuth mAuth;
     @Override
 
@@ -52,6 +56,7 @@ public class SolicitudAmistad extends AppCompatActivity {
         database=FirebaseDatabase.getInstance();
         reference=database.getReference("Solicitudes");
 
+        sinSolicitudes = findViewById(R.id.solicitudAmistad_sin);
          listaPeticiones = new ArrayList<>();
         recyclerView = findViewById(R.id.recyclerview_solicitud_amistad);
         recyclerView.setHasFixedSize(true);
@@ -79,9 +84,16 @@ public class SolicitudAmistad extends AppCompatActivity {
                             Usuario2 usuario=new Usuario2(data.getKey(),solicitud.getId(),solicitud.getNombre_usuario(),solicitud.getEmail(),solicitud.getTelefono()
                             ,solicitud.getUrl_imagen());
                             listaPeticiones.add(usuario);
+                            sinSolicitudes.setVisibility(View.INVISIBLE);
                         }
 
                     }
+
+
+
+                }
+                if(listaPeticiones.size()==0){
+                    sinSolicitudes.setVisibility(View.VISIBLE);
                 }
                 //Agregamos los datos al adapter
                 layoutManager = new LinearLayoutManager(getApplicationContext());

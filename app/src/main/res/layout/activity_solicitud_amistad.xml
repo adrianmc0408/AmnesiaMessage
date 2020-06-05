@@ -31,6 +31,15 @@
         android:layout_below="@+id/appBarLayout2"
         />
 
+    <TextView
+        android:id="@+id/solicitudAmistad_sin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="No tienes ninguna solicitud de amistad"
+        android:visibility="gone"/>
+
+
 
 
 

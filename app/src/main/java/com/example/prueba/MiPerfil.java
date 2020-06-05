@@ -227,10 +227,25 @@ public class MiPerfil extends AppCompatActivity {
                                         }
                                         for (Usuario usu : listaUsuarios) {
                                             if (usu.getTelefono().equals(telefono.getText().toString())){
-                                               setSalida(false);
+                                               salida=false;
                                                 Toast.makeText(MiPerfil.this, "Número de teléfono ya registrado", Toast.LENGTH_SHORT).show();
                                             }
 
+                                        }
+                                        if(salida==true){
+                                            usuario3.setTelefono(telefono.getText().toString());
+                                            referencia.child(ref).setValue(usuario3);
+                                            btn_contrasena.setVisibility(View.VISIBLE);
+
+                                            btn_modificar.setBackgroundColor(Color.rgb(33,150,244));
+
+                                            btn_modificar.setText("MODIFICAR MIS DATOS");
+
+                                            telefono.setEnabled(false);
+                                            funcion_mod="mod";
+                                        }
+                                        else{
+                                            telefono.setText(telefono_mod);
                                         }
 
 
@@ -250,19 +265,7 @@ public class MiPerfil extends AppCompatActivity {
                             }
                         }
                     }
-                    if(salida==true){
-                        usuario3.setTelefono(telefono.getText().toString());
-                        referencia.child(ref).setValue(usuario3);
-                        btn_contrasena.setVisibility(View.VISIBLE);
-
-                        btn_modificar.setBackgroundColor(Color.rgb(33,150,244));
-
-                        btn_modificar.setText("MODIFICAR MIS DATOS");
-
-                        telefono.setEnabled(false);
-                        funcion_mod="mod";
-                    }
-                    else{
+                    if(salida==false){
                         telefono.setText(telefono_mod);
                     }
 

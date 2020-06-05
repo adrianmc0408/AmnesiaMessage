@@ -176,6 +176,7 @@ public class UserChatDisplayAdapter extends RecyclerView.Adapter<UserChatDisplay
             last_message = itemView.findViewById(R.id.chat_display_last_message);
             last_message_time = itemView.findViewById(R.id.chat_display_last_hour_message);
             message_counter = itemView.findViewById(R.id.chat_display_counter);
+            setIsRecyclable(false);
 
             //Evento de click para abrir la conversacion
             itemView.setOnClickListener(new View.OnClickListener() {

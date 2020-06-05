@@ -88,6 +88,7 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     (Se establece una foto de perfil predeterminada en caso de que no tenga una el usuario)
      */
     public void onBindViewHolder(@NonNull ChatAdapter.ViewHolder holder, final int position) {
+        Glide.with(mContext).clear(holder.show_image);
         Chat chat = listaChats.get(position);
         holder.show_message.setText(chat.getMessage());
         String hora="";
@@ -120,6 +121,7 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                 }
 
         }
+
 
 
 
@@ -189,7 +191,7 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             txt_visto = itemView.findViewById(R.id.txt_seen);
             txt_hora = itemView.findViewById(R.id.txt_hour);
             show_image = itemView.findViewById(R.id.show_image);
-
+            setIsRecyclable(false);
 
         }
 
@@ -208,5 +210,10 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
             return MSG_TYPE_LEFT;
         }
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 }

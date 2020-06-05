@@ -46,14 +46,8 @@ public class ServicioNotificaciones extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Notification notificacion = new NotificationCompat.Builder(this, CHANNEL_ID2)
-                .setContentTitle("Servicio de notificaciones")
-                .setContentText("Leyendo los datos")
-                .setSmallIcon(R.drawable.logo_final)
-                .setPriority(NotificationCompat.PRIORITY_MIN)
-                .build();
-        startForeground(1,notificacion);
-         return Service.START_STICKY;
+
+         return Service.START_NOT_STICKY;
     }
 
     @Override
@@ -67,6 +61,13 @@ public class ServicioNotificaciones extends Service {
         crearPending2();
         crearCanal();
         crearCanal2();
+        Notification notificacion = new NotificationCompat.Builder(this, CHANNEL_ID2)
+                .setContentTitle("Servicio de notificaciones")
+                .setContentText("Leyendo los datos")
+                .setSmallIcon(R.drawable.logo_final)
+                .setPriority(NotificationCompat.PRIORITY_MIN)
+                .build();
+        startForeground(1,notificacion);
         leerDatos();
         leerDatos2();
 

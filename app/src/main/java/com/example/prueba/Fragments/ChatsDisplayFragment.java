@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
@@ -58,6 +59,7 @@ public class ChatsDisplayFragment extends Fragment {
     private FirebaseAuth auth;
     private FirebaseUser user;
     DividerItemDecoration divider;
+    ValueEventListener listener;
 
 
     public ChatsDisplayFragment() {
@@ -167,9 +169,6 @@ public class ChatsDisplayFragment extends Fragment {
                         }
                         recyclerView.setLayoutManager( new LinearLayoutManager(getContext()));
                         userChatDisplayAdapter = new UserChatDisplayAdapter(getContext(),usuarioList);
-                        DividerItemDecoration divider = new DividerItemDecoration(recyclerView.getContext(),DividerItemDecoration.VERTICAL);
-                        divider.setDrawable(recyclerView.getContext().getResources().getDrawable(R.drawable.reycler_divider));
-                        recyclerView.addItemDecoration(divider);
                         userChatDisplayAdapter.setOnClickListener(new UserChatDisplayAdapter.OnItemClickListener() {
                             @Override
                             public void OnItemClick(int position) {

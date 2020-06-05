@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -50,6 +51,7 @@ public class FriendsDisplayFragment extends Fragment {
     private DatabaseReference reference2;
     private FirebaseAuth mAuth;
     private FirebaseUser usuario;
+    ValueEventListener listener;
     public FriendsDisplayFragment() {
         // Required empty public constructor
     }
@@ -77,7 +79,7 @@ public class FriendsDisplayFragment extends Fragment {
     }
 
     public void leerAmigos(){
-        reference.addValueEventListener(new ValueEventListener() {
+        reference.addValueEventListener(listener=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 amigosList.clear();
@@ -140,9 +142,9 @@ public class FriendsDisplayFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
+
         });
     }
-
 
 
 }

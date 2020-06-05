@@ -33,6 +33,8 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.example.prueba.ChatRoom.foto;
+
 public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
     //Declaramos e inicializamos las variables
@@ -50,6 +52,7 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     private int mensajeType;
     private FirebaseUser fuser;
     private FirebaseAuth auth;
+
 
     //Constructor del adaptador del chat
     public ChatAdapter(Context context, ArrayList<Chat> chats,String imageurl) {
@@ -121,6 +124,7 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                     intent.putExtra("url_image",chat.getUrl_imagen());
                     intent.putExtra("username","null");
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    foto=true;
                     mContext.startActivity(intent);
                 }
             });

@@ -103,7 +103,7 @@ public class ChatRoom extends AppCompatActivity {
     LinearLayoutManager linearLayoutManager;
     Usuario2 user;
     ValueEventListener listener;
-
+    public static boolean foto=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -303,9 +303,15 @@ public class ChatRoom extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        leerMensajes();
-        stopService(new Intent(this, ServicioNotificaciones.class));
+        if(!foto) {
+            leerMensajes();
+            stopService(new Intent(this, ServicioNotificaciones.class));
+        }
+        else{
+            foto=false;
+        }
     }
+
 
     @Override
     protected void onResume() {

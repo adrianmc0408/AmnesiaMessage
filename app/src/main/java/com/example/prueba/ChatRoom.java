@@ -102,7 +102,7 @@ public class ChatRoom extends AppCompatActivity {
 
     LinearLayoutManager linearLayoutManager;
     Usuario2 user;
-    ValueEventListener valueEventListener;
+    ValueEventListener listener;
 
 
     @Override
@@ -120,7 +120,7 @@ public class ChatRoom extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                referencia.removeEventListener(valueEventListener);
+                referencia.removeEventListener(listener);
                 finish();
             }
         });
@@ -181,7 +181,7 @@ public class ChatRoom extends AppCompatActivity {
 
     public void leerMensajes() {
 
-        referencia.addValueEventListener(valueEventListener = new ValueEventListener() {
+        referencia.addValueEventListener(listener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listaChats.clear();
@@ -215,7 +215,7 @@ public class ChatRoom extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        referencia.removeEventListener(valueEventListener);
+        referencia.removeEventListener(listener);
         this.finish();
     }
 
@@ -295,9 +295,22 @@ public class ChatRoom extends AppCompatActivity {
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        referencia.removeEventListener(listener);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        leerMensajes();
+        stopService(new Intent(this, ServicioNotificaciones.class));
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
-        stopService(new Intent(this, ServicioNotificaciones.class));
+
     }
 
 

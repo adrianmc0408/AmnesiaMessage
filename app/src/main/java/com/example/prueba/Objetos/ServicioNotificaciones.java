@@ -41,6 +41,8 @@ public class ServicioNotificaciones extends Service {
     private final static int NOTIFICACION_ID2=0;
     private PendingIntent pi;
     private PendingIntent pi2;
+    private ValueEventListener listener1;
+    private ValueEventListener listener2;
     public ServicioNotificaciones() {
     }
 
@@ -79,7 +81,7 @@ public class ServicioNotificaciones extends Service {
         throw new UnsupportedOperationException("Not yet implemented");
     }
     public void leerDatos(){
-        referencia.addValueEventListener(new ValueEventListener() {
+        referencia.addValueEventListener(listener1=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 user=auth.getCurrentUser();
@@ -107,7 +109,7 @@ public class ServicioNotificaciones extends Service {
     }
 
     public void leerDatos2(){
-        referencia2.addValueEventListener(new ValueEventListener() {
+        referencia2.addValueEventListener(listener2=new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 user=auth.getCurrentUser();
@@ -205,5 +207,7 @@ public class ServicioNotificaciones extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        referencia.removeEventListener(listener1);
+        referencia2.removeEventListener(listener2);
     }
 }

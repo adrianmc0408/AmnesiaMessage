@@ -87,7 +87,7 @@ public class Registro extends AppCompatActivity implements Button.OnClickListene
                             valido=false;
                         }
                     }
-                    //Si todo está correcto registramos el usuario (solo el email y contraseña ya que estamos registrandolo en el apartado
+                    //Si  está correcto registramos el usuario (solo el email y contraseña ya que estamos registrandolo en el apartado
                     // de autentificación)
                     if(valido) {
                         mAuth.createUserWithEmailAndPassword(mail, contra).addOnCompleteListener(Registro.this, new OnCompleteListener<AuthResult>() {

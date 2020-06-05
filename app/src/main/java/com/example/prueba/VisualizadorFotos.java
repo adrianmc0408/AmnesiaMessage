@@ -22,7 +22,13 @@ public class VisualizadorFotos extends AppCompatActivity {
         String url_image = getIntent().getStringExtra("url_image");
         String username = getIntent().getStringExtra("username");
         tituloActivity=findViewById(R.id.titulo_activity);
-        tituloActivity.setText("Foto de perfil de "+username);
+        if(username.equals("null")){
+            tituloActivity.setText("Foto");
+        }
+        else{
+            tituloActivity.setText("Foto de perfil de "+username);
+        }
+
 
         closeActivity=findViewById(R.id.close_activity);
         closeActivity.setOnClickListener(new View.OnClickListener() {

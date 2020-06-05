@@ -51,14 +51,14 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     private FirebaseUser fuser;
     private FirebaseAuth auth;
 
-        //Constructor del adaptador del chat
-        public ChatAdapter(Context context, ArrayList<Chat> chats,String imageurl) {
-            auth=FirebaseAuth.getInstance();
-            fuser=auth.getCurrentUser();
-            this.mContext = context;
-            this.listaChats = chats;
-            this.imageurl=imageurl;
-        }
+    //Constructor del adaptador del chat
+    public ChatAdapter(Context context, ArrayList<Chat> chats,String imageurl) {
+        auth=FirebaseAuth.getInstance();
+        fuser=auth.getCurrentUser();
+        this.mContext = context;
+        this.listaChats = chats;
+        this.imageurl=imageurl;
+    }
 
 
 
@@ -88,9 +88,9 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     (Se establece una foto de perfil predeterminada en caso de que no tenga una el usuario)
      */
     public void onBindViewHolder(@NonNull ChatAdapter.ViewHolder holder, final int position) {
-        Glide.with(mContext).clear(holder.show_image);
-        Chat chat = listaChats.get(position);
-        holder.show_message.setText(chat.getMessage());
+        final Chat chat = listaChats.get(position);
+        String tipo = chat.getType();
+
         String hora="";
         int horas=listaChats.get(position).getFecha().getHours();
         int minutos=listaChats.get(position).getFecha().getMinutes();
@@ -109,19 +109,31 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
         holder.txt_hora.setText(hora);
 
-        if(chat.getType().equals("img")){
+        if(tipo.equals("img")){
             holder.show_image.setVisibility(View.VISIBLE);
             holder.show_message.setVisibility(View.GONE);
             Glide.with(mContext).load(chat.getUrl_imagen()).into(holder.show_image);
             holder.show_image.setPadding(12,12,12,12);
-                if(mensajeType==1) {
-                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.txt_hora.getLayoutParams();
-                    params.addRule(RelativeLayout.BELOW, R.id.show_image);
-                    holder.txt_hora.setLayoutParams(params);
+            holder.show_image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, VisualizadorFotos.class);
+                    intent.putExtra("url_image",chat.getUrl_imagen());
+                    intent.putExtra("username","null");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(intent);
                 }
+            });
+            if(mensajeType==1) {
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.txt_hora.getLayoutParams();
+                params.addRule(RelativeLayout.BELOW, R.id.show_image);
+                holder.txt_hora.setLayoutParams(params);
+            }
 
         }
-
+        else{
+            holder.show_message.setText(chat.getMessage());
+        }
 
 
 
@@ -148,7 +160,7 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
 
                 holder.txt_hora.setLayoutParams(params);
-               if( getItemViewType(position)==MSG_TYPE_RIGHT){
+                if( getItemViewType(position)==MSG_TYPE_RIGHT){
                     holder.txt_hora.setText(holder.txt_hora.getText()+" - ");
                 }
 
@@ -191,7 +203,7 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             txt_visto = itemView.findViewById(R.id.txt_seen);
             txt_hora = itemView.findViewById(R.id.txt_hour);
             show_image = itemView.findViewById(R.id.show_image);
-            setIsRecyclable(false);
+
 
         }
 
@@ -210,10 +222,5 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
             return MSG_TYPE_LEFT;
         }
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
     }
 }

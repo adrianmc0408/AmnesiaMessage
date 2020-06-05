@@ -34,6 +34,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.prueba.Objetos.ServicioNotificaciones;
+import com.example.prueba.Objetos.Solicitud;
 import com.example.prueba.Objetos.Usuario;
 import com.example.prueba.Objetos.Usuario2;
 import com.example.prueba.Objetos.Usuario3;
@@ -56,6 +57,7 @@ import com.google.firebase.storage.UploadTask;
 
 import net.glxn.qrgen.android.QRCode;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -93,7 +95,7 @@ public class MiPerfil extends AppCompatActivity {
     private Uri imageUri;
     private StorageTask uploadTask;
 
-
+    private boolean salida=true;
     private FirebaseAuth auth;
     private FirebaseUser user;
     private Usuario3 usuario3;
@@ -101,6 +103,9 @@ public class MiPerfil extends AppCompatActivity {
     private String ref;
     private ValueEventListener listener;
 
+    private void setSalida (Boolean salida){
+        this.salida=salida;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -199,7 +204,7 @@ public class MiPerfil extends AppCompatActivity {
                     funcion_mod="conf";
                 }
                 else{
-                    boolean salida;
+
                     //Si no se han realizado cambios
                     if( telefono.getText().toString().equals(telefono_mod)){
                         salida=true;
@@ -212,7 +217,32 @@ public class MiPerfil extends AppCompatActivity {
                         }
                         else{
                             if( validCellPhone(telefono.getText().toString()) && telefono.getText().toString().length()==9 ){
-                                salida=true;
+                                referencia.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        ArrayList<Usuario> listaUsuarios = new ArrayList<>();
+                                        for (DataSnapshot data : dataSnapshot.getChildren()) {
+                                            Usuario usuario = data.getValue(Usuario.class);
+                                            listaUsuarios.add(usuario);
+                                        }
+                                        for (Usuario usu : listaUsuarios) {
+                                            if (usu.getTelefono().equals(telefono.getText().toString())){
+                                               setSalida(false);
+                                                Toast.makeText(MiPerfil.this, "Número de teléfono ya registrado", Toast.LENGTH_SHORT).show();
+                                            }
+
+                                        }
+
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+
+                                });
+
                             }
                             else{
                                 Toast.makeText(MiPerfil.this, "Campo no valido", Toast.LENGTH_SHORT).show();
@@ -231,6 +261,9 @@ public class MiPerfil extends AppCompatActivity {
 
                         telefono.setEnabled(false);
                         funcion_mod="mod";
+                    }
+                    else{
+                        telefono.setText(telefono_mod);
                     }
 
 

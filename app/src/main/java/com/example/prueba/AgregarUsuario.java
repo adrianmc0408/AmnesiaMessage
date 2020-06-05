@@ -1,10 +1,12 @@
 package com.example.prueba;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 
 import com.example.prueba.Adaptadores.UserAdapterBusqueda;
+import com.example.prueba.Objetos.ServicioNotificaciones;
 import com.example.prueba.Objetos.Usuario;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -150,6 +152,11 @@ public class AgregarUsuario extends AppCompatActivity implements View.OnKeyListe
         cadena=busqueda.getText().toString();
         leerUsuarios();
         return false;
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        stopService(new Intent(this, ServicioNotificaciones.class));
     }
 
 }

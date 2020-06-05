@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.prueba.Objetos.Amistad;
+import com.example.prueba.Objetos.ServicioNotificaciones;
 import com.example.prueba.Objetos.Usuario;
 import com.example.prueba.Objetos.Usuario2;
 import com.google.firebase.auth.FirebaseAuth;
@@ -202,5 +203,10 @@ public class AgregarUsuarioQR extends AppCompatActivity {
         });
 
 
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        stopService(new Intent(this, ServicioNotificaciones.class));
     }
 }

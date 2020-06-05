@@ -33,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.prueba.Objetos.ServicioNotificaciones;
 import com.example.prueba.Objetos.Usuario;
 import com.example.prueba.Objetos.Usuario2;
 import com.example.prueba.Objetos.Usuario3;
@@ -392,6 +393,11 @@ public class MiPerfil extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         referencia.removeEventListener(listener);
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        stopService(new Intent(this, ServicioNotificaciones.class));
     }
 
 

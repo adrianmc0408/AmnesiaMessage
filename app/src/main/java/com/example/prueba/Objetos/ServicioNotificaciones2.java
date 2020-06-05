@@ -100,6 +100,7 @@ public class ServicioNotificaciones2 extends Service {
     }
 
 
+
     public void crearNotificacion(int num){
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
             NotificationChannel canal=new NotificationChannel(CHANNEL_ID,"Notificacion", NotificationManager.IMPORTANCE_HIGH);

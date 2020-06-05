@@ -1,10 +1,12 @@
 package com.example.prueba;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.example.prueba.Adaptadores.SolicitudAmistadAdapter;
 import com.example.prueba.Adaptadores.UserAdapterBusqueda;
+import com.example.prueba.Objetos.ServicioNotificaciones;
 import com.example.prueba.Objetos.Solicitud;
 import com.example.prueba.Objetos.Usuario;
 import com.example.prueba.Objetos.Usuario2;
@@ -94,5 +96,9 @@ public class SolicitudAmistad extends AppCompatActivity {
             }
         });
     }
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        stopService(new Intent(this, ServicioNotificaciones.class));
+    }
 }

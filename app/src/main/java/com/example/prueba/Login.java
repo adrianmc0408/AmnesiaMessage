@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -61,8 +62,6 @@ public class Login extends AppCompatActivity {
                             if(task.isSuccessful()){
                                 Toast.makeText(Login.this,"Login correcto",Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getApplicationContext(), HomePrincipal.class));
-                                startService(new Intent(getApplicationContext(), ServicioNotificaciones.class));
-                                startService(new Intent(getApplicationContext(), ServicioNotificaciones2.class));
                                 finish();
                             }
                             //Sino marcamos error

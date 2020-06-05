@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.app.usage.NetworkStatsManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import com.example.prueba.Adaptadores.UserAdapter;
 import com.example.prueba.Adaptadores.UserAdapterBusqueda;
 import com.example.prueba.Adaptadores.UserAdapterBusquedaLocation;
+import com.example.prueba.Objetos.ServicioNotificaciones;
 import com.example.prueba.Objetos.Usuario;
 import com.example.prueba.Objetos.Usuario3;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -82,6 +84,7 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
         closeActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                referencia.removeEventListener(listener);
                 finish();
             }
         });
@@ -287,14 +290,7 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
 
         }
     }
-    //Método que reconoce cuando la activity está en estado de onStop , finalizando la misma y eliminando el listener de la BD,
-    //ya que no nos interesa que corra en segundo plano ya que lleva a conflicto con otras activities
-    @Override
-    protected void onStop() {
-        super.onStop();
-        referencia.removeEventListener(listener);
-        this.finish();
-    }
+
     //Método que reconoce cuando pulsamos la tecla atrás, finalizando la misma y eliminando el listener de la BD,
     //ya que no nos interesa que corra en segundo plano ya que lleva a conflicto con otras activities
     @Override
@@ -302,6 +298,11 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
         super.onBackPressed();
         referencia.removeEventListener(listener);
         this.finish();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        stopService(new Intent(this, ServicioNotificaciones.class));
     }
 }
 

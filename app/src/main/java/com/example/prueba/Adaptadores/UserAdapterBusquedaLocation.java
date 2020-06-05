@@ -177,7 +177,7 @@ public class UserAdapterBusquedaLocation extends RecyclerView.Adapter<UserAdapte
     }
     public void comprobacionSolicitudes(final String IDdestino, final String IDorigen, final int position) {
         Boolean existente = false;
-        referencia.addValueEventListener(new ValueEventListener() {
+        referencia.addListenerForSingleValueEvent(new ValueEventListener() {
 
 
             @Override
@@ -233,7 +233,7 @@ public class UserAdapterBusquedaLocation extends RecyclerView.Adapter<UserAdapte
 
     public void comprobacionAmigoss(final String IDdestino, final String IDorigen, final int position) {
         Boolean existente = false;
-        referencia2.addValueEventListener(new ValueEventListener() {
+        referencia2.addListenerForSingleValueEvent(new ValueEventListener() {
 
 
             @Override

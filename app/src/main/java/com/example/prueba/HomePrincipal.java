@@ -12,6 +12,9 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.ComponentCallbacks2;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +23,7 @@ import android.view.MenuItem;
 import com.example.prueba.Adaptadores.PagerAdapter;
 
 import com.example.prueba.Adaptadores.UserChatDisplayAdapter;
+import com.example.prueba.Objetos.ServicioNotificaciones;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
@@ -98,12 +102,22 @@ public class HomePrincipal extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        stopService(new Intent(this, ServicioNotificaciones.class));
+    }
 
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        if(level== ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(new Intent(getApplicationContext(), ServicioNotificaciones.class));
+            } else {
+                startService(new Intent(getApplicationContext(), ServicioNotificaciones.class));
+            }
+        }
 
-
-
-
-
-
-
+    }
 }

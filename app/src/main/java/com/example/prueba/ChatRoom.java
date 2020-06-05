@@ -38,6 +38,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.prueba.Adaptadores.ChatAdapter;
 import com.example.prueba.Objetos.Chat;
+import com.example.prueba.Objetos.ServicioNotificaciones;
 import com.example.prueba.Objetos.Usuario;
 import com.example.prueba.Objetos.Usuario2;
 import com.example.prueba.Objetos.Usuario3;
@@ -293,6 +294,11 @@ public class ChatRoom extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        stopService(new Intent(this, ServicioNotificaciones.class));
+    }
 
 
 

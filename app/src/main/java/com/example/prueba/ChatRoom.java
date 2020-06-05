@@ -143,10 +143,11 @@ public class ChatRoom extends AppCompatActivity {
         image_profile = findViewById(R.id.image_profile_chatroom);
 
         if(user.getUrl_imagen().equals("default")){
+
             image_profile.setImageResource(R.drawable.profile);
         }
         else{
-            Glide.with(ChatRoom.this).load(user.getUrl_imagen()).into(image_profile);
+            Glide.with(getApplicationContext()).load(user.getUrl_imagen()).into(image_profile);
         }
 
         message_hour = findViewById(R.id.txt_hour);
@@ -154,7 +155,6 @@ public class ChatRoom extends AppCompatActivity {
         sendButton = findViewById(R.id.btn_send_chatroom);
         message_field = findViewById(R.id.message_field_chatroom);
         username.setText(user.getNombre_usuario());
-        image_profile.setImageResource(R.drawable.profile);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -213,7 +213,7 @@ public class UserAdapterBusquedaLocation extends RecyclerView.Adapter<UserAdapte
                 if (existente==1) {
                     Toast.makeText(mContext, "Ya has enviado una solicitud a este usuario", Toast.LENGTH_SHORT).show();
                 }
-                if (existente==1) {
+                if (existente==2) {
                     Toast.makeText(mContext, "Tienes una solicitud pendiente de este usuario", Toast.LENGTH_SHORT).show();
 
                 }

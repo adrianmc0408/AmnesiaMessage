@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +22,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.prueba.ChatRoom;
+import com.example.prueba.Objetos.Chat;
 import com.example.prueba.Objetos.Usuario;
 import com.example.prueba.Objetos.Usuario2;
 import com.example.prueba.R;
 import com.example.prueba.SelectorLoginRegistro;
 import com.example.prueba.VisualizadorFotos;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -41,11 +48,19 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private Dialog myDialog;
     private FirebaseDatabase base;
     private DatabaseReference referencia;
+    private DatabaseReference referencia2;
+    private FirebaseAuth auth;
+    private FirebaseUser user;
 
     //Constructor del adaptador de Usuarios (presente en el fragment friends)
     public UserAdapter(Context context, ArrayList<Usuario2> usuarios) {
         this.mContext = context;
         this.listaUsuarios = usuarios;
+        //Obtenemos las referencias necesarias
+        base=FirebaseDatabase.getInstance();
+        referencia=base.getReference("Amigos");
+        referencia2=base.getReference("Chats");
+        auth=FirebaseAuth.getInstance();
     }
 
     @NonNull
@@ -54,9 +69,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.row_friend, parent, false);
         final ViewHolder viewHolder = new ViewHolder(view);
-        //Obtenemos las referencias necesarias
-        base=FirebaseDatabase.getInstance();
-        referencia=base.getReference("Amigos");
 
         //Construimos un dialogo para cada elemento que se abrirá al clickar sobre cada usuario desplegado en el recycler
         myDialog = new Dialog(mContext);
@@ -102,10 +114,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                         btn_si.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                borrarChats(position);
                                 referencia.child(listaUsuarios.get(position).getReferencia()).removeValue();
-                                removeAt(position);
                                 myDialog.cancel();
                                 dialog_conf.cancel();
+
+
                             }
                         });
                         btn_no.setOnClickListener(new View.OnClickListener() {
@@ -202,6 +216,37 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         }
 
     }
+    //Este método recibe la posición del usuario a por parámetro, y borra todos los mensajes que haya intercambiado con el usuario
+    //
+public void borrarChats(final int posicion){
+        //Consulta a la base de datos Real Time
+    referencia2.addListenerForSingleValueEvent(new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            Chat chat;
+            user=auth.getCurrentUser();
+            ArrayList<String> borrar=new ArrayList<>();
+            //Recorremos los nodos , serializandolos en objetos de tipo Chat
+            for(DataSnapshot datos:dataSnapshot.getChildren()){
+                chat=datos.getValue(Chat.class);
+                //Si el mensaje es nuestro hacia el usuario a borrar o vicerversa añadimos su clave a el array
+                if (((chat.getReceiver().equals(user.getUid())) && (chat.getSender().equals(listaUsuarios.get(posicion).getId()))) || ((chat.getReceiver().equals(listaUsuarios.get(posicion).getId())) && (chat.getSender().equals(user.getUid())))) {
+                    borrar.add(datos.getKey());
+                }
+            }
+            //Borramos los mensajes
+            for(int i=0;i<borrar.size();i++){
+                referencia2.child(borrar.get(i)).removeValue();
+            }
+            //Borramos la posición del usuario en cuestión
+            removeAt(posicion);
+        }
 
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    });
+}
 
 }

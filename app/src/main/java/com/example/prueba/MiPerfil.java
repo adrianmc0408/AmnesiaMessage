@@ -184,10 +184,15 @@ public class MiPerfil extends AppCompatActivity {
                 }
                 else{
                     localizar();
-                    usuario3.setLocalizable(true);
-                    usuario3.setLatitud(location.getLatitude());
-                    usuario3.setLongitud(location.getLongitude());
-                    referencia.child(ref).setValue(usuario3);
+                    if(location!=null) {
+                        usuario3.setLocalizable(true);
+                        usuario3.setLatitud(location.getLatitude());
+                        usuario3.setLongitud(location.getLongitude());
+                        referencia.child(ref).setValue(usuario3);
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(),"Localización no disponible por el momento",Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

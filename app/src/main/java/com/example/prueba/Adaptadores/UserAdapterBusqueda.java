@@ -210,7 +210,7 @@ public class UserAdapterBusqueda extends RecyclerView.Adapter<UserAdapterBusqued
                     Toast.makeText(mContext, "Ya has enviado una solicitud a este usuario", Toast.LENGTH_SHORT).show();
                     myDialog.cancel();
                 }
-                if (existente==1) {
+                if (existente==2) {
                     Toast.makeText(mContext, "Tienes una solicitud pendiente de este usuario", Toast.LENGTH_SHORT).show();
                     myDialog.cancel();
                     }

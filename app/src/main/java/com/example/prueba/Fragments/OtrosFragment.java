@@ -70,8 +70,6 @@ public class OtrosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
-
         View view = inflater.inflate(R.layout.fragment_otros, container, false);
         foto_perfil=view.findViewById(R.id.profile_otros);
         agregar_usuario = view.findViewById(R.id.opcion_agregar_usuario);
@@ -81,6 +79,7 @@ public class OtrosFragment extends Fragment {
         solicitud_amistad = view.findViewById(R.id.opcion_solicitudes_amistad);
         cerrar_sesion=view.findViewById(R.id.cerrar_sesion);
         miperfil=view.findViewById(R.id.opcion_mi_perfil);
+
         mAuth=FirebaseAuth.getInstance();
         base=FirebaseDatabase.getInstance();
         referencia=base.getReference("Usuarios");
@@ -89,42 +88,34 @@ public class OtrosFragment extends Fragment {
         agregar_usuario.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-
-
                 startActivity(new Intent(getContext(), AgregarUsuario.class));
-
             }
         });
         agregar_usuario_qr.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-
-
                 startActivity(new Intent(getContext(), AgregarUsuarioQR.class));
-
             }
         });
         agregar_usuario_location.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-
-
                 startActivity(new Intent(getContext(), AgregarUsuarioLocation.class));
-
             }
         });
-
-
         solicitud_amistad.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-
-
                 startActivity(new Intent(getContext(), SolicitudAmistad.class));
+            }
+        });
+        miperfil.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), MiPerfil.class));
 
             }
         });
-
         cerrar_sesion.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -155,16 +146,6 @@ public class OtrosFragment extends Fragment {
 
 
 
-
-            }
-        });
-
-        miperfil.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-
-
-                startActivity(new Intent(getContext(), MiPerfil.class));
 
             }
         });

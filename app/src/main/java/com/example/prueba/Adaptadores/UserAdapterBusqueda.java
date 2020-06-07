@@ -174,8 +174,6 @@ public class UserAdapterBusqueda extends RecyclerView.Adapter<UserAdapterBusqued
     public void comprobacionSolicitudes(final String IDdestino, final String IDorigen, final int position) {
         Boolean existente = false;
         referencia.addListenerForSingleValueEvent(new ValueEventListener() {
-
-
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<Solicitud> listaSolicitudes = new ArrayList<>();
@@ -231,8 +229,6 @@ public class UserAdapterBusqueda extends RecyclerView.Adapter<UserAdapterBusqued
     public void comprobacionAmigoss(final String IDdestino, final String IDorigen, final int position) {
         Boolean existente = false;
         referencia2.addListenerForSingleValueEvent(new ValueEventListener() {
-
-
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<Amistad> listaAmigos = new ArrayList<>();

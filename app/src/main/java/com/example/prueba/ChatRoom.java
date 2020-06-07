@@ -60,6 +60,7 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
 
+
 import net.glxn.qrgen.android.QRCode;
 
 import java.util.ArrayList;
@@ -71,12 +72,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChatRoom extends AppCompatActivity {
 
-    private static final int REQUEST_CODE_STORAGE_PERMISION=1;
-    private static final int REQUEST_CODE_SELECT_IMAGE=2;
 
-    private
-
-    Uri image_uri = null;
+    private Uri image_uri = null;
 
     private TextView username;
     private CircleImageView image_profile;
@@ -98,7 +95,7 @@ public class ChatRoom extends AppCompatActivity {
     private StorageReference storageReference;
 
     private Uri imageUri;
-    private StorageTask uploadTask;
+    private StorageTask tareaSubida;
 
     LinearLayoutManager linearLayoutManager;
     Usuario2 user;
@@ -155,6 +152,7 @@ public class ChatRoom extends AppCompatActivity {
         sendButton = findViewById(R.id.btn_send_chatroom);
         message_field = findViewById(R.id.message_field_chatroom);
         username.setText(user.getNombre_usuario());
+
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,14 +165,15 @@ public class ChatRoom extends AppCompatActivity {
                 message_field.setText("");
             }
         });
-        leerMensajes();
-
         btn_adjuntar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openImage();
+                abrirImagen();
             }
         });
+        leerMensajes();
+
+
 
 
     }
@@ -187,7 +186,8 @@ public class ChatRoom extends AppCompatActivity {
                 listaChats.clear();
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     Chat chat = data.getValue(Chat.class);
-                    if (((chat.getReceiver().equals(usuario.getUid())) && (chat.getSender().equals(user.getId()))) || ((chat.getReceiver().equals(user.getId())) && (chat.getSender().equals(usuario.getUid())))) {
+                    if (((chat.getReceiver().equals(usuario.getUid())) && (chat.getSender().equals(user.getId()))) ||
+                            ((chat.getReceiver().equals(user.getId())) && (chat.getSender().equals(usuario.getUid())))) {
                         if ((chat.getReceiver().equals(usuario.getUid())) && (chat.isLeido() == false)) {
                             chat.setLeido(true);
                             referencia.child(data.getKey()).setValue(chat);
@@ -219,27 +219,27 @@ public class ChatRoom extends AppCompatActivity {
         this.finish();
     }
 
-    private void openImage(){
+    private void abrirImagen(){
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent,IMAGE_REQUEST);
     }
-    private String getFileExtension(Uri uri){
+    private String obtenerExtensionArchivo(Uri uri){
         ContentResolver contentResolver = this.getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return  mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
-    private void uploadImage(){
+    private void subidaImagen(){
         final ProgressDialog pd = new ProgressDialog(this);
         pd.setMessage("Enviando imagen");
         pd.show();
         if(imageUri != null){
             final StorageReference fileReference = storageReference.child(System.currentTimeMillis()
-                    +"."+getFileExtension(imageUri));
-            uploadTask = fileReference.putFile(imageUri);
-            uploadTask = fileReference.putFile(imageUri);
-            uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                    +"."+obtenerExtensionArchivo(imageUri));
+            tareaSubida = fileReference.putFile(imageUri);
+            tareaSubida = fileReference.putFile(imageUri);
+            tareaSubida.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
                 public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot>task) throws Exception {
                     if(!task.isSuccessful()){
@@ -281,11 +281,11 @@ public class ChatRoom extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == IMAGE_REQUEST && resultCode == RESULT_OK && data!=null && data.getData()!=null){
             imageUri = data.getData();
-            if(uploadTask != null && uploadTask.isInProgress()){
+            if(tareaSubida != null && tareaSubida.isInProgress()){
                 Toast.makeText(ChatRoom.this, "Envío en progreso", Toast.LENGTH_SHORT).show();
 
             } else{
-                uploadImage();
+                subidaImagen();
             }
 
         }

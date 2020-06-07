@@ -98,7 +98,6 @@ public class AgregarUsuario extends AppCompatActivity implements View.OnKeyListe
             @Override
             //Detecta cuando los datos de ese nodo cambian
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                 //Limpiamos la lista
                 usuarioList.clear();
                 //Recorremos el objeto DataSnapchot obteniendo los nodos hijos y serializandolos a un objeto de
@@ -134,7 +133,6 @@ public class AgregarUsuario extends AppCompatActivity implements View.OnKeyListe
                 layoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerView.setLayoutManager(layoutManager);
                 userAdapterBusqueda = new UserAdapterBusqueda( usuarioList,AgregarUsuario.this,usuario_actual);
-
                 recyclerView.setAdapter(userAdapterBusqueda);
             }
 

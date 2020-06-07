@@ -69,7 +69,6 @@ public class AgregarUsuarioLocation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_usuario_location);
 
-
         usuarioList = new ArrayList<>();
         tituloActivity = findViewById(R.id.titulo_activity);
 

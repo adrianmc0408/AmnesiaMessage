@@ -86,11 +86,7 @@ public class SolicitudAmistad extends AppCompatActivity {
                             listaPeticiones.add(usuario);
                             sinSolicitudes.setVisibility(View.INVISIBLE);
                         }
-
                     }
-
-
-
                 }
                 if(listaPeticiones.size()==0){
                     sinSolicitudes.setVisibility(View.VISIBLE);

@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.prueba.Objetos.Amistad;
 import com.example.prueba.Objetos.ServicioNotificaciones;
+import com.example.prueba.Objetos.Solicitud;
 import com.example.prueba.Objetos.Usuario;
 import com.example.prueba.Objetos.Usuario2;
 import com.google.firebase.auth.FirebaseAuth;
@@ -173,24 +174,21 @@ public class AgregarUsuarioQR extends AppCompatActivity {
                     Amistad amigo = data.getValue(Amistad.class);
                     listaAmigos.add(amigo);
                 }
-                boolean amistadEncontrada=false;
+                boolean amistadEncontrada = false;
                 int contador = 0;
-                for (Amistad am : listaAmigos){
-                    if(    (am.getId1().equals(id1)&& am.getId2().equals(id2) ) || (am.getId1().equals(id2)&& am.getId2().equals(id1) ) ){
-                        amistadEncontrada=true;
+                for (Amistad am : listaAmigos) {
+                    if ((am.getId1().equals(id1) && am.getId2().equals(id2)) || (am.getId1().equals(id2) && am.getId2().equals(id1))) {
+                        amistadEncontrada = true;
                     }
                 }
-                if(amistadEncontrada==true){
+                if (amistadEncontrada == true) {
                     Toast.makeText(AgregarUsuarioQR.this, "Este usuario es tu amigo", Toast.LENGTH_SHORT).show();
                     dialog_confirm.cancel();
-                }
-                else{
-                    DatabaseReference referencia2 = base.getReference("Amigos");
-                    referencia2.push().setValue(new Amistad(usuario.getId(), user.getUid()));
-                    Toast.makeText(AgregarUsuarioQR.this,usuario.getNombre_usuario()+" agregado a amigos",Toast.LENGTH_SHORT).show();
-                    dialog_confirm.cancel();
-                }
+                } else {
 
+                    comprobacionSolicitudes(id1, id2);
+
+                }
 
 
             }
@@ -204,9 +202,59 @@ public class AgregarUsuarioQR extends AppCompatActivity {
 
 
     }
-    @Override
-    protected void onResume() {
-        super.onResume();
-        stopService(new Intent(this, ServicioNotificaciones.class));
+    public void comprobacionSolicitudes(final String IDdestino, final String IDorigen) {
+        Boolean existente = false;
+        referencia.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<Solicitud> listaSolicitudes = new ArrayList<>();
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    Solicitud solicitud = data.getValue(Solicitud.class);
+                    listaSolicitudes.add(solicitud);
+                }
+                int existente = 0;
+                for (Solicitud sol : listaSolicitudes) {
+                    if (sol.getId_destino().equals(IDdestino) && sol.getId().equals(IDorigen))
+                        //1=ya has mandado una solcitud
+                        existente = 1;
+                    if (sol.getId_destino().equals(IDorigen) && sol.getId().equals(IDdestino))
+                        //2=ya te han mandado una solicitud
+                        existente = 2;
+                }
+                if (existente == 0) {
+                    DatabaseReference referencia2 = base.getReference("Amigos");
+                    referencia2.push().setValue(new Amistad(usuario.getId(), user.getUid()));
+                    Toast.makeText(AgregarUsuarioQR.this, usuario.getNombre_usuario() + " agregado a amigos", Toast.LENGTH_SHORT).show();
+                    dialog_confirm.cancel();
+                }
+                if (existente == 1) {
+                    Toast.makeText(AgregarUsuarioQR.this, "Ya has enviado una solicitud a este usuario", Toast.LENGTH_SHORT).show();
+                    dialog_confirm.cancel();
+                }
+                if (existente == 2) {
+                    Toast.makeText(AgregarUsuarioQR.this, "Tienes una solicitud pendiente de este usuario", Toast.LENGTH_SHORT).show();
+                    dialog_confirm.cancel();
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+        });
+
+
     }
+
+
+            @Override
+            protected void onResume() {
+                super.onResume();
+                stopService(new Intent(this, ServicioNotificaciones.class));
+            }
+
+
 }

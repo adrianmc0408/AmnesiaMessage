@@ -77,10 +77,8 @@ public class MiPerfil extends AppCompatActivity {
     private String funcion_mod="mod";
     private Button btn_contrasena;
 
-
     private TextView username_superior;
     private CircleImageView foto_perfil;
-
 
     private EditText username;
     private EditText telefono;
@@ -150,7 +148,7 @@ public class MiPerfil extends AppCompatActivity {
         foto_perfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openImage();
+                abrirImagen();
             }
         });
 
@@ -158,8 +156,6 @@ public class MiPerfil extends AppCompatActivity {
         btn_qr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 ImageView image= (ImageView) qr_dialog.findViewById(R.id.qr_image);
                 Bitmap bitmap = QRCode.from(usuario3.getId()).withSize(400, 400).bitmap();
                 image.setImageBitmap(bitmap);
@@ -175,6 +171,8 @@ public class MiPerfil extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
         btn_ubi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -326,14 +324,15 @@ public class MiPerfil extends AppCompatActivity {
     }
     public void localizar() {
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{
                     Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION
             }, 1000);
         } else {
             LocationManager  ubicacion_usuario = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             location = ubicacion_usuario.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
         }
 
     }
@@ -361,24 +360,24 @@ public class MiPerfil extends AppCompatActivity {
         }
     }
 
-    private void openImage(){
+    private void abrirImagen(){
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent,IMAGE_REQUEST);
     }
-    private String getFileExtension(Uri uri){
+    private String obtenerExtensiónArchivo(Uri uri){
         ContentResolver contentResolver = this.getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return  mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
-    private void uploadImage(){
+    private void subirImagen(){
         final ProgressDialog pd = new ProgressDialog(this);
         pd.setMessage("Estableciendo foto de perfil");
         pd.show();
         if(imageUri != null){
             final StorageReference fileReference = storageReference.child(System.currentTimeMillis()
-                    +"."+getFileExtension(imageUri));
+                    +"."+obtenerExtensiónArchivo(imageUri));
             uploadTask = fileReference.putFile(imageUri);
             uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot,Task<Uri>>() {
                 @Override
@@ -392,13 +391,13 @@ public class MiPerfil extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<Uri> task) {
                     if(task.isSuccessful()){
-                        Uri downloadUri = task.getResult();
-                        String mUri = downloadUri.toString();
+                        Uri descargarUri = task.getResult();
+                        String mUri = descargarUri.toString();
                         usuario3.setUrl_imagen(mUri);
                         referencia.child(ref).setValue(usuario3);
                         pd.dismiss();
                     }else{
-                        Toast.makeText(MiPerfil.this, "error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MiPerfil.this, "Error en la tarea", Toast.LENGTH_SHORT).show();
                         pd.dismiss();
                     }
                 }
@@ -423,7 +422,7 @@ public class MiPerfil extends AppCompatActivity {
                 Toast.makeText(this, "Upload en progreso", Toast.LENGTH_SHORT).show();
 
             } else{
-                uploadImage();
+                subirImagen();
             }
 
         }

@@ -29,6 +29,7 @@
         android:layout_centerInParent="true"
         android:textAlignment="center"
         android:text="Selecciona a qué distancia máxima quieres buscar usuarios (km)" />
+
     <com.xw.repo.BubbleSeekBar
         android:layout_centerHorizontal="true"
         app:bsb_auto_adjust_section_mark="true"

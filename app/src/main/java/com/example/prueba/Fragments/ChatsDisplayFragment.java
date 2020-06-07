@@ -85,7 +85,6 @@ public class ChatsDisplayFragment extends Fragment {
         user=auth.getCurrentUser();
         id_list=new ArrayList<>();
         usuarioList=new ArrayList<>();
-
         recyclerView = view.findViewById(R.id.recycler_view_chat_display);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager( new LinearLayoutManager(getContext()));

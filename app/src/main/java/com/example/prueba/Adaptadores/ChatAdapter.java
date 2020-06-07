@@ -215,13 +215,10 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
      */
     @Override
     public int getItemViewType(int position) {
-
         if (listaChats.get(position).getSender().equals(fuser.getUid())){
-
             return MSG_TYPE_RIGHT;
         }
         else{
-
             return MSG_TYPE_LEFT;
         }
     }

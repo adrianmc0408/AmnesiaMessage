@@ -44,7 +44,7 @@
 
                 android:layout_toEndOf="@id/peticion_amistad_image_profile"
                 android:layout_toRightOf="@id/peticion_amistad_image_profile"
-                android:text="patitofeo23"
+                android:text="usuario420"
                 android:textColor="@color/colorDarkGrey"
                 android:textSize="15sp"
                 android:textStyle="bold"

@@ -58,20 +58,6 @@ public class HomePrincipal extends AppCompatActivity {
 
         drawerLayout = findViewById(R.id.drawer);
 
-
-        /*
-        toggle = new ActionBarDrawerToggle(
-                this,
-                drawerLayout,
-                toolbar,
-                R.string.open,
-                R.string.close
-        );
-        drawerLayout.addDrawerListener(toggle);
-        toggle.setDrawerIndicatorEnabled(true);
-        toggle.syncState();
-*/
-
         adapter = new PagerAdapter(
                 getSupportFragmentManager(),
                 FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT,
@@ -79,7 +65,7 @@ public class HomePrincipal extends AppCompatActivity {
         );
 
         pager.setAdapter(adapter);
-
+        pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -97,7 +83,7 @@ public class HomePrincipal extends AppCompatActivity {
 
             }
         });
-        pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
 
 
     }

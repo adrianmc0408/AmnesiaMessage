@@ -38,7 +38,7 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class FriendsDisplayFragment extends Fragment {
-
+//Declaramos los atributos
     private RecyclerView recyclerView;
     private UserAdapter userAdapter;
     private TextView sinAmigos;
@@ -61,10 +61,11 @@ public class FriendsDisplayFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
+    //Enlazamos las vistas y los atributos
         View view = inflater.inflate(R.layout.fragment_friends, container, false);
         sinAmigos=view.findViewById(R.id.friends_display_sinamigos);
         cargandoAmigos=view.findViewById(R.id.friends_cargando);
+        //Obtenemos los elementos de firebase necesarios
         mAuth= FirebaseAuth.getInstance();
         usuario=mAuth.getCurrentUser();
         database=FirebaseDatabase.getInstance();
@@ -74,6 +75,7 @@ public class FriendsDisplayFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         usuarioList = new ArrayList<>();
         amigosList= new ArrayList<>();
+
         leerAmigos();
         return view;
     }

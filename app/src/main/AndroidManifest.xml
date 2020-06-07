@@ -31,10 +31,6 @@
         </receiver>
 
         <service
-            android:name=".Objetos.ServicioNotificaciones2"
-            android:enabled="true"
-            android:exported="true" />
-        <service
             android:name=".Objetos.ServicioNotificaciones"
             android:enabled="true"
             android:exported="true" />

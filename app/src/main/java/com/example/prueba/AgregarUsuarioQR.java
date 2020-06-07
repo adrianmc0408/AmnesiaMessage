@@ -163,7 +163,7 @@ public class AgregarUsuarioQR extends AppCompatActivity {
     }
     public void comprobarAmistad(final String id1, final String id2) {
         Boolean existente = false;
-        referencia2.addValueEventListener(new ValueEventListener() {
+        referencia2.addListenerForSingleValueEvent(new ValueEventListener() {
 
 
             @Override

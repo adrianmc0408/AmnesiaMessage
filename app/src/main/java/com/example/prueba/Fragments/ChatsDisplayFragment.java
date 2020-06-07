@@ -46,7 +46,7 @@ import java.util.concurrent.TimeUnit;
  * A simple {@link Fragment} subclass.
  */
 public class ChatsDisplayFragment extends Fragment {
-
+    //Declaramos los atributos
     private RecyclerView recyclerView;
     private TextView sinChats;
     private TextView cargandoChats;
@@ -72,20 +72,22 @@ public class ChatsDisplayFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_chatdisplay, container, false);
-
+    //Creamos el timer que ejecutará la tarea de borrar mensajes , la cual borrará los mensajes con más de 24H . Esté lanzará la tarea cada 5 minutos
         Timer timer=new Timer();
         TareaBorrarMensaje tarea=new TareaBorrarMensaje();
         timer.scheduleAtFixedRate(tarea,0,300000);
+        //Enlazamos las vistas y los atributos
         sinChats = view.findViewById(R.id.chat_display_sinchats);
         cargandoChats = view.findViewById(R.id.chat_display_cargando);
         base=FirebaseDatabase.getInstance();
+        //Obtenemos los elementos de Firebase necesarios
         referencia=base.getReference("Chats");
         referencia2=base.getReference("Usuarios");
         auth=FirebaseAuth.getInstance();
         user=auth.getCurrentUser();
         id_list=new ArrayList<>();
         usuarioList=new ArrayList<>();
-
+        //Creamos el recycler view y le agregamos el divider decorativo
         recyclerView = view.findViewById(R.id.recycler_view_chat_display);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager( new LinearLayoutManager(getContext()));
@@ -94,6 +96,7 @@ public class ChatsDisplayFragment extends Fragment {
         divider.setDrawable(recyclerView.getContext().getResources().getDrawable(R.drawable.reycler_divider));
         recyclerView.addItemDecoration(divider);
         recyclerView.setAdapter(userChatDisplayAdapter);
+        //Leemos los datos
         leerChats();
 
 
@@ -103,6 +106,9 @@ public class ChatsDisplayFragment extends Fragment {
         return view;
 
     }
+    //Este método se encarga en primer lugar de leer el último mensaje de cada usuario con los que hemos intercambiado mensajes
+    //ordenados de forma cronológica, después lo invertimos mediante un for para que estén de forma cronologicamente inversa y por último
+    //Obtenemos los usuarios de dichos chats para mostrarlos en la pantalla
     public void leerChats(){
         referencia.addValueEventListener(new ValueEventListener() {
             @Override

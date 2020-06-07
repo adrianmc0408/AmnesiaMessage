@@ -85,7 +85,7 @@ public class UserChatDisplayAdapter extends RecyclerView.Adapter<UserChatDisplay
 
     @NonNull
     @Override
-    //Constructor del adaptador de Usuarios (presente en el fragment ChatDisplayFragment)
+    //Constructor de las vistas de Usuarios (presente en el fragment ChatDisplayFragment)
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.row_chat_display, parent, false);
         ViewHolder viewHolder = new ViewHolder(view,mListener);

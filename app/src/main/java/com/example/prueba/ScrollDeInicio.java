@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import com.example.prueba.Adaptadores.OnboardingAdapter;
 import com.example.prueba.Items.OnboardingItem;
 import com.example.prueba.Objetos.ServicioNotificaciones;
-import com.example.prueba.Objetos.ServicioNotificaciones2;
+
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

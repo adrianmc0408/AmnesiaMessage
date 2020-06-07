@@ -38,7 +38,7 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class FriendsDisplayFragment extends Fragment {
-
+//Declaramos los atributos
     private RecyclerView recyclerView;
     private UserAdapter userAdapter;
     private TextView sinAmigos;
@@ -60,9 +60,12 @@ public class FriendsDisplayFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+    //Enlazamos las vistas y los atributos
         View view = inflater.inflate(R.layout.fragment_friends, container, false);
         sinAmigos=view.findViewById(R.id.friends_display_sinamigos);
         cargandoAmigos=view.findViewById(R.id.friends_cargando);
+        //Obtenemos los elementos de firebase necesarios
         mAuth= FirebaseAuth.getInstance();
         usuario=mAuth.getCurrentUser();
         database=FirebaseDatabase.getInstance();
@@ -72,6 +75,7 @@ public class FriendsDisplayFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         usuarioList = new ArrayList<>();
         amigosList= new ArrayList<>();
+
         leerAmigos();
         return view;
     }
@@ -95,7 +99,6 @@ public class FriendsDisplayFragment extends Fragment {
                     }
                 }
                 cargandoAmigos.setVisibility(View.GONE);
-
                 if(!amigosList.isEmpty()) {
                     sinAmigos.setVisibility(View.INVISIBLE);
                     reference2.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -106,8 +109,7 @@ public class FriendsDisplayFragment extends Fragment {
                                 Usuario user = data.getValue(Usuario.class);
                                 for (int i = 0; i < amigosList.size(); i++) {
                                     if (amigosList.get(i).getId().equals(user.getId())) {
-                                        usuarioList.add(new Usuario2(amigosList.get(i).getReferencia(),
-                                                user.getId(),user.getNombre_usuario(),
+                                        usuarioList.add(new Usuario2(amigosList.get(i).getReferencia(),user.getId(),user.getNombre_usuario(),
                                                 user.getEmail(),user.getTelefono(),user.getUrl_imagen()));
 
                                     }
@@ -116,10 +118,8 @@ public class FriendsDisplayFragment extends Fragment {
                             layoutManager = new LinearLayoutManager(getContext());
                             recyclerView.setLayoutManager(layoutManager);
                             userAdapter = new UserAdapter(getContext(), usuarioList);
-                            DividerItemDecoration divider = new DividerItemDecoration(recyclerView.getContext(),
-                                    DividerItemDecoration.VERTICAL);
-                            divider.setDrawable(recyclerView.getContext().
-                                    getResources().getDrawable(R.drawable.reycler_divider));
+                            DividerItemDecoration divider = new DividerItemDecoration(recyclerView.getContext(),DividerItemDecoration.VERTICAL);
+                            divider.setDrawable(recyclerView.getContext().getResources().getDrawable(R.drawable.reycler_divider));
                             recyclerView.addItemDecoration(divider);
                             recyclerView.setAdapter(userAdapter);
                         }

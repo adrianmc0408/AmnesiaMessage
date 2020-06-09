@@ -84,7 +84,7 @@ public class ScrollDeInicio extends AppCompatActivity {
         OnboardingItem item2 = new OnboardingItem();
         //Le asignamos los atributos titulo, descripcion e imagen
         item2.setTitle("Chats seguros");
-        item2.setDescription("Podrás chatear de forma segura y totalmente anónima, ya que los mensajes se eliminan cada 24h y no se puede capturar la pantalla ni reenviar mensajes ");
+        item2.setDescription("Podrás chatear de forma segura y totalmente anónima, ya que los mensajes se eliminan cada 24h y no se puede reenviar mensajes ");
         item2.setImage(R.drawable.imagen2);
         //Declaramos e instanciamos el utlimo item
         OnboardingItem item3 = new OnboardingItem();

@@ -69,6 +69,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.row_friend, parent, false);
         final ViewHolder viewHolder = new ViewHolder(view);
+        viewHolder.setIsRecyclable(false);
 
         //Construimos un dialogo para cada elemento que se abrirá al clickar sobre cada usuario desplegado en el recycler
         myDialog = new Dialog(mContext);

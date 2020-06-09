@@ -49,6 +49,7 @@ public class AgregarUsuarioQR extends AppCompatActivity {
     private FirebaseDatabase base;
     private DatabaseReference referencia;
     private DatabaseReference referencia2;
+    private DatabaseReference referencia3;
     private FirebaseAuth auth;
     private FirebaseUser user;
 
@@ -67,6 +68,7 @@ public class AgregarUsuarioQR extends AppCompatActivity {
         base=FirebaseDatabase.getInstance();
         referencia=base.getReference("Usuarios");
         referencia2=base.getReference("Amigos");
+        referencia3=base.getReference("Solicitudes");
         auth=FirebaseAuth.getInstance();
         user=auth.getCurrentUser();
         escaner = findViewById(R.id.btn_prueba);
@@ -204,7 +206,7 @@ public class AgregarUsuarioQR extends AppCompatActivity {
     }
     public void comprobacionSolicitudes(final String IDdestino, final String IDorigen) {
         Boolean existente = false;
-        referencia.addListenerForSingleValueEvent(new ValueEventListener() {
+        referencia3.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<Solicitud> listaSolicitudes = new ArrayList<>();
